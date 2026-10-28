@@ -115,6 +115,7 @@
 }
 
 .timer-dial i { width: .42rem; height: .42rem; border-radius: 50%; background: #d8c8ff; box-shadow: 0 0 8px #b895ff; }
+.timer-dial small { color: #d9d1f5; font-size: .48rem; font-weight: 900; letter-spacing: .08em; }
 .timer-dial.urgent { background: conic-gradient(#ffb052 var(--timer-progress), rgba(50, 28, 39, .96) 0); }
 .timer-dial.urgent i { background: #ffcf7e; box-shadow: 0 0 9px #ff9a5f; }
 
