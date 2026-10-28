@@ -29,3 +29,38 @@
 @media (max-width: 460px) {
   .vote-momentum { width: 76%; bottom: 14%; }
 }
+
+.action-board {
+  position: absolute;
+  z-index: 14;
+  left: 50%;
+  bottom: 7%;
+  display: flex;
+  gap: .35rem;
+  transform: translateX(-50%);
+}
+
+.action-board span {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  gap: .2rem;
+  min-width: 42px;
+  padding: .38rem .45rem;
+  border: 1px solid rgba(184, 196, 239, .3);
+  border-radius: .55rem;
+  background: rgba(8, 11, 29, .8);
+  color: #aeb8da;
+  font-size: .74rem;
+  font-weight: 900;
+  text-align: center;
+}
+
+.action-board span.active { border-color: #f5d27d; color: #fff0ba; box-shadow: 0 0 14px rgba(245, 210, 125, .26); }
+.action-board b { font-size: .9rem; }
+.action-board small { grid-column: 1 / -1; color: inherit; font-size: .48rem; letter-spacing: .06em; text-transform: uppercase; }
+
+@media (max-width: 460px) {
+  .action-board { bottom: 15%; gap: .18rem; }
+  .action-board span { min-width: 35px; padding: .3rem; }
+}
