@@ -105,6 +105,11 @@
 .phase-banner span { color: #dac5ff; font-size: .56rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
 .phase-banner b { font-size: clamp(1rem, 2.2vw, 1.7rem); letter-spacing: .09em; }
 
+.pause-scene { position: absolute; z-index: 25; inset: 0; display: grid; place-content: center; justify-items: center; gap: .38rem; background: rgba(9, 12, 27, .7); backdrop-filter: grayscale(.55) blur(2px); color: #fff1bf; text-align: center; text-shadow: 0 3px 10px #000; }
+.pause-scene i { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid #f5d27d; border-radius: 50%; background: rgba(66, 45, 89, .9); font-size: 1rem; font-style: normal; }
+.pause-scene b { font-size: clamp(1rem, 2.1vw, 1.5rem); letter-spacing: .13em; }
+.pause-scene span { color: #d5cdee; font-size: .67rem; letter-spacing: .06em; }
+
 .enemy.bridge-raiders {
   width: 118px;
   height: 102px;
