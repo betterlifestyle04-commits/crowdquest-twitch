@@ -164,11 +164,17 @@
 .command-feed i { color: #a4f2d2; font-style: normal; font-weight: 900; text-transform: uppercase; }
 .command-feed small { color: #b9b4d4; font-size: .56rem; }
 
+.roll-call { position: absolute; z-index: 14; top: 4.7rem; left: 1.15rem; display: grid; gap: .22rem; padding: .48rem .58rem; border: 1px solid rgba(139, 213, 255, .28); border-radius: .55rem; background: rgba(8, 11, 29, .65); color: #eaf6ff; font-size: .59rem; text-shadow: 0 2px 4px #000; animation: rollCallIn .45s both; }
+.roll-call > b { color: #9ddfff; font-size: .47rem; letter-spacing: .1em; }
+.roll-call span { display: flex; align-items: center; gap: .32rem; }
+.roll-call i { display: grid; width: .9rem; height: .9rem; place-items: center; border-radius: 50%; background: #4d5fa4; color: #fff; font-size: .48rem; font-style: normal; font-weight: 900; }
+
 @keyframes signalPulse {
   50% { opacity: .35; transform: scale(.72); }
 }
 
 @keyframes comboPulse { to { box-shadow: 0 0 12px rgba(115, 255, 194, .46); } }
+@keyframes rollCallIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
 
 @keyframes phaseArrival {
   0% { opacity: 0; transform: translate(-50%, -42%) scale(.78); }
