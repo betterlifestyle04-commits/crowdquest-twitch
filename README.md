@@ -34,6 +34,8 @@ Use **Demo Mode** to enter `!join`, choose `!role warrior`, `!role guardian`, `!
 
 Before a quest, the streamer can choose **Relaxed**, **Standard**, or **Heroic** difficulty and set each interactive phase to 10–120 seconds. These settings lock after the game begins. The streamer can pause and resume active timed phases without consuming the remaining time.
 
+During an active quest, the streamer can trigger protected special events: **Rally** grants 8 party health and one supply; **Emberstorm** adds 4 threat. Both are shown to the audience in the overlay and have a 15-second server-side cooldown.
+
 ```bash
 npm test
 npm run typecheck
