@@ -28,7 +28,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:5173` for the streamer dashboard and `http://localhost:5173/overlay` in an OBS Browser Source. The overlay uses a transparent page background; set its size to 1920×1080 in OBS.
+Open `http://localhost:5173` for the streamer dashboard and `http://localhost:5173/overlay` in an OBS Browser Source. The overlay uses a transparent page background; set its size to 1920×1080 in OBS. For a full-screen, opaque game presentation useful for demos and local capture, open `http://localhost:5173/spectator`.
 
 Use **Demo Mode** to enter `!join`, choose `!role warrior`, `!role guardian`, `!role healer`, or `!role scout`, then vote and act. Start the quest from the dashboard, then either wait for phase timers or click **Advance phase**. Demo names are visibly marked `[Demo]` in the game log and never presented as Twitch users.
 
