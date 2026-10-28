@@ -1,64 +1,32 @@
-export type Phase = "lobby" | "path" | "action" | "result";
-export type Path = "A" | "B";
-export type Action = "attack" | "shield" | "heal";
-export type ChatCommand = { kind: "join" } | { kind: "path"; path: Path } | { kind: "act"; action: Action };
-export type Player = { id: string; name: string; joinedAt: number; contribution: number };
-export type HistoryItem = { id: string; text: string; at: number };
-export type QuestState = {
-  phase: Phase; questTitle: string; phaseEndsAt: number | null; players: Record<string, Player>;
-  pathVotes: Record<string, Path>; actions: Record<string, Action>; health: number; maxHealth: number;
-  supplies: number; threat: number; chosenPath: Path | null; result: "victory" | "defeat" | null;
-  history: HistoryItem[];
-};
-
-const now = () => Date.now();
-const log = (state: QuestState, text: string) => ({ ...state, history: [{ id: `${now()}-${Math.random()}`, text, at: now() }, ...state.history].slice(0, 12) });
-export function parseChatCommand(message: string): ChatCommand | null {
-  const parts = message.trim().toLowerCase().split(/\s+/);
-  if (parts[0] === "!join" && parts.length === 1) return { kind: "join" };
-  if (parts[0] === "!path" && (parts[1] === "a" || parts[1] === "b") && parts.length === 2) return { kind: "path", path: parts[1].toUpperCase() as Path };
-  if (parts[0] === "!act" && ["attack", "shield", "heal"].includes(parts[1]) && parts.length === 2) return { kind: "act", action: parts[1] as Action };
-  return null;
-}
-export function initialState(): QuestState { return { phase: "lobby", questTitle: "The Ember Gate", phaseEndsAt: null, players: {}, pathVotes: {}, actions: {}, health: 100, maxHealth: 100, supplies: 4, threat: 16, chosenPath: null, result: null, history: [] }; }
-export function join(state: QuestState, id: string, name: string): QuestState {
-  if (state.players[id]) return state;
-  return log({ ...state, players: { ...state.players, [id]: { id, name: name.slice(0, 25), joinedAt: now(), contribution: 0 } } }, `${name} joined the expedition`);
-}
-export function begin(state: QuestState, durationMs = 30000): QuestState {
-  if (state.phase !== "lobby") return state;
-  return log({ ...state, phase: "path", phaseEndsAt: now() + durationMs }, "Choose a route: !path A or !path B");
-}
-export function votePath(state: QuestState, id: string, path: Path): QuestState {
-  if (state.phase !== "path" || !state.players[id]) return state;
-  return { ...state, pathVotes: { ...state.pathVotes, [id]: path } };
-}
-export function act(state: QuestState, id: string, action: Action): QuestState {
-  if (state.phase !== "action" || !state.players[id]) return state;
-  return { ...state, actions: { ...state.actions, [id]: action } };
+export type Phase = "lobby" | "roles" | "briefing" | "path" | "encounter" | "consequence" | "finale" | "result";
+export type Path = "A" | "B"; export type Role = "warrior" | "guardian" | "healer" | "scout"; export type Action = "attack" | "shield" | "heal" | "scout";
+export type ChatCommand = { kind: "join" } | { kind: "role"; role: Role } | { kind: "path"; path: Path } | { kind: "act"; action: Action };
+export type Player = { id: string; name: string; joinedAt: number; role: Role | null; contribution: number; heroMoment: string | null };
+export type HistoryItem = { id: string; text: string; at: number }; export type Encounter = "collapsing bridge" | "ember wraith" | "ember gate";
+export type QuestState = { phase: Phase; questTitle: string; seed: number; phaseEndsAt: number | null; players: Record<string, Player>; pathVotes: Record<string, Path>; actions: Record<string, Action>; health: number; maxHealth: number; supplies: number; threat: number; progress: number; environment: string; encounter: Encounter | null; chosenPath: Path | null; result: "victory" | "defeat" | null; history: HistoryItem[]; highlights: string[] };
+const now = () => Date.now(); const entry = (text: string): HistoryItem => ({ id: `${now()}-${Math.random()}`, text, at: now() });
+const log = (state: QuestState, text: string, highlight?: string) => ({ ...state, history: [entry(text), ...state.history].slice(0, 16), highlights: highlight ? [highlight, ...state.highlights].slice(0, 4) : state.highlights });
+const roll = (seed: number, salt: number) => ((Math.sin(seed * 12.9898 + salt * 78.233) * 43758.5453) % 1 + 1) % 1;
+export function parseChatCommand(message: string): ChatCommand | null { const parts = message.trim().toLowerCase().split(/\s+/); if (parts[0] === "!join" && parts.length === 1) return { kind: "join" }; if (parts[0] === "!role" && ["warrior", "guardian", "healer", "scout"].includes(parts[1]) && parts.length === 2) return { kind: "role", role: parts[1] as Role }; if (parts[0] === "!path" && (parts[1] === "a" || parts[1] === "b") && parts.length === 2) return { kind: "path", path: parts[1].toUpperCase() as Path }; if (parts[0] === "!act" && ["attack", "shield", "heal", "scout"].includes(parts[1]) && parts.length === 2) return { kind: "act", action: parts[1] as Action }; return null; }
+export function initialState(seed = 20261102): QuestState { return { phase: "lobby", questTitle: "The Ember Gate", seed, phaseEndsAt: null, players: {}, pathVotes: {}, actions: {}, health: 100, maxHealth: 100, supplies: 4, threat: 10, progress: 0, environment: "Whispering Camp", encounter: null, chosenPath: null, result: null, history: [], highlights: [] }; }
+export function join(state: QuestState, id: string, name: string): QuestState { if (state.players[id]) return state; return log({ ...state, players: { ...state.players, [id]: { id, name: name.slice(0, 25), joinedAt: now(), role: null, contribution: 0, heroMoment: null } } }, `${name} joined the expedition`); }
+export function chooseRole(state: QuestState, id: string, role: Role): QuestState { if (state.phase !== "roles" || !state.players[id]) return state; return { ...state, players: { ...state.players, [id]: { ...state.players[id], role } } }; }
+export function begin(state: QuestState, durationMs = 30000): QuestState { if (state.phase !== "lobby") return state; return log({ ...state, phase: "roles", phaseEndsAt: now() + durationMs }, "Choose a role: !role warrior, guardian, healer, or scout"); }
+export function votePath(state: QuestState, id: string, path: Path): QuestState { if (state.phase !== "path" || !state.players[id]) return state; return { ...state, pathVotes: { ...state.pathVotes, [id]: path } }; }
+export function act(state: QuestState, id: string, action: Action): QuestState { const player = state.players[id]; if (!player || !player.role || !["encounter", "finale"].includes(state.phase)) return state; const compatible = (player.role === "warrior" && action === "attack") || (player.role === "guardian" && action === "shield") || (player.role === "healer" && action === "heal") || (player.role === "scout" && action === "scout"); if (!compatible) return state; return { ...state, actions: { ...state.actions, [id]: action } }; }
+function teamSize(state: QuestState) { return Math.max(1, Object.keys(state.players).length); }
+function resolved(state: QuestState, final: boolean): QuestState {
+  const values = Object.entries(state.actions); const attack = values.filter(([, value]) => value === "attack").length * 10; const shield = values.filter(([, value]) => value === "shield").length * 4; const scout = values.filter(([, value]) => value === "scout").length * 3; const requestedHeals = values.filter(([, value]) => value === "heal").length; const heals = Math.min(requestedHeals, state.supplies); const scale = Math.max(0, teamSize(state) - 1) * 2; const obstacle = state.threat + scale + (final ? 8 : 0) - scout; const damage = Math.max(0, obstacle - attack - shield); const health = Math.min(state.maxHealth, Math.max(0, state.health - damage + heals * 10)); const players = Object.fromEntries(Object.entries(state.players).map(([id, player]) => [id, { ...player, contribution: player.contribution + (state.actions[id] ? 1 : 0) }])); const saver = health > 0 && health <= 20 && heals > 0 ? values.find(([, value]) => value === "heal")?.[0] : undefined; const highlight = saver ? `${players[saver].name} saved the party from defeat!` : undefined;
+  if (final) { const victory = health > 0 && obstacle - attack <= 10; return log({ ...state, players, health, supplies: state.supplies - heals, threat: Math.max(0, obstacle - attack), progress: victory ? 100 : state.progress, actions: {}, phase: "result", phaseEndsAt: null, result: victory ? "victory" : "defeat" }, victory ? "The Ember Gate opens — the crowd is victorious!" : "The Ember Lord repels the expedition.", highlight); }
+  return log({ ...state, players, health, supplies: state.supplies - heals, threat: Math.max(0, obstacle - attack), progress: 55, actions: {}, phase: "consequence", phaseEndsAt: now() + 15000, environment: health > 50 ? "Ashen Causeway" : "Burning Ravine", encounter: "ember wraith" }, "The bridge gives way; the party reaches the Ashen Causeway.", highlight);
 }
 export function advance(state: QuestState, durationMs = 30000): QuestState {
-  if (state.phase === "path") {
-    const countA = Object.values(state.pathVotes).filter((v) => v === "A").length;
-    const countB = Object.values(state.pathVotes).filter((v) => v === "B").length;
-    const chosenPath: Path = countA >= countB ? "A" : "B";
-    const threat = chosenPath === "A" ? state.threat + 4 : state.threat - 2;
-    const supplies = chosenPath === "A" ? state.supplies + 1 : state.supplies;
-    return log({ ...state, phase: "action", chosenPath, threat, supplies, phaseEndsAt: now() + durationMs }, `${chosenPath === "A" ? "Sunken Bridge" : "Moonlit Pass"} chosen — rally with !act`);
-  }
-  if (state.phase === "action") {
-    const actionList = Object.values(state.actions);
-    const attack = actionList.filter((a) => a === "attack").length * 3;
-    const shields = actionList.filter((a) => a === "shield").length * 2;
-    const requestedHeals = actionList.filter((a) => a === "heal").length;
-    const heals = Math.min(requestedHeals, state.supplies);
-    const effectiveThreat = Math.max(0, state.threat - attack);
-    const damage = Math.max(0, effectiveThreat - shields);
-    const health = Math.min(state.maxHealth, Math.max(0, state.health - damage + heals * 8));
-    const victory = health > 0 && effectiveThreat <= 5;
-    const players = Object.fromEntries(Object.entries(state.players).map(([id, p]) => [id, { ...p, contribution: p.contribution + (state.actions[id] ? 1 : 0) }]));
-    return log({ ...state, players, phase: "result", phaseEndsAt: null, health, supplies: state.supplies - heals, threat: effectiveThreat, result: victory ? "victory" : "defeat" }, victory ? "The Ember Gate opens! The party is victorious." : "The gate overwhelms the expedition. Regroup and try again.");
-  }
+  if (state.phase === "roles") return log({ ...state, phase: "briefing", phaseEndsAt: now() + 10000, environment: "Whispering Camp" }, "The Ember Gate burns beyond the ravine.");
+  if (state.phase === "briefing") return log({ ...state, phase: "path", phaseEndsAt: now() + durationMs }, "Vote !path A for the risky Sunken Bridge or !path B for the Moonlit Pass");
+  if (state.phase === "path") { const a = Object.values(state.pathVotes).filter((value) => value === "A").length; const b = Object.values(state.pathVotes).filter((value) => value === "B").length; const chosenPath: Path = a >= b ? "A" : "B"; const dangerous = chosenPath === "A"; return log({ ...state, phase: "encounter", phaseEndsAt: now() + durationMs, chosenPath, pathVotes: {}, supplies: state.supplies + (dangerous ? 2 : 0), threat: state.threat + (dangerous ? 4 : -2), progress: 20, environment: dangerous ? "Sunken Bridge" : "Moonlit Pass", encounter: "collapsing bridge" }, `${dangerous ? "Sunken Bridge" : "Moonlit Pass"} chosen. Coordinate your roles!`); }
+  if (state.phase === "encounter") return resolved(state, false);
+  if (state.phase === "consequence") { const omen = roll(state.seed, 2) > .5 ? "The scouts reveal a weakness in the Ember Lord." : "The storm feeds the Ember Lord's flames."; return log({ ...state, phase: "finale", phaseEndsAt: now() + durationMs, encounter: "ember gate", environment: "The Ember Gate", threat: state.threat + (roll(state.seed, 2) > .5 ? -2 : 3), progress: 75 }, omen); }
+  if (state.phase === "finale") return resolved(state, true);
   return state;
 }
-export function reset(): QuestState { return initialState(); }
+export function reset(seed = 20261102): QuestState { return initialState(seed); }
