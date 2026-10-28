@@ -30,7 +30,7 @@ npm run dev
 
 Open `http://localhost:5173` for the streamer dashboard and `http://localhost:5173/overlay` in an OBS Browser Source. The overlay uses a transparent page background; set its size to 1920×1080 in OBS.
 
-Use **Demo Mode** to enter `!join`, `!path A`, `!path B`, and `!act attack`, `!act shield`, or `!act heal`. Start the quest from the dashboard, then either wait 30 seconds per phase or click **Resolve phase**. Demo names are visibly marked `[Demo]` in the game log and never presented as Twitch users.
+Use **Demo Mode** to enter `!join`, choose `!role warrior`, `!role guardian`, `!role healer`, or `!role scout`, then vote and act. Start the quest from the dashboard, then either wait for phase timers or click **Advance phase**. Demo names are visibly marked `[Demo]` in the game log and never presented as Twitch users.
 
 ```bash
 npm test
@@ -40,10 +40,10 @@ npm run build
 
 ## Game rules: The Ember Gate
 
-1. Players join in the lobby with `!join`.
-2. During route selection, each player has one replaceable vote: `!path A` selects the dangerous Sunken Bridge (extra supplies, more threat); `!path B` selects the Moonlit Pass (less threat).
-3. During action selection, each player picks one replaceable action: `!act attack`, `!act shield`, or `!act heal`.
-4. Attacks reduce threat, shields absorb damage, heals spend shared supplies and restore health. The party wins by reducing the encounter to a manageable threat while keeping health above zero.
+1. Players join in the lobby with `!join`, then choose a role: Warriors use `!act attack`, Guardians use `!act shield`, Healers use `!act heal`, and Scouts use `!act scout`.
+2. The quest advances through a mission briefing, route vote, collapsing-bridge encounter, consequence, and Ember Gate finale. Each player gets one replaceable vote or role-compatible action per phase.
+3. `!path A` selects the dangerous Sunken Bridge (extra supplies, more threat); `!path B` selects the Moonlit Pass (less threat).
+4. Warriors reduce threats, Guardians reduce damage, Healers consume shared supplies to restore health, and Scouts lower encounter uncertainty. The deterministic session seed keeps outcomes reproducible for tests.
 
 The server validates phase eligibility and participant identity, makes all phase transitions, and rate-limits each chatter to one accepted command every 800 ms. In production, dashboard and Demo Mode controls require `STREAMER_CONTROL_TOKEN` entered in the in-page streamer control field. It is sent as an authorization header and is never compiled into the frontend or stored in the repository. Read-only state and the OBS overlay have no control authority.
 
