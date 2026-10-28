@@ -12,10 +12,18 @@ CrowdQuest is a cooperative Twitch adventure for the Codex x TwitchCon Hackathon
 
 ## Quick start
 
-Requires Node.js 20+ and npm 10+.
+Requires Node.js 22+ and npm 10+. The repository includes `.nvmrc`; use `nvm use` where available. The Node server resolves the root `.env` file deterministically, regardless of the npm workspace command used to start it.
 
 ```bash
 cp .env.example .env
+npm install
+npm run dev
+```
+
+On Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
 npm install
 npm run dev
 ```
@@ -37,7 +45,7 @@ npm run build
 3. During action selection, each player picks one replaceable action: `!act attack`, `!act shield`, or `!act heal`.
 4. Attacks reduce threat, shields absorb damage, heals spend shared supplies and restore health. The party wins by reducing the encounter to a manageable threat while keeping health above zero.
 
-The server validates phase eligibility and participant identity, makes all phase transitions, and rate-limits each chatter to one accepted command every 800 ms. Browser clients only render state and call privileged dashboard controls in this prototype; deploy behind streamer authentication before exposing those controls publicly.
+The server validates phase eligibility and participant identity, makes all phase transitions, and rate-limits each chatter to one accepted command every 800 ms. In production, dashboard and Demo Mode controls require `STREAMER_CONTROL_TOKEN` entered in the in-page streamer control field. It is sent as an authorization header and is never compiled into the frontend or stored in the repository. Read-only state and the OBS overlay have no control authority.
 
 ## Twitch setup (manual, required for live chat)
 
@@ -45,7 +53,7 @@ This is intentionally not faked: Demo Mode is available without credentials, whi
 
 1. In the [Twitch Developer Console](https://dev.twitch.tv/console/apps), register an application.
 2. Add `http://localhost:3001/auth/twitch/callback` as its OAuth Redirect URL (or your exact HTTPS production callback).
-3. Copy `.env.example` to `.env` and enter `TWITCH_CLIENT_ID`, `TWITCH_CLIENT_SECRET`, and the matching `TWITCH_REDIRECT_URI`. Keep `.env` private; it is gitignored.
+3. Copy `.env.example` to the root `.env` and enter `TWITCH_CLIENT_ID`, `TWITCH_CLIENT_SECRET`, and the matching `TWITCH_REDIRECT_URI`. Set a long random `STREAMER_CONTROL_TOKEN` for production (`openssl rand -hex 32`). Keep `.env` private; it is gitignored.
 4. Restart the server and click **Connect Twitch**. Sign in as the broadcaster. OAuth state is cryptographically random and validated server-side.
 5. On EventSub WebSocket welcome, the server creates a `channel.chat.message` subscription with `broadcaster_user_id` and `user_id` both set to the authenticated broadcaster's numeric Twitch ID. Incoming Twitch message text is passed to the same parser and engine as Demo Mode. The dashboard changes to **Live chat connected** only after that subscription succeeds.
 

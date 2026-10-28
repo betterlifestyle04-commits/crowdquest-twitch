@@ -1,6 +1,7 @@
 {
   "name": "crowdquest",
   "private": true,
+  "engines": { "node": ">=22.0.0", "npm": ">=10.0.0" },
   "workspaces": ["apps/*", "packages/*"],
   "scripts": {
     "dev": "concurrently -n server,web -c magenta,cyan \"npm run dev -w @crowdquest/server\" \"npm run dev -w @crowdquest/web\"",
