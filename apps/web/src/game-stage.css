@@ -129,6 +129,16 @@
 
 @keyframes trailBeacon { to { transform: scale(1.18); box-shadow: 0 0 22px rgba(255, 211, 113, .8); } }
 
+.command-live { padding: .28rem .45rem; border: 1px solid rgba(105, 230, 186, .44); border-radius: 999px; color: #8cffd2; font-size: .52rem; font-weight: 900; letter-spacing: .09em; }
+.command-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .45rem; margin-top: .8rem; }
+.command-grid button { display: grid; grid-template-columns: auto 1fr; gap: .25rem .5rem; min-height: 4.15rem; padding: .55rem; border: 1px solid rgba(166, 144, 239, .32); border-radius: .65rem; background: linear-gradient(135deg, rgba(55, 40, 96, .76), rgba(15, 19, 43, .82)); color: #f4efff; text-align: left; transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease; }
+.command-grid button:hover { transform: translateY(-2px); border-color: #e1c47a; box-shadow: 0 8px 18px rgba(0, 0, 0, .25); }
+.command-grid button.copied { border-color: #7ae6ba; box-shadow: 0 0 18px rgba(81, 226, 169, .22); }
+.command-grid i { display: grid; width: 1.45rem; height: 1.45rem; place-items: center; border-radius: .42rem; background: #835cc3; color: #fff6d5; font-size: .8rem; font-style: normal; }
+.command-grid span { display: grid; align-content: center; gap: .08rem; }
+.command-grid small { color: #bdb8d7; font-size: .57rem; }
+.command-grid code { grid-column: 1 / -1; color: #9cf5d0; font-family: inherit; font-size: .62rem; font-weight: 900; }
+
 @media (max-width: 460px) {
   .action-board { bottom: 15%; gap: .18rem; }
   .action-board span { min-width: 35px; padding: .3rem; }
@@ -136,4 +146,5 @@
   .command-feed { top: 5.2rem; min-width: 116px; max-width: 132px; font-size: .5rem; }
   .quest-trail { padding-inline: .35rem; }
   .quest-trail li { font-size: .47rem; }
+  .command-grid { grid-template-columns: 1fr; }
 }
