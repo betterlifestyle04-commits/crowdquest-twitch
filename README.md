@@ -32,6 +32,8 @@ Open `http://localhost:5173` for the streamer dashboard and `http://localhost:51
 
 Use **Demo Mode** to enter `!join`, choose `!role warrior`, `!role guardian`, `!role healer`, or `!role scout`, then vote and act. Start the quest from the dashboard, then either wait for phase timers or click **Advance phase**. Demo names are visibly marked `[Demo]` in the game log and never presented as Twitch users.
 
+Before a quest, the streamer can choose **Relaxed**, **Standard**, or **Heroic** difficulty and set each interactive phase to 10–120 seconds. These settings lock after the game begins. The streamer can pause and resume active timed phases without consuming the remaining time.
+
 ```bash
 npm test
 npm run typecheck
