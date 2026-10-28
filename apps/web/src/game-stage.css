@@ -60,7 +60,57 @@
 .action-board b { font-size: .9rem; }
 .action-board small { grid-column: 1 / -1; color: inherit; font-size: .48rem; letter-spacing: .06em; text-transform: uppercase; }
 
+.battle-signal {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .3rem;
+  color: #e4ddff;
+  font-size: .57rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.battle-signal i {
+  width: .38rem;
+  height: .38rem;
+  border-radius: 50%;
+  background: #7df0c2;
+  box-shadow: 0 0 10px #7df0c2;
+  animation: signalPulse 1.3s infinite;
+}
+
+.command-feed {
+  position: absolute;
+  z-index: 14;
+  top: 4.65rem;
+  left: 1.15rem;
+  display: grid;
+  gap: .18rem;
+  min-width: 144px;
+  max-width: 190px;
+  padding: .45rem .55rem;
+  border: 1px solid rgba(173, 157, 241, .35);
+  border-radius: .55rem;
+  background: rgba(8, 11, 29, .68);
+  color: #ece8ff;
+  font-size: .59rem;
+  text-shadow: 0 2px 4px #000;
+}
+
+.command-feed > b { color: #f5d27d; font-size: .48rem; letter-spacing: .12em; }
+.command-feed span { display: flex; justify-content: space-between; gap: .5rem; }
+.command-feed i { color: #a4f2d2; font-style: normal; font-weight: 900; text-transform: uppercase; }
+.command-feed small { color: #b9b4d4; font-size: .56rem; }
+
+@keyframes signalPulse {
+  50% { opacity: .35; transform: scale(.72); }
+}
+
 @media (max-width: 460px) {
   .action-board { bottom: 15%; gap: .18rem; }
   .action-board span { min-width: 35px; padding: .3rem; }
+  .battle-signal { max-width: 135px; font-size: .5rem; }
+  .command-feed { top: 5.2rem; min-width: 116px; max-width: 132px; font-size: .5rem; }
 }
