@@ -1,0 +1,31 @@
+.vote-momentum {
+  position: absolute;
+  z-index: 14;
+  left: 50%;
+  bottom: 8%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .55rem;
+  width: min(410px, 62%);
+  transform: translateX(-50%);
+}
+
+.vote-momentum > div {
+  padding: .55rem .65rem;
+  border: 1px solid rgba(221, 203, 255, .45);
+  border-radius: .65rem;
+  background: rgba(8, 11, 29, .76);
+  color: #f5f1ff;
+  font-size: .67rem;
+  text-shadow: 0 2px 4px #000;
+}
+
+.vote-momentum b { display: block; margin-bottom: .25rem; color: #f6d994; }
+.vote-momentum i { display: block; height: .35rem; overflow: hidden; border-radius: 999px; background: #262340; }
+.vote-momentum em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #d090ff, #6f70ff); transition: width .45s ease; }
+.vote-momentum > div:last-child em { background: linear-gradient(90deg, #77d8ff, #a0a1ff); }
+.vote-momentum small { display: block; margin-top: .25rem; color: #bfc8e8; font-size: .56rem; }
+
+@media (max-width: 460px) {
+  .vote-momentum { width: 76%; bottom: 14%; }
+}
