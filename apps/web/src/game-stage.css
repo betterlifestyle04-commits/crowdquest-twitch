@@ -124,6 +124,8 @@
 }
 
 .command-feed > b { color: #f5d27d; font-size: .48rem; letter-spacing: .12em; }
+.command-feed > strong { padding: .22rem .3rem; border-radius: .3rem; background: rgba(85, 69, 136, .38); color: #c8c0f3; font-size: .48rem; line-height: 1.2; }
+.command-feed > strong.combo-live { background: rgba(46, 126, 106, .46); color: #b6ffdc; animation: comboPulse 1s infinite alternate; }
 .command-feed span { display: flex; justify-content: space-between; gap: .5rem; }
 .command-feed i { color: #a4f2d2; font-style: normal; font-weight: 900; text-transform: uppercase; }
 .command-feed small { color: #b9b4d4; font-size: .56rem; }
@@ -131,6 +133,8 @@
 @keyframes signalPulse {
   50% { opacity: .35; transform: scale(.72); }
 }
+
+@keyframes comboPulse { to { box-shadow: 0 0 12px rgba(115, 255, 194, .46); } }
 
 @keyframes phaseArrival {
   0% { opacity: 0; transform: translate(-50%, -42%) scale(.78); }
