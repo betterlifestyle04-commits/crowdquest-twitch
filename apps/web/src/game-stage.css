@@ -81,6 +81,30 @@
   animation: signalPulse 1.3s infinite;
 }
 
+.phase-banner {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: .25rem;
+  width: min(82%, 560px);
+  padding: .8rem 1rem;
+  border: 1px solid rgba(255, 222, 137, .72);
+  border-radius: .8rem;
+  background: linear-gradient(90deg, transparent, rgba(34, 20, 56, .92) 18%, rgba(34, 20, 56, .92) 82%, transparent);
+  color: #fff0bd;
+  text-align: center;
+  text-shadow: 0 3px 10px #000;
+  transform: translate(-50%, -50%);
+  animation: phaseArrival 2.8s both;
+  pointer-events: none;
+}
+
+.phase-banner span { color: #dac5ff; font-size: .56rem; font-weight: 900; letter-spacing: .2em; text-transform: uppercase; }
+.phase-banner b { font-size: clamp(1rem, 2.2vw, 1.7rem); letter-spacing: .09em; }
+
 .command-feed {
   position: absolute;
   z-index: 14;
@@ -106,6 +130,12 @@
 
 @keyframes signalPulse {
   50% { opacity: .35; transform: scale(.72); }
+}
+
+@keyframes phaseArrival {
+  0% { opacity: 0; transform: translate(-50%, -42%) scale(.78); }
+  14%, 72% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -58%) scale(1.04); }
 }
 
 .quest-trail {
