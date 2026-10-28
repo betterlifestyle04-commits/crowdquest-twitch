@@ -214,6 +214,10 @@
 .questmaster-callout b { color: #fff6dc; font-size: .8rem; }
 .questmaster-callout p { margin: 0; color: #ccc5e4; font-size: .66rem; line-height: 1.35; }
 
+.demo-send { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
+.demo-send > span { margin-top: .75rem; font-size: .66rem; font-weight: 800; }
+.demo-send .sent { color: #8cffd2; }
+
 @media (max-width: 460px) {
   .action-board { bottom: 15%; gap: .18rem; }
   .action-board span { min-width: 35px; padding: .3rem; }
