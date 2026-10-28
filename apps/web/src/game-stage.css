@@ -217,6 +217,7 @@
 .demo-send { display: flex; align-items: center; gap: .65rem; flex-wrap: wrap; }
 .demo-send > span { margin-top: .75rem; font-size: .66rem; font-weight: 800; }
 .demo-send .sent { color: #8cffd2; }
+.hero-moment { color: #ffd984 !important; font-weight: 800; text-transform: none !important; }
 
 @media (max-width: 460px) {
   .action-board { bottom: 15%; gap: .18rem; }
