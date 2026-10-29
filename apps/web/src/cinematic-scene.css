@@ -212,3 +212,37 @@
 @keyframes companion-hover { from { transform: translate(665px, 339px); } to { transform: translate(665px, 354px); } }
 @keyframes companion-pulse { from { opacity: .16; } to { opacity: .6; } }
 @media (prefers-reduced-motion: reduce) { .ember-companion, .ember-companion .spirit-light { animation: none; } }
+
+
+/* Explicit simulation labels persist on dashboard, spectator and OBS. */
+.cinematic-stage .rehearsal-watermark {
+  position: absolute;
+  z-index: 29;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 75%;
+  padding: .45rem .75rem;
+  border: 1px solid rgba(255, 213, 127, .92);
+  border-radius: .55rem;
+  background: rgba(58, 36, 10, .94);
+  color: #fff2cb;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .56);
+  font-size: .69rem;
+  font-weight: 950;
+  letter-spacing: .085em;
+  text-align: center;
+  pointer-events: none;
+}
+.rehearsal-card {
+  border-color: rgba(235, 186, 103, .42);
+  background: linear-gradient(140deg, rgba(42, 30, 60, .92), rgba(13, 21, 41, .96));
+}
+.rehearsal-card .muted { line-height: 1.55; }
+.rehearsal-controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; margin-top: .9rem; }
+.rehearsal-controls button { text-align: left; border-color: rgba(203, 160, 255, .45); background: rgba(71, 51, 109, .48); }
+.rehearsal-controls button:hover:not(:disabled) { border-color: #ffdf97; }
+.rehearsal-controls button.danger { border-color: rgba(234, 114, 126, .6); background: rgba(94, 35, 50, .63); }
+.rehearsal-warning { padding: .65rem .75rem; border-radius: .6rem; color: #ffdf97; background: rgba(128, 74, 24, .28); font-size: .82rem; font-weight: 800; }
+.rehearsal-feedback { color: #b5f5d9; font-size: .82rem; font-weight: 700; }
+@media (max-width: 680px) { .rehearsal-controls { grid-template-columns: 1fr; } .cinematic-stage .rehearsal-watermark { top: .35rem; left: auto; right: .4rem; transform: none; font-size: .46rem; padding: .3rem; } }
