@@ -342,4 +342,9 @@
   .quest-trail { padding-inline: .35rem; }
   .quest-trail li { font-size: .47rem; }
   .command-grid { grid-template-columns: 1fr; }
+  .ember-portal { right: 4%; bottom: 19%; transform: scale(.66); transform-origin: bottom right; }
+  .distant-gate { right: 9%; transform: scale(.82); transform-origin: bottom right; }
+  .supply-cache { bottom: 20%; left: 56%; transform: translateX(-50%) scale(.86); }
+  .aftermath-report { top: 38%; width: 72%; font-size: .58rem; }
+  .hero-ticker { bottom: 30%; font-size: .57rem; }
 }
