@@ -348,3 +348,7 @@
   .aftermath-report { top: 38%; width: 72%; font-size: .58rem; }
   .hero-ticker { bottom: 30%; font-size: .57rem; }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .game-stage *, .game-stage::before, .game-stage::after { animation: none !important; transition-duration: .01ms !important; }
+}
