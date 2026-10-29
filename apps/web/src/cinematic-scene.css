@@ -246,3 +246,10 @@
 .rehearsal-warning { padding: .65rem .75rem; border-radius: .6rem; color: #ffdf97; background: rgba(128, 74, 24, .28); font-size: .82rem; font-weight: 800; }
 .rehearsal-feedback { color: #b5f5d9; font-size: .82rem; font-weight: 700; }
 @media (max-width: 680px) { .rehearsal-controls { grid-template-columns: 1fr; } .cinematic-stage .rehearsal-watermark { top: .35rem; left: auto; right: .4rem; transform: none; font-size: .46rem; padding: .3rem; } }
+
+
+/* Shareable session recap for streamers, never inserted into the OBS overlay. */
+.recap-share { display: grid; justify-items: start; gap: .4rem; margin-top: .75rem; }
+.recap-share button { border-color: #f2cf8a; background: rgba(69, 46, 86, .85); color: #ffe6a8; font-size: .78rem; }
+.recap-share small { color: #ffe9c6; font-size: .68rem; }
+.recap-share textarea { box-sizing: border-box; width: min(100%, 460px); background: rgba(4, 7, 20, .84); font-size: .7rem; line-height: 1.45; user-select: text; }
