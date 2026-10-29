@@ -70,3 +70,31 @@ export function applyChatCommand(state: QuestState, id: string, name: string, me
   if (state.actions[id] === command.action) return reject(state, "Your action is already locked in for this round.");
   return { state: act(state, id, command.action), accepted: true, feedback: "Action locked in: " + command.action + "." };
 }
+
+/** Isolated, explicitly simulated scenes to rehearse the Twitch presentation.
+ * This uses the same state transitions and combat calculations as a real quest.
+ * Never describe these players or outcomes as live Twitch participation. */
+export type RehearsalScene = "encounter" | "finale" | "result";
+export function makeRehearsal(scene: RehearsalScene, seed = 7, settings: { difficulty?: Difficulty; phaseDurationSeconds?: number } = {}): QuestState {
+  const party: Array<{ id: string; name: string; role: Role; action: Action }> = [
+    { id: "rehearsal:warrior", name: "Nova [Demo]", role: "warrior", action: "attack" },
+    { id: "rehearsal:guardian", name: "Arden [Demo]", role: "guardian", action: "shield" },
+    { id: "rehearsal:healer", name: "Lyra [Demo]", role: "healer", action: "heal" },
+    { id: "rehearsal:scout", name: "Orion [Demo]", role: "scout", action: "scout" }
+  ];
+  let next = initialState(seed, settings);
+  for (const p of party) next = join(next, p.id, p.name);
+  next = begin(next, settings.phaseDurationSeconds ? settings.phaseDurationSeconds * 1000 : 30000);
+  for (const p of party) next = chooseRole(next, p.id, p.role);
+  next = advance(next);
+  next = advance(next);
+  for (const p of party) next = votePath(next, p.id, "B");
+  next = advance(next);
+  for (const p of party) next = act(next, p.id, p.action);
+  if (scene === "encounter") return next;
+  next = advance(next);
+  next = advance(next);
+  for (const p of party) next = act(next, p.id, p.action);
+  if (scene === "finale") return next;
+  return advance(next);
+}
