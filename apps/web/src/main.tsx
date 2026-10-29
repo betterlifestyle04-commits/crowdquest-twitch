@@ -115,7 +115,7 @@ function recapText(state: LiveState): string {
   return [
     "CROWDQUEST — THE EMBER GATE",
     "Outcome: " + (state.result === "victory" ? "VICTORY" : "DEFEAT"),
-    "Session type: " + (state.rehearsalActive ? "SIMULATED REHEARSAL" : "Twitch/community game"),
+    "Session type: " + (state.rehearsalActive ? "SIMULATED REHEARSAL" : Object.values(state.players).some((player) => player.name.includes("[Demo]")) ? "MIXED/DEMO SESSION" : "Twitch-enabled session"),
     "Route: " + (state.chosenPath === "A" ? "Sunken Bridge" : state.chosenPath === "B" ? "Moonlit Pass" : "Not chosen"),
     "Players: " + Object.keys(state.players).length,
     "Difficulty: " + state.difficulty,
@@ -124,7 +124,7 @@ function recapText(state: LiveState): string {
     ...ranked.map((player, index) => (index + 1) + ". " + player.name + " — " + player.contribution + " actions"),
     "Highlights:",
     ...(state.highlights.length ? state.highlights : ["The expedition completed its final encounter."]),
-    "Built with Codex. Played through Twitch chat."
+    "Built with Codex. CrowdQuest supports Twitch chat gameplay."
   ].join("\n");
 }
 function ResultRecap({ state, showCopy = false }: { state: LiveState; showCopy?: boolean }) {
