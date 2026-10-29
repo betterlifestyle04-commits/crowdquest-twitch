@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { act, advance, applyChatCommand, begin, chooseRole, initialState, join, makeRehearsal, parseChatCommand, triggerEvent, votePath } from "../src/index.js";
+import { act, advance, applyChatCommand, begin, chooseRole, getPhaseReadiness, initialState, join, makeRehearsal, parseChatCommand, triggerEvent, votePath } from "../src/index.js";
 const prepare = (count = 1) => { let state = initialState(7); for (let i = 0; i < count; i++) state = join(state, `${i}`, `Player${i}`); state = begin(state); const roles = ["warrior", "guardian", "healer", "scout"] as const; for (let i = 0; i < count; i++) state = chooseRole(state, `${i}`, roles[i % roles.length]); state = advance(state); state = advance(state); return state; };
 describe("chat parser", () => { it("accepts only complete known commands", () => { expect(parseChatCommand("!role scout")).toEqual({ kind: "role", role: "scout" }); expect(parseChatCommand("!act scout")).toEqual({ kind: "act", action: "scout" }); expect(parseChatCommand("!role mage")).toBeNull(); expect(parseChatCommand("hello !join")).toBeNull(); }); });
 describe("Ember Gate", () => {
@@ -134,5 +134,54 @@ describe("showcase rehearsal uses real rules and honest simulated identities", (
     expect(live.phase).toBe("lobby");
     expect(Object.keys(live.players)).toEqual(["real-twitch-id"]);
     expect(Object.keys(preview.players).every((id) => id.startsWith("rehearsal:"))).toBe(true);
+  });
+});
+
+describe("Smart Host readiness boundaries", () => {
+  it("never declares an empty phase ready", () => {
+    let state = initialState(17);
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 0, total: 0, complete: false });
+    state = begin(state);
+    expect(getPhaseReadiness(state).complete).toBe(false);
+    state = advance(advance(state));
+    expect(getPhaseReadiness(state).complete).toBe(false);
+  });
+  it("waits for every joined player to select a role", () => {
+    let state = join(join(initialState(17), "a", "A"), "b", "B");
+    state = begin(state);
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 0, total: 2, complete: false });
+    state = chooseRole(state, "a", "warrior");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 1, total: 2, complete: false });
+    state = chooseRole(state, "b", "scout");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 2, total: 2, complete: true });
+  });
+  it("allows route vote changes and counts unique voters", () => {
+    let state = join(join(initialState(17), "a", "A"), "b", "B");
+    state = begin(state);
+    state = chooseRole(state, "a", "warrior");
+    state = advance(advance(state));
+    state = votePath(state, "a", "A");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 1, total: 2, complete: false });
+    state = votePath(state, "a", "B");
+    expect(getPhaseReadiness(state).ready).toBe(1);
+    state = votePath(state, "b", "A");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 2, total: 2, complete: true });
+  });
+  it("counts only players who can legally act in combat", () => {
+    let state = join(join(join(initialState(17), "a", "A"), "b", "B"), "c", "C");
+    state = begin(state);
+    state = chooseRole(state, "a", "warrior");
+    state = chooseRole(state, "b", "guardian");
+    state = advance(advance(advance(state)));
+    expect(state.phase).toBe("encounter");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 0, total: 2, complete: false });
+    state = act(state, "a", "attack");
+    state = act(state, "c", "attack");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 1, total: 2, complete: false });
+    state = act(state, "b", "shield");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 2, total: 2, complete: true });
+    state = advance(state);
+    expect(state.phase).toBe("consequence");
+    expect(getPhaseReadiness(state)).toMatchObject({ ready: 0, total: 0, complete: false });
   });
 });
