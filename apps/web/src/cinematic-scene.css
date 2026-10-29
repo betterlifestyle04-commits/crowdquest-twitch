@@ -253,3 +253,28 @@
 .recap-share button { border-color: #f2cf8a; background: rgba(69, 46, 86, .85); color: #ffe6a8; font-size: .78rem; }
 .recap-share small { color: #ffe9c6; font-size: .68rem; }
 .recap-share textarea { box-sizing: border-box; width: min(100%, 460px); background: rgba(4, 7, 20, .84); font-size: .7rem; line-height: 1.45; user-select: text; }
+
+
+/* Streamer-only participation readiness and Twitch command diagnostics. */
+.phase-readiness .phase-readiness-total { color: #f7d48a; font-size: 1.35rem; white-space: nowrap; }
+.readiness-track { height: 10px; margin: .8rem 0; border-radius: 99px; background: #080d20; overflow: hidden; border: 1px solid rgba(162, 132, 228, .24); }
+.readiness-track i { display: block; height: 100%; background: linear-gradient(90deg, #6cb9fb, #70f8c9); border-radius: inherit; transition: width .35s ease; }
+.phase-readiness p { font-size: .82rem; line-height: 1.5; }
+.phase-readiness .ready-confirm { color: #8ff0c7; font-weight: 850; }
+.phase-readiness .readiness-caution { color: #ffce9a; }
+.command-monitor .activity-feed { display: grid; align-content: start; gap: .35rem; padding: 0; margin: .9rem 0 0; list-style: none; max-height: 375px; overflow-y: auto; }
+.activity-feed li { display: flex; align-items: start; gap: .65rem; padding: .6rem .65rem; border: 1px solid rgba(122, 130, 177, .18); border-radius: .6rem; background: rgba(8, 12, 30, .55); }
+.activity-feed .activity-icon { flex: 0 0 1.5rem; text-align: center; padding: .12rem; border-radius: 50%; font-size: .8rem; font-weight: 950; }
+.activity-icon.accepted { color: #122c24; background: #8eecc7; }
+.activity-icon.rejected { color: #411c23; background: #ffc6ad; }
+.activity-copy { display: flex; flex: 1; flex-direction: column; gap: .2rem; min-width: 0; overflow-wrap: anywhere; }
+.activity-person { display: flex; align-items: center; flex-wrap: wrap; gap: .45rem; }
+.activity-person b { color: #f2ecff; font-size: .78rem; }
+.activity-source { font-size: .54rem; letter-spacing: .07em; padding: .15rem .32rem; border-radius: .3rem; font-weight: 950; }
+.activity-source.demo { color: #ffe4a7; background: rgba(141, 85, 29, .36); }
+.activity-source.twitch { color: #d9c7ff; background: rgba(136, 89, 214, .31); }
+.activity-copy code { color: #d5fff1; font-size: .74rem; white-space: normal; }
+.activity-copy > small { color: #b7c3de; font-size: .7rem; line-height: 1.45; }
+.activity-feed time { color: #8795b5; white-space: nowrap; font-size: .6rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 560px) { .activity-feed li { gap: .3rem; padding: .45rem; } .activity-feed time { font-size: .52rem; } }
+@media (prefers-reduced-motion: reduce) { .readiness-track i { transition: none; } }
