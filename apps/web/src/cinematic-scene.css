@@ -292,3 +292,130 @@
 .smart-host .ready-confirm { color: #85ebbe; font-size: .78rem; }
 .smart-host-feedback { padding: .55rem .65rem; border-radius: .55rem; background: rgba(34, 76, 79, .38); color: #d5fff0; font-size: .77rem; }
 @media (prefers-reduced-motion: reduce) { .smart-host-row button { transition: none; } }
+
+
+/* Distinct enemy identities and truthful resolved-combat cinematic replay. */
+.foe-bridge-hazard .falling-rubble {
+  animation: bridge-debris 2.4s ease-in infinite;
+}
+.foe-raiders .raider-leader {
+  transform-origin: center bottom; transform-box: fill-box;
+  animation: raider-threat 1.65s ease-in-out infinite alternate;
+}
+.foe-stalker {
+  transform-origin: center bottom; transform-box: fill-box;
+  animation: stalker-breathe 1.6s ease-in-out infinite alternate;
+}
+.foe-stalker .stalker-eyes, .foe-stalker .stalker-moon {
+  filter: drop-shadow(0 0 12px #9df9e7);
+}
+.foe-stalker .stalker-tail {
+  transform-origin: right center; transform-box: fill-box;
+  animation: stalker-tail 2.1s ease-in-out infinite alternate;
+}
+.cinema-resolution-playback {
+  pointer-events: none;
+  opacity: 0;
+  animation: resolution-replay 3.1s ease-out both;
+}
+.cinema-resolution-playback .resolution-foe-echo {
+  filter: drop-shadow(0 0 18px #ff9d65);
+  animation: foe-hit-recoil 2.35s ease-out both;
+}
+.cinema-resolution-playback .resolution-slash {
+  stroke-dasharray: 540;
+  stroke-dashoffset: 540;
+  filter: drop-shadow(0 0 20px #ffdd98);
+  animation: blade-reveal 1s ease-out .1s both;
+}
+.cinema-resolution-playback .resolution-shield {
+  filter: drop-shadow(0 0 25px #6ed5ff);
+  transform-origin: 410px 280px;
+  animation: shield-burst 1.55s ease-out .35s both;
+}
+.cinema-resolution-playback .resolution-heal {
+  filter: drop-shadow(0 0 25px #87edbd);
+  transform-origin: 355px 290px;
+  animation: heal-bloom 1.9s ease-out .5s both;
+}
+.cinema-resolution-playback .resolution-hurt {
+  filter: drop-shadow(0 0 22px #fa5767);
+  animation: hurt-flash 1.25s ease-in-out .25s both;
+}
+.cinema-resolution-playback .resolution-number {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 25px;
+  font-weight: 1000;
+  letter-spacing: .05em;
+  stroke: #130e27;
+  stroke-width: 6px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, .75));
+  animation: number-rise 1.8s ease-out .35s both;
+}
+.cinema-resolution-playback .resolution-number.attack { fill: #ffe6a8; font-size: 31px; }
+.cinema-resolution-playback .resolution-number.scout { fill: #a6fdf0; font-size: 20px; animation-delay: .65s; }
+.cinema-resolution-playback .resolution-number.heal { fill: #adffda; font-size: 23px; }
+.cinema-resolution-playback .resolution-number.shield { fill: #c2ebff; font-size: 23px; }
+.cinema-resolution-playback .resolution-number.hurt { fill: #ffb1ab; font-size: 27px; animation-delay: .45s; }
+.cinema-resolution-playback .resolution-number.inactive { fill: #f1c0ac; font-size: 23px; }
+@keyframes bridge-debris {
+  0% { transform: translateY(-4px); opacity: 1; }
+  100% { transform: translateY(25px); opacity: .3; }
+}
+@keyframes raider-threat {
+  from { transform: rotate(-2deg) translateY(0); }
+  to { transform: rotate(4deg) translateY(-5px); }
+}
+@keyframes stalker-breathe {
+  from { transform: translateY(4px) scale(1); }
+  to { transform: translateY(-5px) scale(1.04); }
+}
+@keyframes stalker-tail {
+  from { transform: rotate(-10deg); }
+  to { transform: rotate(13deg); }
+}
+@keyframes resolution-replay {
+  0% { opacity: 0; }
+  10%, 64% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes foe-hit-recoil {
+  0%, 25% { transform: translate(0, 0); }
+  36% { transform: translate(14px, -9px); }
+  46% { transform: translate(-8px, 2px); }
+  58%, 100% { transform: translate(0, 0); }
+}
+@keyframes blade-reveal {
+  0% { stroke-dashoffset: 540; opacity: 0; }
+  25% { opacity: 1; }
+  75%, 100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes shield-burst {
+  0% { opacity: 0; transform: scale(.65); }
+  35% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 0; transform: scale(1.22); }
+}
+@keyframes heal-bloom {
+  0% { opacity: 0; transform: scale(.5); }
+  30% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+@keyframes hurt-flash {
+  0%, 100% { opacity: 0; }
+  15%, 45% { opacity: .85; }
+}
+@keyframes number-rise {
+  0% { opacity: 0; transform: translateY(18px); }
+  25%, 65% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-30px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .foe-bridge-hazard .falling-rubble, .foe-raiders .raider-leader,
+  .foe-stalker, .foe-stalker .stalker-tail,
+  .cinema-resolution-playback, .cinema-resolution-playback * {
+    animation: none !important;
+  }
+  .cinema-resolution-playback { display: none; }
+}
