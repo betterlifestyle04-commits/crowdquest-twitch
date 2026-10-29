@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { act, advance, applyChatCommand, begin, chooseRole, initialState, join, parseChatCommand, triggerEvent, votePath } from "../src/index.js";
+import { act, advance, applyChatCommand, begin, chooseRole, initialState, join, makeRehearsal, parseChatCommand, triggerEvent, votePath } from "../src/index.js";
 const prepare = (count = 1) => { let state = initialState(7); for (let i = 0; i < count; i++) state = join(state, `${i}`, `Player${i}`); state = begin(state); const roles = ["warrior", "guardian", "healer", "scout"] as const; for (let i = 0; i < count; i++) state = chooseRole(state, `${i}`, roles[i % roles.length]); state = advance(state); state = advance(state); return state; };
 describe("chat parser", () => { it("accepts only complete known commands", () => { expect(parseChatCommand("!role scout")).toEqual({ kind: "role", role: "scout" }); expect(parseChatCommand("!act scout")).toEqual({ kind: "act", action: "scout" }); expect(parseChatCommand("!role mage")).toBeNull(); expect(parseChatCommand("hello !join")).toBeNull(); }); });
 describe("Ember Gate", () => {
@@ -102,5 +102,37 @@ describe("solo spirit companion", () => {
     state = advance(state);
     expect(state.lastResolution?.companionPower).toBe(0);
     expect(state.lastResolution?.participants).toBe(0);
+  });
+});
+
+describe("showcase rehearsal uses real rules and honest simulated identities", () => {
+  it("generates an encounter with four identifiable Demo players and real queued actions", () => {
+    const sample = makeRehearsal("encounter", 7);
+    expect(sample.phase).toBe("encounter");
+    expect(sample.chosenPath).toBe("B");
+    expect(Object.keys(sample.players)).toHaveLength(4);
+    expect(Object.values(sample.players).every((player) => player.name.endsWith("[Demo]"))).toBe(true);
+    expect(Object.keys(sample.actions)).toHaveLength(4);
+    expect(sample.lastResolution).toBeNull();
+  });
+  it("previews the actual final encounter and resolved outcome", () => {
+    const finale = makeRehearsal("finale", 7);
+    expect(finale.phase).toBe("finale");
+    expect(finale.lastResolution?.phase).toBe("encounter");
+    expect(finale.encounter).toBe("ember gate");
+    expect(Object.keys(finale.actions)).toHaveLength(4);
+    const result = makeRehearsal("result", 7);
+    expect(result.phase).toBe("result");
+    expect(result.lastResolution?.phase).toBe("finale");
+    expect(result.lastResolution?.participants).toBe(4);
+    expect(result.result).toBe("victory");
+    expect(result.progress).toBe(100);
+  });
+  it("lets the showrunner preview scenes without changing an existing live state", () => {
+    const live = join(initialState(100), "real-twitch-id", "RealViewer");
+    const preview = makeRehearsal("encounter", 7);
+    expect(live.phase).toBe("lobby");
+    expect(Object.keys(live.players)).toEqual(["real-twitch-id"]);
+    expect(Object.keys(preview.players).every((id) => id.startsWith("rehearsal:"))).toBe(true);
   });
 });
