@@ -117,6 +117,7 @@
 .phase-banner b { font-size: clamp(1rem, 2.2vw, 1.7rem); letter-spacing: .09em; }
 .audience-link { position: absolute; z-index: 19; top: 4.7rem; right: 1.15rem; padding: .38rem .52rem; border: 1px solid rgba(126, 224, 202, .6); border-radius: .5rem; background: rgba(9, 20, 33, .78); color: #a7ffe1; font-size: .58rem; font-weight: 900; text-decoration: none; text-shadow: 0 2px 4px #000; }
 .audience-link:hover { border-color: #e5d48e; color: #fff0ba; }
+.stage-footer span:nth-child(3) { color: #ffe0a0; }
 
 .pause-scene { position: absolute; z-index: 25; inset: 0; display: grid; place-content: center; justify-items: center; gap: .38rem; background: rgba(9, 12, 27, .7); backdrop-filter: grayscale(.55) blur(2px); color: #fff1bf; text-align: center; text-shadow: 0 3px 10px #000; }
 .pause-scene i { display: grid; width: 2rem; height: 2rem; place-items: center; border: 1px solid #f5d27d; border-radius: 50%; background: rgba(66, 45, 89, .9); font-size: 1rem; font-style: normal; }
