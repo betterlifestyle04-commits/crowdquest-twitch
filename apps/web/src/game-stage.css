@@ -20,6 +20,9 @@
   text-shadow: 0 2px 4px #000;
 }
 
+.vote-momentum > div.leading { border-color: #ffe08d; background: rgba(72, 52, 112, .9); box-shadow: 0 0 18px rgba(255, 216, 124, .28); transform: translateY(-3px); }
+.vote-momentum > div.leading b::after { content: " ✦"; color: #fff0ad; }
+
 .vote-momentum b { display: block; margin-bottom: .25rem; color: #f6d994; }
 .vote-momentum i { display: block; height: .35rem; overflow: hidden; border-radius: 999px; background: #262340; }
 .vote-momentum em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #d090ff, #6f70ff); transition: width .45s ease; }
