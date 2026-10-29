@@ -126,6 +126,10 @@
 .game-stage.threat-rising { border-color: rgba(255, 126, 79, .72); }
 .game-stage.threat-rising .stage-sky { background: radial-gradient(circle at 72% 19%, rgba(255, 110, 58, .48), transparent 17%), linear-gradient(145deg, #4b183d, #261334 63%, #131125); animation: threatPulse 1.7s infinite alternate; }
 .game-stage.threat-rising .enemy { box-shadow: 0 0 39px rgba(255, 91, 62, .78); }
+.game-stage.crossroads.route-ahead-a .stage-sky { background: radial-gradient(circle at 32% 30%, rgba(255, 174, 92, .42), transparent 16%), linear-gradient(145deg, #3d2342, #522648 58%, #191229); }
+.game-stage.crossroads.route-ahead-a .stage-atmosphere { background: radial-gradient(ellipse at 38% 72%, rgba(255, 135, 73, .22), transparent 42%); }
+.game-stage.crossroads.route-ahead-b .stage-sky { background: radial-gradient(circle at 70% 24%, rgba(200, 223, 255, .5), transparent 11%), linear-gradient(145deg, #172b59, #2d2c67 62%, #15142d); }
+.game-stage.crossroads.route-ahead-b .stage-atmosphere { background: radial-gradient(ellipse at 63% 68%, rgba(115, 166, 255, .2), transparent 42%); }
 .game-stage:has(.stage-event.rally) .stage-atmosphere { background: radial-gradient(ellipse at 44% 72%, rgba(87, 255, 190, .36), transparent 46%); animation: rallyGlow .8s infinite alternate; }
 .game-stage:has(.stage-event.rally) .party { filter: drop-shadow(0 0 16px rgba(99, 255, 194, .9)); }
 .game-stage:has(.stage-event.emberstorm) .stage-sky { background: radial-gradient(circle at 68% 16%, rgba(255, 234, 180, .9) 0 2%, rgba(225, 63, 64, .42) 3%, transparent 16%), linear-gradient(145deg, #4d1b38, #240f28 65%, #111126); animation: stormFlash 1s infinite steps(2, end); }
