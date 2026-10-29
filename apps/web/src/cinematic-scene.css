@@ -419,3 +419,28 @@
   }
   .cinema-resolution-playback { display: none; }
 }
+
+
+/* Original generated sound effects are off by default and require a user click. */
+.audio-control { display: inline-flex; position: relative; align-items: center; gap: .4rem; }
+.audio-control button {
+  border: 1px solid rgba(162, 148, 221, .58);
+  background: rgba(42, 40, 81, .77);
+  border-radius: .65rem;
+  color: #e7dffd;
+  white-space: nowrap;
+  padding: .54rem .72rem;
+  font-size: .75rem;
+  font-weight: 800;
+}
+.audio-control button.audio-on {
+  border-color: rgba(130, 243, 196, .83);
+  background: rgba(25, 87, 70, .62);
+  color: #b5ffe4;
+}
+.audio-control button:focus-visible { outline: 3px solid #ffe19b; outline-offset: 2px; }
+.audio-control .audio-error { color: #ffd1b5; font-size: .67rem; }
+.spectator-head .audio-control { vertical-align: middle; }
+@media (max-width: 680px) {
+  .audio-control button { padding: .35rem .45rem; font-size: .63rem; }
+}
