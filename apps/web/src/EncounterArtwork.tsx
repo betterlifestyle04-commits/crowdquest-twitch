@@ -91,8 +91,8 @@ export function ResolutionPlayback({ resolution }: { resolution: BattleResolutio
   const hurt = resolution.damageTaken > 0;
   const boss = resolution.phase === "finale";
   return <g className="cinema-resolution-playback" aria-hidden="true">
-    <g className="resolution-foe-echo" transform={"translate(947 356) scale(" + (boss ? 1.15 : .85) + ")"}>
-      <EncounterFoe encounter={resolution.encounter} boss={boss}/>
+    <g transform={"translate(947 356) scale(" + (boss ? 1.15 : .85) + ")"}>
+      <g className="resolution-foe-echo"><EncounterFoe encounter={resolution.encounter} boss={boss}/></g>
     </g>
     {hit && <g className="resolution-slash" fill="none" stroke="#fff2c7" strokeWidth="12" strokeLinecap="round">
       <path d="M661 288 Q819 132 1040 166"/><path d="M723 313 Q880 192 1076 229" stroke="#f7a16d" strokeWidth="6"/>
