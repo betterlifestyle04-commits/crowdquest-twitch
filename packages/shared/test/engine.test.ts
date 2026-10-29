@@ -229,3 +229,31 @@ describe("Smart Host grace period and stop conditions", () => {
     expect(canAutoAdvance(state, options)).toBe(false);
   });
 });
+
+
+describe("accurate visuals from the battle engine", () => {
+  it("preserves the exact encounter for its post-combat artwork", () => {
+    for (const seed of [3, 5, 7, 11, 19]) {
+      for (const path of ["A", "B"] as const) {
+        let state = join(initialState(seed), "p", "Player");
+        state = chooseRole(begin(state), "p", "warrior");
+        state = advance(advance(state));
+        state = votePath(state, "p", path);
+        state = advance(state);
+        const originalEncounter = state.encounter;
+        state = act(state, "p", "attack");
+        state = advance(state);
+        expect(state.lastResolution?.phase).toBe("encounter");
+        expect(state.lastResolution?.encounter).toBe(originalEncounter);
+        expect(state.lastResolution?.attackPower).toBeGreaterThan(0);
+        state = advance(state);
+        expect(state.phase).toBe("finale");
+        state = act(state, "p", "attack");
+        state = advance(state);
+        expect(state.lastResolution?.phase).toBe("finale");
+        expect(state.lastResolution?.encounter).toBe("ember gate");
+        expect(state.lastResolution?.threatAfter).toBe(state.threat);
+      }
+    }
+  });
+});
