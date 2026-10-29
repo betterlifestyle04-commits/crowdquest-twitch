@@ -68,6 +68,8 @@
 .action-readiness em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7ce8c0, #f5d27d); transition: width .45s ease; }
 .action-readiness.complete { color: #b9ffdc; text-shadow: 0 0 9px rgba(104, 255, 191, .6); }
 .action-readiness.complete em { background: #8cffc4; box-shadow: 0 0 10px rgba(92, 255, 178, .75); }
+.event-cooldown { min-width: 2.2rem; padding: .32rem .42rem; border: 1px solid #f0b46a; border-radius: .5rem; color: #ffd592; font-size: .72rem; font-weight: 900; text-align: center; }
+.event-recharge { margin: .7rem 0 0; color: #ffd592; font-size: .69rem; font-weight: 800; }
 
 .battle-signal {
   display: flex;
