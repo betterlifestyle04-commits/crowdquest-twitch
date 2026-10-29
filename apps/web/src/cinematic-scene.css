@@ -282,3 +282,13 @@
 
 /* Host control confirmation and backend failure feedback. */
 .host-action-notice { margin: .6rem 0 0; color: #e7d7ff; padding: .6rem .75rem; background: rgba(61, 45, 88, .5); border: 1px solid rgba(170, 142, 223, .3); border-radius: .5rem; font-size: .8rem; }
+
+
+/* Optional smart-stream progression controls */
+.smart-host .smart-host-row { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: space-between; align-items: center; margin: .85rem 0; }
+.smart-host-row button { border: 1px solid #8f7bb7; background: rgba(67, 52, 102, .68); color: #f2ebff; }
+.smart-host-row button.smart-host-enabled { border-color: #75e1bb; color: #a6ffe1; background: rgba(27, 90, 72, .38); }
+.smart-host-row span { color: #edd8ad; font-size: .78rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+.smart-host .ready-confirm { color: #85ebbe; font-size: .78rem; }
+.smart-host-feedback { padding: .55rem .65rem; border-radius: .55rem; background: rgba(34, 76, 79, .38); color: #d5fff0; font-size: .77rem; }
+@media (prefers-reduced-motion: reduce) { .smart-host-row button { transition: none; } }
