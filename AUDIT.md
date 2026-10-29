@@ -1,3 +1,5 @@
+> **Historical note:** This audit describes the October 28 baseline. Its claims about unpatched Zod and pending lifecycle work are outdated for the October 30 submission build. See [SECURITY_AND_RELEASE.md](SECURITY_AND_RELEASE.md) and the integrated branch's GitHub Actions results: the lockfile now uses Zod 4.6.7 and Vitest 5.0.5 with zero npm-audit findings as of the verified CI run. This does not establish that all runtime risks are resolved.
+
 # CrowdQuest 2.0 audit
 
 Audited: 28 October 2026
