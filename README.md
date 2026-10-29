@@ -52,6 +52,16 @@ The cinematic visual branch adds an original illustrated world, distinctive role
 
 **Results:** a resolved final encounter records 100% journey completion whether the party wins or loses; victory and defeat remain separate outcomes. Resetting the quest increments the replay seed for new encounter variation. Changes to the quest remain local to the server and are propagated to dashboard, spectator view and overlay.
 
+## Security and end-to-end testing
+
+The earlier four npm advisories were addressed with **Vitest 5.0.5** and **Zod 4.6.7**, with their npm-generated lockfile committed after an isolated CI upgrade test. CI runs an explicit **blocking npm audit check** to catch future dependency warnings.
+
+Run `npm run smoke` to launch an isolated local backend and web test that verifies authenticated controls, demo command processing, a full quest and battle outcome, Showcase isolation, Smart Host configuration, and dashboard/spectator/OBS routes. It does **not** simulate a real Twitch EventSub connection or verify actual visual rendering.
+
+The dashboard also has a conservative **Stream launch checklist** showing Twitch socket status, whether a control token has been entered when required, rehearsal mode, and a recent real `!join` accepted from Twitch. These are operational signals, not proof of a complete live test.
+
+See [SECURITY_AND_RELEASE.md](SECURITY_AND_RELEASE.md) for the detailed audit results and final release checklist.
+
 ## Cinematic encounters and original audio
 
 The adventure now uses **distinct original SVG encounters**, rather than a single generic monster: a collapsing bridge, armored bridge raiders, a moonlit stalker, an Ember wraith, and the Ember Lord. After combat resolves, short attack/shield/heal/party-damage animations display **actual game-engine values**. The exact enemy identity is stored in the server's battle-resolution data and remains correct during the aftermath.
