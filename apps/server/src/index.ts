@@ -26,14 +26,14 @@ function handleCommand(userId: string, name: string, text: string): { accepted: 
   const at = Date.now();
   const previous = rate.get(userId) ?? 0;
   if (previous > at - 800) {
-    const result = { accepted: false, feedback: "Too fast. Wait one second between commands." };
-    recordActivity(name, text, false, result.feedback, source);
-    emit();
-    return result;
+    return { accepted: false, feedback: "Too fast. Wait one second between commands." };
   }
+  rate.set(userId, at);
+  // A large channel should not accumulate a permanent entry for every passing chatter.
+  if (rate.size > 2000) for (const [id, lastAt] of rate) { if (lastAt < at - 60000) rate.delete(id); }
   const result = applyChatCommand(state, userId, name, text);
   recordActivity(name, text, result.accepted, result.feedback, source);
-  if (result.accepted) { rate.set(userId, at); state = result.state; }
+  if (result.accepted) { state = result.state; }
   emit();
   return { accepted: result.accepted, feedback: result.feedback };
 }
