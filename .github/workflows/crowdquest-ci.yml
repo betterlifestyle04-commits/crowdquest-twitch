@@ -25,6 +25,11 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
+      - name: Audit dependency advisories (report only)
+        shell: bash
+        run: |
+          npm audit --json > npm-audit-report.json || true
+          node scripts/audit-summary.mjs npm-audit-report.json
       - name: Run tests
         run: npm test
       - name: Typecheck TypeScript
