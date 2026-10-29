@@ -73,3 +73,34 @@ describe("command feedback and real battle results", () => {
     expect(next.lastResolution).toBeNull();
   });
 });
+
+describe("solo spirit companion", () => {
+  it("makes every role capable of winning the safer route when participating", () => {
+    const roles = ["warrior", "guardian", "healer", "scout"] as const;
+    const actions = ["attack", "shield", "heal", "scout"] as const;
+    for (let i = 0; i < roles.length; i++) {
+      let state = initialState(7);
+      state = join(state, "solo", "Solo");
+      state = begin(state);
+      state = chooseRole(state, "solo", roles[i]);
+      state = advance(advance(state));
+      state = votePath(state, "solo", "B");
+      state = advance(state);
+      state = act(state, "solo", actions[i]);
+      state = advance(state);
+      expect(state.lastResolution?.companionPower).toBe(7);
+      state = advance(state);
+      state = act(state, "solo", actions[i]);
+      state = advance(state);
+      expect(state.result, "role: " + roles[i]).toBe("victory");
+      expect(state.progress).toBe(100);
+    }
+  });
+  it("does not give a solo companion bonus to inactive players", () => {
+    let state = prepare(1);
+    state = advance(state);
+    state = advance(state);
+    expect(state.lastResolution?.companionPower).toBe(0);
+    expect(state.lastResolution?.participants).toBe(0);
+  });
+});
