@@ -52,6 +52,12 @@ The cinematic visual branch adds an original illustrated world, distinctive role
 
 **Results:** a resolved final encounter records 100% journey completion whether the party wins or loses; victory and defeat remain separate outcomes. Resetting the quest increments the replay seed for new encounter variation. Changes to the quest remain local to the server and are propagated to dashboard, spectator view and overlay.
 
+## Cinematic encounters and original audio
+
+The adventure now uses **distinct original SVG encounters**, rather than a single generic monster: a collapsing bridge, armored bridge raiders, a moonlit stalker, an Ember wraith, and the Ember Lord. After combat resolves, short attack/shield/heal/party-damage animations display **actual game-engine values**. The exact enemy identity is stored in the server's battle-resolution data and remains correct during the aftermath.
+
+The dashboard and spectator mode also offer **optional original synthesized audio cues** via an `Enable sound` control. Sound is off until the listener clicks; the OBS overlay is silent by default. All animation respects reduced-motion preferences and the persistent battle report remains available without effects. See [BATTLE_FX_GUIDE.md](BATTLE_FX_GUIDE.md) for details and Windows testing.
+
 ## Smart Host (opt-in automatic phases)
 
 The streamer dashboard includes **Smart Host**, an optional automatic progression control. It is **off by default** and requires the same streamer authorization as other host controls.
