@@ -278,3 +278,7 @@
 .activity-feed time { color: #8795b5; white-space: nowrap; font-size: .6rem; font-variant-numeric: tabular-nums; }
 @media (max-width: 560px) { .activity-feed li { gap: .3rem; padding: .45rem; } .activity-feed time { font-size: .52rem; } }
 @media (prefers-reduced-motion: reduce) { .readiness-track i { transition: none; } }
+
+
+/* Host control confirmation and backend failure feedback. */
+.host-action-notice { margin: .6rem 0 0; color: #e7d7ff; padding: .6rem .75rem; background: rgba(61, 45, 88, .5); border: 1px solid rgba(170, 142, 223, .3); border-radius: .5rem; font-size: .8rem; }
