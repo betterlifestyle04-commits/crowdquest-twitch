@@ -52,6 +52,16 @@ The cinematic visual branch adds an original illustrated world, distinctive role
 
 **Results:** a resolved final encounter records 100% journey completion whether the party wins or loses; victory and defeat remain separate outcomes. Resetting the quest increments the replay seed for new encounter variation. Changes to the quest remain local to the server and are propagated to dashboard, spectator view and overlay.
 
+## Smart Host (opt-in automatic phases)
+
+The streamer dashboard includes **Smart Host**, an optional automatic progression control. It is **off by default** and requires the same streamer authorization as other host controls.
+
+During the four interactive phases (role selection, route voting, encounter, final boss), CrowdQuest checks if **all eligible participants** have submitted their input. When everyone is ready, Smart Host waits **3.5 seconds** before advancing to the next phase; the dashboard displays the countdown. Late joins or withdrawn readiness reset the grace period. Viewers may change their vote during this window.
+
+Smart Host **never** advances empty groups, paused quests, the briefing, the consequence screen, the lobby, or the results screen. It does **not** operate during simulated Showcase Studio rehearsals. Existing normal phase timers and manual Advance remain available. You can switch Smart Host off at any time.
+
+For the hackathon demonstration, keep it off while rehearsing manually, then enable it only after confirming your Twitch commands and expected role composition work correctly.
+
 ## One-click Showcase Studio (development-only)
 
 Use the new **One-click game rehearsal** card to preview a four-player encounter, Ember Lord boss fight or completed quest. It uses the real game engine but **only simulated participants with [Demo] labels**. The dashboard, spectator page and overlay display a prominent `SIMULATED REHEARSAL` watermark. Real Twitch chat commands are temporarily ignored until you press **Reset to live lobby**. This protects the user from confusing a simulated preview with genuine Twitch integration.
