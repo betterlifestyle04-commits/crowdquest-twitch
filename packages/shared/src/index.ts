@@ -98,3 +98,26 @@ export function makeRehearsal(scene: RehearsalScene, seed = 7, settings: { diffi
   if (scene === "finale") return next;
   return advance(next);
 }
+
+/** A pure, game-engine-derived readiness calculation for streamer auto-progression.
+ * Only interactive phases can become ready; idle or empty sessions never auto-advance.
+ * The counts reflect the same eligibility rules as votePath and act.
+ */
+export type PhaseReadiness = { phase: Phase; ready: number; total: number; complete: boolean };
+export function getPhaseReadiness(state: QuestState): PhaseReadiness {
+  const participants = Object.values(state.players);
+  let total = 0;
+  let ready = 0;
+  if (state.phase === "roles") {
+    total = participants.length;
+    ready = participants.filter((player) => player.role !== null).length;
+  } else if (state.phase === "path") {
+    total = participants.length;
+    ready = participants.filter((player) => Boolean(state.pathVotes[player.id])).length;
+  } else if (state.phase === "encounter" || state.phase === "finale") {
+    const eligible = participants.filter((player) => player.role !== null);
+    total = eligible.length;
+    ready = eligible.filter((player) => Boolean(state.actions[player.id])).length;
+  }
+  return { phase: state.phase, ready, total, complete: total > 0 && ready === total };
+}
