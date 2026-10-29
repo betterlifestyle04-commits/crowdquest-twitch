@@ -1,5 +1,8 @@
 # CrowdQuest
 
+> **Hackathon submission build:** The tested integrated version lives on the [`submission/integrated-crowdquest` branch](https://github.com/betterlifestyle04-commits/crowdquest-twitch/tree/submission/integrated-crowdquest). The default `main` branch is an older Twitch-working baseline, not the integrated submission. Review [SUBMISSION.md](SUBMISSION.md), [JUDGE_SETUP.md](JUDGE_SETUP.md) and [VIDEO_STORYBOARD.md](VIDEO_STORYBOARD.md) before submitting.
+
+
 CrowdQuest is a cooperative Twitch adventure for the Codex x TwitchCon Hackathon. A streamer controls **The Ember Gate** from a live dashboard, viewers play with chat commands, and a transparent OBS browser overlay reflects the authoritative game state instantly.
 
 ## What works now
@@ -70,6 +73,28 @@ apps/server       Express, Socket.IO, OAuth/EventSub adapter
 apps/web          React/Vite/Tailwind dashboard and OBS overlay
 packages/shared   Typed game engine and chat parser with Vitest tests
 ```
+
+## Submission readiness (October 30, 2026)
+
+- Full source, cinematic assets, Codex-enhanced cooperative mechanics and read-only OBS/spectator views are available **on this branch**.
+- The integrated branch passes `npm ci`, a blocking npm audit, 34 unit tests, TypeScript, production build, and a full HTTP quest smoke test.
+- Judge setup and safe demonstration paths are in [JUDGE_SETUP.md](JUDGE_SETUP.md). A draft Devpost writeup is in [SUBMISSION.md](SUBMISSION.md).
+- The final submission still requires **your real Codex session ID**, **genuine live Twitch video footage**, a **public or unlisted YouTube video under three minutes**, and clicking **Submit** in Devpost.
+- The final integrated version must be manually checked with actual Twitch chat and OBS before claiming end-to-end live verification. A previous baseline was manually tested with Twitch, but that does not certify this newer build.
+
+### Quick Windows update for the integrated branch
+
+```powershell
+cd C:\Users\anisk\crowdquest-twitch
+git status --short
+git fetch origin
+git switch --track origin/submission/integrated-crowdquest
+npm ci
+npm run smoke
+npm run dev
+```
+
+If already on the integration branch, run `git switch submission/integrated-crowdquest` and `git pull --ff-only origin submission/integrated-crowdquest` instead of `git switch --track`. Preserve local modifications before switching. Your ignored root `.env` should not be overwritten by the branch change.
 
 ## Hackathon handoff
 
