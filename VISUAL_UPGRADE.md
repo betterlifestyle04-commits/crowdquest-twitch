@@ -67,3 +67,25 @@ The private root `.env` should remain ignored and unmodified. Do not paste or co
 The SVG/TSX source received a local TypeScript syntax-transpilation check before upload. No actual browser, unit-test run, remote CI result, or live Twitch test has been performed for **this upgrade branch** from this environment. All items above still need verification before merging into `crowdquest-3-upgrade` or `main`.
 
 This branch is deliberately separate from the user's confirmed Twitch-working baseline tag `crowdquest-working-twitch-baseline`.
+
+## Gameplay polish: authoritative battle recap and truthful command handling
+
+This branch now includes another improvement pass:
+
+- Every encounter saves the real server-computed attack power, blocked damage, restored health, received damage, participants and scout-combo bonus. The post-battle scene displays these numbers in a readable animated recap. Submitted actions remain visually distinct from resolved outcomes.
+- Demo Mode shows **accepted** only for successfully applied commands. Invalid timing, role mismatches, duplicate actions, duplicate joins and fast commands receive explanations rather than falsely showing a success message.
+- Live Twitch chat and Demo Mode use the same pure command-acceptance helper. Twitch chat remains read-only; CrowdQuest does not promise to send rejected-command replies back into Twitch.
+- Final progress reaches 100% for a completed adventure whether it ends in victory or defeat, without mislabeling a defeat as victory.
+- Starting a new game with Reset uses a new incremented seed for encounter variation while game-engine tests remain deterministic.
+- An active solo player gets a visible Ember Spirit companion (+7 attack power per resolved round). This compensates for missing teammates without giving bonuses to idle players. Every role has a test-supported winning path on the safer route.
+- No changes to Twitch OAuth or EventSub credentials.
+
+### Additional manual checks
+
+1. In Demo Mode, send `!role warrior` before joining and verify the UI explains that `!join` comes first; it must not say accepted.
+2. Join, start the quest, select a role, send an invalid action during a route vote and confirm the reason is shown.
+3. Send a correct action during battle; verify it is marked queued. Advance phase and verify the **resolved** recap shows real values, not invented damage.
+4. Play the final fight and verify 100% progress for both victory and defeat, with different outcome labels.
+5. Reset and check that newly seeded encounter variation is possible.
+6. Test solo Healer and Guardian on the safer route; the Ember Spirit should appear when a lone player has selected a role.
+7. Confirm `!join` still works from actual Twitch chat and the OBS overlay reflects the same state.
