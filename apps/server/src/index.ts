@@ -1,5 +1,5 @@
 import { config as loadEnv } from "dotenv"; import express, { type NextFunction, type Request, type Response } from "express"; import cors from "cors"; import { createServer } from "node:http"; import { Server } from "socket.io"; import { z } from "zod"; import { fileURLToPath } from "node:url"; import { resolve } from "node:path"; import crypto from "node:crypto";
-import { applyChatCommand, advance, begin, getPhaseReadiness, initialState, makeRehearsal, triggerEvent, type Difficulty, type QuestState } from "@crowdquest/shared";
+import { applyChatCommand, advance, begin, canAutoAdvance, getPhaseReadiness, initialState, makeRehearsal, triggerEvent, type Difficulty, type QuestState } from "@crowdquest/shared";
 import { TwitchClient } from "./twitch.js";
 loadEnv({ path: resolve(fileURLToPath(new URL("../../../.env", import.meta.url))) });
 const port = Number(process.env.PORT ?? 3001); const origin = process.env.WEB_ORIGIN ?? "http://localhost:5173";
@@ -86,7 +86,7 @@ setInterval(() => {
   const canAutoAdvance = autoAdvanceEnabled && !rehearsalActive && getPhaseReadiness(state).complete;
   if (canAutoAdvance) {
     if (autoReadySince === null) { autoReadySince = at; emit(); }
-    if (at >= autoReadySince + AUTO_GRACE_MS) {
+    if (canAutoAdvance(state, { enabled: autoAdvanceEnabled, paused, rehearsalActive, readySince: autoReadySince, now: at, graceMs: AUTO_GRACE_MS })) {
       state = advance(state, durationMs());
       resetAutoWindow();
       emit();
