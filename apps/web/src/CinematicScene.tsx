@@ -1,5 +1,6 @@
 import React from "react";
 import type { QuestState, Role } from "@crowdquest/shared";
+import { EncounterFoe, ResolutionPlayback } from "./EncounterArtwork";
 
 /** Original vector artwork. All visual feedback derives from the authoritative game state. */
 type Props = { state: QuestState; scene: string };
@@ -24,24 +25,6 @@ function Adventurer({ role, queued, present }: { role: Role; queued: boolean; pr
       {queued && <><circle className="queued-ring" cx="0" cy="-13" r="46" fill="none" stroke={armor} strokeWidth="3" strokeDasharray="12 8" /><circle className="queued-spark" cx="46" cy="-38" r="8" fill={armor} /></>}
     </g>
   );
-}
-
-function EmberEnemy({ boss }: { boss: boolean }) {
-  return <g className={"cinema-monster " + (boss ? "overlord" : "wraith")}>
-    <ellipse cx="0" cy="60" rx={boss ? 101 : 70} ry="18" fill="#15091b" opacity=".8" />
-    <g className="monster-body">
-      <path d={boss ? "M-66 47 Q-100 -12 -57 -95 L-84 -159 -29 -128 -13 -185 17 -133 67 -167 58 -96 Q103 -18 64 47 L27 26 0 63 -27 26Z" : "M-47 51 Q-86 -24 -40 -101 L-14 -129 17 -116 43 -83 Q75 -15 47 50 L23 28 0 57 -25 28Z"} fill="url(#monsterBody)" stroke="#ff9e68" strokeWidth="4"/>
-      <path d="M-45 -36 Q0 -62 44 -36" fill="none" stroke="#f1a275" strokeWidth="4" opacity=".45" />
-      <path d="M-29 -60 0 -46 30 -61" fill="none" stroke="#f58e6b" strokeWidth="3" />
-      <path d="M-31 -91 0 -85 30 -91" fill="none" stroke="#ffb06e" strokeWidth="6" opacity=".7" />
-      <path d="M-32 -24 0 -12 32 -24" fill="none" stroke="#230c1f" strokeWidth="5" />
-      <path d="M-36 -79 0 -67 34 -79 15 -56 -16 -56Z" fill="#180c21" />
-      <path d="M-25 -74 -7 -70 -15 -63Z M8 -70 25 -74 16 -63Z" fill="#fff0a1" className="monster-eyes"/>
-      {boss && <><path d="M-52 -106 -76 -154 -30 -127 M52 -106 76 -154 30 -127" fill="none" stroke="#ffc06d" strokeWidth="9" strokeLinecap="round" /><path d="M-46 -118 0 -155 46 -118" fill="none" stroke="#ffd48b" strokeWidth="6" /></>}
-      <circle cx="0" cy="-32" r="12" fill="#ffb45c" className="monster-core" />
-    </g>
-    <circle className="monster-flame" cx="-66" cy="-92" r="7" fill="#ffad63"/><circle className="monster-flame delay" cx="66" cy="-59" r="5" fill="#f86e53" />
-  </g>;
 }
 
 export function CinematicScene({ state, scene }: Props) {
@@ -75,7 +58,8 @@ export function CinematicScene({ state, scene }: Props) {
       <ellipse cx="610" cy="416" rx="700" ry="55" fill="#be93db" opacity=".045" className="cinematic-fog" />
       {(scene === "camp" || scene === "crossroads") && <g className="cinematic-fire"><ellipse cx="800" cy="426" rx="73" ry="20" fill="#f79551" opacity=".24"/><path d="M777 433 800 379 825 432" stroke="#a0735b" strokeWidth="11" strokeLinecap="round" fill="none"/><path d="M790 418 Q778 391 805 359 Q827 384 813 420 Q832 402 821 383 Q852 431 802 445 Q774 440 790 418Z" fill="#ff9d55"/><path d="M796 430 Q791 402 807 386 Q817 414 808 437Z" fill="#fff0ae"/></g>}
       <g className="cinematic-party-art">{roles.map((role,i)=><g key={role} transform={"translate("+(156+i*126)+" 362) scale(1.46)"}><Adventurer role={role} present={countByRole[role]>0} queued={queued.has(role)}/></g>)}</g>
-      {participants.length === 1 && participants[0].role && <g className="ember-companion" transform="translate(665 344)"><ellipse cx="0" cy="0" rx="33" ry="46" fill="#b9f6ed" opacity=".09"/><circle className="spirit-light" cx="0" cy="-12" r="22" fill="#9aead8" opacity=".29"/><circle className="spirit-core" cx="0" cy="-12" r="9" fill="#eaffd0" stroke="#8ff3d8" strokeWidth="3"/><path d="M-15 7 Q0 37 16 7" stroke="#8ff3d8" strokeWidth="4" fill="none" opacity=".65"/></g>}{showEnemy && <g transform={"translate(947 356) scale("+(boss?1.15:.85)+")"}><EmberEnemy boss={boss}/></g>}
+      {participants.length === 1 && participants[0].role && <g className="ember-companion" transform="translate(665 344)"><ellipse cx="0" cy="0" rx="33" ry="46" fill="#b9f6ed" opacity=".09"/><circle className="spirit-light" cx="0" cy="-12" r="22" fill="#9aead8" opacity=".29"/><circle className="spirit-core" cx="0" cy="-12" r="9" fill="#eaffd0" stroke="#8ff3d8" strokeWidth="3"/><path d="M-15 7 Q0 37 16 7" stroke="#8ff3d8" strokeWidth="4" fill="none" opacity=".65"/></g>}{showEnemy && <g transform={"translate(947 356) scale("+(boss?1.15:.85)+")"}><EncounterFoe encounter={state.encounter} boss={boss}/></g>}
+      {state.lastResolution && (state.phase === "consequence" || state.phase === "result") && <ResolutionPlayback key={state.lastResolution.phase + "-" + state.lastResolution.at} resolution={state.lastResolution}/>}
       {state.result === "victory" && <g className="cinematic-triumph"><path d="M860 195 945 145 1030 195" fill="none" stroke="#fff2b3" strokeWidth="8"/><circle cx="945" cy="140" r="27" fill="#ffe9a1" opacity=".8"/></g>}
       {state.activeEvent === "emberstorm" && <path d="M110 0 160 85 128 90 204 190" fill="none" stroke="#ffbb84" strokeWidth="9" className="storm-strike"/>}
     </svg>
