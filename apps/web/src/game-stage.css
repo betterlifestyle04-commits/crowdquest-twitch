@@ -244,6 +244,15 @@
 .broadcast-badge { padding: .42rem .58rem; border: 1px solid #5c5b82; border-radius: 999px; color: #c2bed7; font-size: .56rem; font-weight: 900; letter-spacing: .06em; white-space: nowrap; }
 .broadcast-badge.live { border-color: #62e6b4; background: rgba(44, 120, 95, .26); color: #a5ffd9; box-shadow: 0 0 13px rgba(84, 239, 174, .16); }
 .broadcast-badge.rehearsal { background: rgba(65, 59, 93, .38); color: #cbc4e7; }
+.leaderboard li { position: relative; transition: background .2s ease, transform .2s ease; }
+.leaderboard li:hover { border-radius: .45rem; background: rgba(105, 80, 173, .14); transform: translateX(3px); }
+.leaderboard li:nth-child(1) .rank { color: #ffe18a; text-shadow: 0 0 10px rgba(255, 212, 100, .65); }
+.leaderboard li:nth-child(2) .rank { color: #d8e3ff; }
+.leaderboard li:nth-child(3) .rank { color: #edbb8a; }
+.leaderboard li:nth-child(1) .avatar { border: 1px solid #ffd777; background: linear-gradient(145deg, #87622c, #4b356d); box-shadow: 0 0 13px rgba(255, 204, 97, .25); }
+.leaderboard li:nth-child(2) .avatar { border: 1px solid #c4d5f3; }
+.leaderboard li:nth-child(3) .avatar { border: 1px solid #dba878; }
+.leaderboard li>b::after { content: " CONTRIBUTIONS"; margin-left: .22rem; color: #9891bc; font-size: .48rem; font-weight: 800; letter-spacing: .06em; }
 
 @media (max-width: 460px) {
   .action-board { bottom: 15%; gap: .18rem; }
