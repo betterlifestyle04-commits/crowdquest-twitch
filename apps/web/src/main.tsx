@@ -32,6 +32,7 @@ function GameStage({ state, overlay = false }: { state: LiveState; overlay?: boo
     {state.paused && <div className="pause-scene"><i>Ⅱ</i><b>QUEST PAUSED</b><span>The expedition awaits the host.</span></div>}
     {scene === "camp" && <div className="campfire"><i /><i /><i /></div>}
     {scene === "briefing" && <div className="distant-gate"><i /><b>THE EMBER GATE</b></div>}
+    {scene === "gate" && <div className="ember-portal"><i /><i /><i /></div>}
     {scene === "aftermath" && state.history[0] && <div className="aftermath-report"><b>ROUND RESOLVED</b><span>{state.history[0].text}</span></div>}
     <div className={`supply-cache ${state.supplies === 0 ? "empty" : state.supplies <= 1 ? "low" : ""}`} aria-label={`${state.supplies} shared supplies`}><span>▣</span><b>{state.supplies}</b><small>supplies</small></div>
     {!(state.phase === "encounter" || state.phase === "finale") && rollCall.length > 0 && <div className="roll-call"><b>ANSWERING THE CALL</b>{rollCall.map((player) => <span key={player.id}><i>{player.name.slice(0, 1).toUpperCase()}</i>{player.name}</span>)}</div>}
