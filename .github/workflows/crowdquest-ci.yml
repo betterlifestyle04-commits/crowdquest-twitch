@@ -30,9 +30,13 @@ jobs:
         run: |
           npm audit --json > npm-audit-report.json || true
           node scripts/audit-summary.mjs npm-audit-report.json
+      - name: Block new dependency advisories
+        run: npm audit --audit-level=moderate
       - name: Run tests
         run: npm test
       - name: Typecheck TypeScript
         run: npm run typecheck
       - name: Build application
         run: npm run build
+      - name: Smoke test running web and API
+        run: npm run smoke
