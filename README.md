@@ -6,7 +6,7 @@ CrowdQuest is a cooperative Twitch adventure for the Codex x TwitchCon Hackathon
 
 - Real-time dashboard and OBS overlay synchronized through Socket.IO.
 - Complete Demo Mode, clearly labeled as simulation, which sends the same commands through the server as Twitch chat.
-- A playable cooperative quest: joins, duplicate-safe path votes, action selection, shared health/supplies/threat, timed phase transitions, results, and individual contribution totals.
+- A playable cooperative quest: joins, duplicate-safe path votes, action selection, a four-role Formation bonus, shared health/supplies/threat, timed phase transitions, results, and individual contribution totals.
 - Validated chat parser plus game-mechanics tests.
 - Credential-gated Twitch OAuth callback and EventSub WebSocket client for `channel.chat.message`; no token is exposed to the browser.
 
@@ -45,9 +45,9 @@ npm run build
 ## Game rules: The Ember Gate
 
 1. Players join in the lobby with `!join`, then choose a role: Warriors use `!act attack`, Guardians use `!act shield`, Healers use `!act heal`, and Scouts use `!act scout`.
-2. The quest advances through a mission briefing, route vote, collapsing-bridge encounter, consequence, and Ember Gate finale. Each player gets one replaceable vote or role-compatible action per phase.
+2. The quest advances through a mission briefing, route vote, encounter, consequence, and Ember Gate finale. Each player gets one replaceable vote or role-compatible action per phase.
 3. `!path A` selects the dangerous Sunken Bridge (extra supplies, more threat); `!path B` selects the Moonlit Pass (less threat).
-4. Warriors reduce threats, Guardians reduce damage, Healers consume shared supplies to restore health, and Scouts lower encounter uncertainty. The deterministic session seed keeps outcomes reproducible for tests.
+4. Warriors reduce threats, Guardians reduce damage, Healers consume shared supplies to restore health, and Scouts lower encounter uncertainty. A round containing all four role actions earns a Formation bonus that weakens the enemy assault. Initial role selection and the first route vote both count as one contribution; changing either choice does not inflate a player's score. The deterministic session seed keeps outcomes reproducible for tests.
 
 The server validates phase eligibility and participant identity, makes all phase transitions, and rate-limits each chatter to one accepted command every 800 ms. In production, dashboard and Demo Mode controls require `STREAMER_CONTROL_TOKEN` entered in the in-page streamer control field. It is sent as an authorization header and is never compiled into the frontend or stored in the repository. Read-only state and the OBS overlay have no control authority.
 
