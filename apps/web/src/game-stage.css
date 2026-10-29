@@ -117,6 +117,13 @@
 .phase-banner b { font-size: clamp(1rem, 2.2vw, 1.7rem); letter-spacing: .09em; }
 .audience-link { position: absolute; z-index: 19; top: 4.7rem; right: 1.15rem; padding: .38rem .52rem; border: 1px solid rgba(126, 224, 202, .6); border-radius: .5rem; background: rgba(9, 20, 33, .78); color: #a7ffe1; font-size: .58rem; font-weight: 900; text-decoration: none; text-shadow: 0 2px 4px #000; }
 .audience-link:hover { border-color: #e5d48e; color: #fff0ba; }
+.transport-badge { position: absolute; z-index: 19; top: 1rem; right: 1.15rem; padding: .34rem .5rem; border: 1px solid #5a5579; border-radius: 999px; background: rgba(9, 20, 33, .84); color: #c7c1e5; font-size: .52rem; font-weight: 900; letter-spacing: .08em; }
+.transport-badge.live { border-color: #54dfaa; color: #9effd5; box-shadow: 0 0 14px rgba(70, 226, 161, .2); }
+.transport-badge.connecting { border-color: #e0c86e; color: #ffeb9a; }
+.transport-badge.offline { border-color: #e6767c; color: #ffb7b9; animation: transportPulse 1.25s infinite alternate; }
+.sync-warning { position: absolute; z-index: 21; top: 3.05rem; right: 1.15rem; max-width: 13.5rem; padding: .48rem .58rem; border: 1px solid rgba(243, 111, 120, .72); border-radius: .5rem; background: rgba(63, 18, 32, .92); color: #ffd8d9; font-size: .58rem; line-height: 1.35; box-shadow: 0 8px 20px rgba(0, 0, 0, .3); }
+.sync-warning b { color: #fff2d0; }
+@keyframes transportPulse { to { box-shadow: 0 0 16px rgba(238, 91, 103, .44); } }
 .stage-footer span:nth-child(3) { color: #ffe0a0; }
 
 .pause-scene { position: absolute; z-index: 25; inset: 0; display: grid; place-content: center; justify-items: center; gap: .38rem; background: rgba(9, 12, 27, .7); backdrop-filter: grayscale(.55) blur(2px); color: #fff1bf; text-align: center; text-shadow: 0 3px 10px #000; }
