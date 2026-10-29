@@ -52,6 +52,14 @@ The cinematic visual branch adds an original illustrated world, distinctive role
 
 **Results:** a resolved final encounter records 100% journey completion whether the party wins or loses; victory and defeat remain separate outcomes. Resetting the quest increments the replay seed for new encounter variation. Changes to the quest remain local to the server and are propagated to dashboard, spectator view and overlay.
 
+## One-click Showcase Studio (development-only)
+
+Use the new **One-click game rehearsal** card to preview a four-player encounter, Ember Lord boss fight or completed quest. It uses the real game engine but **only simulated participants with [Demo] labels**. The dashboard, spectator page and overlay display a prominent `SIMULATED REHEARSAL` watermark. Real Twitch chat commands are temporarily ignored until you press **Reset to live lobby**. This protects the user from confusing a simulated preview with genuine Twitch integration.
+
+The full streamer dashboard now also displays the end-of-game **Community chronicle** with a **Copy quest recap** button. It includes outcome, route, top contributors and highlights, explicitly labeling simulated and mixed sessions. If clipboard access is unavailable, a text field appears for manual copying. This is intended for streamer notes, not as a substitute for recording a real Twitch test.
+
+See [SHOWCASE_GUIDE.md](SHOWCASE_GUIDE.md) for setup and verification.
+
 ## Game rules: The Ember Gate
 
 1. Players join in the lobby with `!join`, then choose a role: Warriors use `!act attack`, Guardians use `!act shield`, Healers use `!act heal`, and Scouts use `!act scout`.
