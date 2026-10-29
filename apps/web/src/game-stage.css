@@ -129,6 +129,10 @@
 .game-stage.formation-active .party { filter: drop-shadow(0 0 16px rgba(132, 255, 218, .8)); }
 .game-stage.formation-active .hero-unit.present span { border-color: #9affd2; box-shadow: 0 0 18px rgba(116, 255, 195, .55), 0 9px 15px #080817; }
 .game-stage.formation-active .stage-atmosphere { background: radial-gradient(ellipse at 42% 68%, rgba(97, 249, 190, .24), transparent 42%); }
+.game-stage.party-complete .party { filter: drop-shadow(0 0 15px rgba(211, 161, 255, .72)); }
+.game-stage.party-complete .hero-unit.present span { border-color: #e2c2ff; box-shadow: 0 0 16px rgba(205, 137, 255, .48), 0 9px 15px #080817; }
+.game-stage.party-complete .battle-signal { color: #fff0b4; }
+.game-stage.party-complete .battle-signal::after { content: " · FULL PARTY"; color: #ffe08d; font-size: .5rem; }
 .game-stage.crossroads.route-ahead-a .stage-sky { background: radial-gradient(circle at 32% 30%, rgba(255, 174, 92, .42), transparent 16%), linear-gradient(145deg, #3d2342, #522648 58%, #191229); }
 .game-stage.crossroads.route-ahead-a .stage-atmosphere { background: radial-gradient(ellipse at 38% 72%, rgba(255, 135, 73, .22), transparent 42%); }
 .game-stage.crossroads.route-ahead-b .stage-sky { background: radial-gradient(circle at 70% 24%, rgba(200, 223, 255, .5), transparent 11%), linear-gradient(145deg, #172b59, #2d2c67 62%, #15142d); }
