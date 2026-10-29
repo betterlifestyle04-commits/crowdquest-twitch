@@ -165,3 +165,43 @@
     transition-duration: .01ms !important;
   }
 }
+
+/* Actual round outcomes: values come from the server's resolved quest state. */
+.cinematic-stage .battle-report {
+  position: absolute;
+  z-index: 21;
+  right: 2%;
+  bottom: 14%;
+  width: min(335px, 43%);
+  padding: .85rem 1rem;
+  border: 1px solid rgba(245, 202, 134, .64);
+  border-radius: 1rem;
+  color: #fff3db;
+  background: linear-gradient(140deg, rgba(19, 18, 47, .95), rgba(55, 28, 52, .91));
+  box-shadow: 0 15px 60px rgba(10, 4, 20, .55), 0 0 30px rgba(255, 199, 127, .13);
+  backdrop-filter: blur(8px);
+  animation: combat-report-enter .7s ease-out both;
+}
+.battle-report-heading { display: block; color: #ffdf94; font-size: .7rem; font-weight: 950; letter-spacing: .13em; }
+.battle-report-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .45rem; margin: .65rem 0; }
+.battle-report-grid span { display: grid; gap: .1rem; border: 1px solid rgba(240, 218, 243, .15); border-radius: .5rem; padding: .35rem .5rem; background: rgba(9, 12, 32, .43); }
+.battle-report-grid b { color: #fff; font-size: 1.08rem; }
+.battle-report-grid small, .battle-report > small { color: #cdd5ec; font-size: .63rem; }
+.battle-report-grid span:nth-child(2) b { color: #a5d5ff; }
+.battle-report-grid span:nth-child(3) b { color: #8cf2c6; }
+.battle-report-grid span:nth-child(4) b { color: #ffb4a1; }
+@keyframes combat-report-enter {
+  from { opacity: 0; transform: translateY(26px) scale(.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 750px) {
+  .cinematic-stage .battle-report { right: 1%; bottom: 10%; width: min(255px, 55%); padding: .5rem; }
+  .battle-report-heading { font-size: .58rem; }
+  .battle-report-grid { gap: .2rem; margin: .3rem 0; }
+  .battle-report-grid span { padding: .25rem; }
+  .battle-report-grid b { font-size: .77rem; }
+  .battle-report-grid small, .battle-report > small { font-size: .5rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-stage .battle-report { animation: none; }
+}
