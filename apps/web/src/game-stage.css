@@ -183,8 +183,10 @@
 .hero-unit.awaiting-command b::after { content: " · READY"; color: #ffe8a0; font-size: .45rem; }
 .game-stage:has(.stage-event.rally) .stage-atmosphere { background: radial-gradient(ellipse at 44% 72%, rgba(87, 255, 190, .36), transparent 46%); animation: rallyGlow .8s infinite alternate; }
 .game-stage:has(.stage-event.rally) .party { filter: drop-shadow(0 0 16px rgba(99, 255, 194, .9)); }
+.game-stage:has(.stage-event.rally) .supply-cache { border-color: #9affd3; color: #d5ffed; box-shadow: 0 0 20px rgba(94, 255, 188, .6); animation: cacheRefresh .7s infinite alternate; }
 .game-stage:has(.stage-event.emberstorm) .stage-sky { background: radial-gradient(circle at 68% 16%, rgba(255, 234, 180, .9) 0 2%, rgba(225, 63, 64, .42) 3%, transparent 16%), linear-gradient(145deg, #4d1b38, #240f28 65%, #111126); animation: stormFlash 1s infinite steps(2, end); }
 .game-stage:has(.stage-event.emberstorm) .stage-atmosphere { background: radial-gradient(ellipse at 50% 50%, rgba(255, 76, 57, .28), transparent 55%); }
+.game-stage:has(.stage-event.emberstorm) .enemy-health i { background: #ffbc66; box-shadow: 0 0 8px rgba(255, 105, 63, .82); }
 
 @keyframes criticalBreath { to { opacity: .55; filter: saturate(1.35); } }
 @keyframes threatPulse { to { filter: saturate(1.45) brightness(1.13); } }
@@ -200,6 +202,7 @@
 @keyframes torchFlicker { to { transform: scale(.78, 1.12) rotate(-5deg); filter: brightness(1.3); } }
 @keyframes rallyGlow { to { filter: brightness(1.25); } }
 @keyframes stormFlash { 50% { filter: brightness(1.65) contrast(1.12); } }
+@keyframes cacheRefresh { to { filter: brightness(1.35); } }
 
 .enemy.bridge-raiders {
   width: 118px;
