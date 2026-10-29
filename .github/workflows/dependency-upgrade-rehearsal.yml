@@ -1,0 +1,45 @@
+name: Dependency upgrade rehearsal
+
+on:
+  push:
+    branches:
+      - chatgpt/cinematic-visuals
+    paths:
+      - .github/workflows/dependency-upgrade-rehearsal.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rehearse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install baseline
+        run: npm ci
+      - name: Generate upgraded package manifest and lockfile
+        run: |
+          npm install --package-lock-only --save-dev vitest@5.0.5
+          npm install --package-lock-only --workspace @crowdquest/server zod@4.6.7
+      - name: Install upgraded dependencies
+        run: npm ci
+      - name: Run tests against upgraded versions
+        run: npm test
+      - name: Check TypeScript
+        run: npm run typecheck
+      - name: Build production bundle
+        run: npm run build
+      - name: Audit upgraded dependencies
+        run: |
+          npm audit --json > audit-upgraded.json || true
+          node scripts/audit-summary.mjs audit-upgraded.json
+      - name: Print proposed manifest and lockfile patch
+        if: always()
+        run: |
+          git diff -- package.json apps/server/package.json package-lock.json
