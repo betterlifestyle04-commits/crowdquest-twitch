@@ -121,3 +121,18 @@ export function getPhaseReadiness(state: QuestState): PhaseReadiness {
   }
   return { phase: state.phase, ready, total, complete: total > 0 && ready === total };
 }
+
+/** Testable guard for the Smart Host grace period.
+ * Manual timers and streamer Advance remain independent of this opt-in behavior. */
+export function canAutoAdvance(
+  state: QuestState,
+  options: { enabled: boolean; paused: boolean; rehearsalActive: boolean; readySince: number | null; now: number; graceMs: number }
+): boolean {
+  return options.enabled
+    && !options.paused
+    && !options.rehearsalActive
+    && state.phaseEndsAt !== null
+    && options.readySince !== null
+    && options.now >= options.readySince + Math.max(0, options.graceMs)
+    && getPhaseReadiness(state).complete;
+}
