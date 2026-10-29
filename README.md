@@ -42,6 +42,16 @@ npm run typecheck
 npm run build
 ```
 
+## Gameplay & visual upgrades (draft branch)
+
+The cinematic visual branch adds an original illustrated world, distinctive role avatars, the Ember Lord and a server-derived battle-resolution panel. During a battle, submitted actions glow as **queued**; after each round, the overlay displays the **actual resolved** attack, blocked damage, restored health and damage taken. These are not fabricated effects.
+
+**Solo play:** a lone active adventurer receives an Ember Spirit companion (+7 attack power when submitting a valid battle action). It appears in the scene, and the battle recap identifies its contribution. Every role can finish the safer route in the deterministic test scenario; harder settings and risky routes still have genuine failure risk.
+
+**Command acceptance:** Demo Mode now distinguishes an accepted command from a rejected one and explains wrong phases, missing roles, invalid abilities, duplicate joins and cooldowns. Twitch messages use the same authoritative rules but are not automatically echoed into Twitch chat.
+
+**Results:** a resolved final encounter records 100% journey completion whether the party wins or loses; victory and defeat remain separate outcomes. Resetting the quest increments the replay seed for new encounter variation. Changes to the quest remain local to the server and are propagated to dashboard, spectator view and overlay.
+
 ## Game rules: The Ember Gate
 
 1. Players join in the lobby with `!join`, then choose a role: Warriors use `!act attack`, Guardians use `!act shield`, Healers use `!act heal`, and Scouts use `!act scout`.
