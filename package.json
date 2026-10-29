@@ -13,7 +13,8 @@
     "dev": "concurrently -n server,web -c magenta,cyan \"npm run dev -w @crowdquest/server\" \"npm run dev -w @crowdquest/web\"",
     "build": "npm run build -w @crowdquest/web && npm run typecheck -w @crowdquest/shared && npm run typecheck -w @crowdquest/server",
     "typecheck": "npm run typecheck --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present"
+    "test": "npm run test --workspaces --if-present",
+    "smoke": "node scripts/smoke-test.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
