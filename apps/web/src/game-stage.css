@@ -38,7 +38,8 @@
   z-index: 14;
   left: 50%;
   bottom: 7%;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
   gap: .35rem;
   transform: translateX(-50%);
 }
@@ -62,6 +63,9 @@
 .action-board span.active { border-color: #f5d27d; color: #fff0ba; box-shadow: 0 0 14px rgba(245, 210, 125, .26); }
 .action-board b { font-size: .9rem; }
 .action-board small { grid-column: 1 / -1; color: inherit; font-size: .48rem; letter-spacing: .06em; text-transform: uppercase; }
+.action-readiness { grid-column: 1 / -1; display: grid; gap: .18rem; padding: 0 .12rem; color: #d6ddfb; font-size: .5rem; font-weight: 900; letter-spacing: .07em; text-align: center; text-transform: uppercase; }
+.action-readiness i { display: block; height: .22rem; overflow: hidden; border-radius: 999px; background: #272540; }
+.action-readiness em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7ce8c0, #f5d27d); transition: width .45s ease; }
 
 .battle-signal {
   display: flex;
