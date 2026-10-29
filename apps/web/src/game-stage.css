@@ -110,6 +110,14 @@
 .pause-scene b { font-size: clamp(1rem, 2.1vw, 1.5rem); letter-spacing: .13em; }
 .pause-scene span { color: #d5cdee; font-size: .67rem; letter-spacing: .06em; }
 
+.game-stage.health-strained .stage-atmosphere { background: radial-gradient(ellipse at 44% 72%, rgba(222, 111, 66, .2), transparent 42%); }
+.game-stage.health-critical { border-color: rgba(247, 107, 112, .78); box-shadow: 0 0 55px rgba(211, 57, 72, .31); }
+.game-stage.health-critical .stage-atmosphere { background: radial-gradient(ellipse at 44% 72%, rgba(234, 56, 58, .38), transparent 48%); animation: criticalBreath 1.2s infinite alternate; }
+.game-stage.health-critical .scene-sign b { color: #ffd0d2; }
+.game-stage.health-critical .battle-signal i { background: #ff7777; box-shadow: 0 0 10px #ff4f5a; }
+
+@keyframes criticalBreath { to { opacity: .55; filter: saturate(1.35); } }
+
 .enemy.bridge-raiders {
   width: 118px;
   height: 102px;
