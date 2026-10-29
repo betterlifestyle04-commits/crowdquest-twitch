@@ -141,6 +141,10 @@
 .distant-gate { position: absolute; z-index: 6; right: 23%; bottom: 22%; display: grid; place-items: end center; width: 85px; height: 126px; border: 5px solid #f08b50; border-bottom: 0; border-radius: 48px 48px 0 0; background: radial-gradient(ellipse at 50% 80%, rgba(255, 96, 40, .94), rgba(118, 28, 46, .55) 48%, transparent 68%); box-shadow: 0 0 36px rgba(255, 95, 45, .62), inset 0 0 24px rgba(255, 208, 118, .45); animation: gateBeacon 1.8s infinite alternate; }
 .distant-gate i { position: absolute; top: 17%; width: 23px; height: 23px; border: 3px solid #ffdc89; border-radius: 50%; box-shadow: 0 0 14px #ffcc72; }
 .distant-gate b { position: absolute; bottom: -1.4rem; width: 150%; color: #ffc7a3; font-size: .55rem; text-align: center; text-shadow: 0 2px 4px #000; }
+.supply-cache { position: absolute; z-index: 10; bottom: 17%; left: 62%; display: grid; grid-template-columns: auto auto; align-items: center; column-gap: .26rem; padding: .3rem .46rem; border: 1px solid rgba(232, 181, 103, .5); border-radius: .45rem; background: rgba(45, 30, 38, .76); color: #ffe1a2; font-size: .69rem; font-weight: 950; text-shadow: 0 2px 4px #000; transform: translateX(-50%); }
+.supply-cache span { color: #f5bd65; font-size: .85rem; }
+.supply-cache small { grid-column: 1 / -1; color: #e8cda4; font-size: .42rem; font-weight: 800; letter-spacing: .1em; text-align: center; text-transform: uppercase; }
+.game-stage.gate .supply-cache { border-color: #ffad71; }
 .hero-unit.awaiting-command span { border-color: #f3d77f; box-shadow: 0 0 13px rgba(255, 216, 114, .38), 0 9px 15px #080817; animation: awaitingPrompt 1.1s infinite alternate; }
 .hero-unit.awaiting-command b::after { content: " · READY"; color: #ffe8a0; font-size: .45rem; }
 .game-stage:has(.stage-event.rally) .stage-atmosphere { background: radial-gradient(ellipse at 44% 72%, rgba(87, 255, 190, .36), transparent 46%); animation: rallyGlow .8s infinite alternate; }
