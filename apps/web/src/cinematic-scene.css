@@ -205,3 +205,10 @@
 @media (prefers-reduced-motion: reduce) {
   .cinematic-stage .battle-report { animation: none; }
 }
+
+/* A real gameplay affordance: the Ember Spirit appears only in solo sessions. */
+.ember-companion { filter: drop-shadow(0 0 18px rgba(156, 248, 218, .8)); animation: companion-hover 2.1s ease-in-out infinite alternate; }
+.ember-companion .spirit-light { animation: companion-pulse 1.6s ease-in-out infinite alternate; }
+@keyframes companion-hover { from { transform: translate(665px, 339px); } to { transform: translate(665px, 354px); } }
+@keyframes companion-pulse { from { opacity: .16; } to { opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .ember-companion, .ember-companion .spirit-light { animation: none; } }
