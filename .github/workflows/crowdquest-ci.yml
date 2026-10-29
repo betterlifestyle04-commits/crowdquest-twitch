@@ -1,0 +1,42 @@
+name: CrowdQuest quality checks
+
+on:
+  push:
+    branches:
+      - main
+      - crowdquest-3-upgrade
+      - chatgpt/cinematic-visuals
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Audit dependency advisories (report only)
+        shell: bash
+        run: |
+          npm audit --json > npm-audit-report.json || true
+          node scripts/audit-summary.mjs npm-audit-report.json
+      - name: Block new dependency advisories
+        run: npm audit --audit-level=moderate
+      - name: Run tests
+        run: npm test
+      - name: Typecheck TypeScript
+        run: npm run typecheck
+      - name: Build application
+        run: npm run build
+      - name: Smoke test running web and API
+        run: npm run smoke

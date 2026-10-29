@@ -1,0 +1,134 @@
+#!/usr/bin/env node
+/** Local HTTP integration smoke tests; deliberately never connects to Twitch. */
+import { spawn } from "node:child_process";
+import { fileURLToPath } from "node:url";
+import { resolve } from "node:path";
+import assert from "node:assert/strict";
+
+const root = fileURLToPath(new URL("../", import.meta.url));
+const appRoot = resolve(root, "apps/web");
+const port = 3107;
+const webPort = 5177;
+const token = "local-test-only-not-a-credential";
+const host = "http://127.0.0.1:" + port;
+const web = "http://127.0.0.1:" + webPort;
+const children = [];
+const output = [];
+
+function start(args, cwd, env) {
+  const proc = spawn(process.execPath, args, {
+    cwd, env: { ...process.env, ...env },
+    detached: process.platform !== "win32",
+    stdio: ["ignore", "pipe", "pipe"]
+  });
+  const capture = (chunk) => {
+    output.push(String(chunk).slice(-1500));
+    if (output.length > 35) output.shift();
+  };
+  proc.stdout?.on("data", capture);
+  proc.stderr?.on("data", capture);
+  children.push(proc);
+  return proc;
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+async function waitFor(url, timeoutMs = 18000) {
+  const startAt = Date.now();
+  while (Date.now() - startAt < timeoutMs) {
+    try {
+      const response = await fetch(url, { signal: AbortSignal.timeout(1500) });
+      if (response.ok) return response;
+    } catch { /* Service not started yet. */ }
+    await sleep(250);
+  }
+  throw new Error("Timed out waiting for " + url + "\n" + output.join("\n"));
+}
+
+async function request(path, { method = "GET", body, authorized = false } = {}) {
+  const response = await fetch(host + path, {
+    method,
+    headers: {
+      ...(authorized ? { Authorization: "Bearer " + token } : {}),
+      ...(body !== undefined ? { "Content-Type": "application/json" } : {})
+    },
+    ...(body === undefined ? {} : { body: JSON.stringify(body) })
+  });
+  const json = await response.json().catch(() => ({}));
+  return { status: response.status, body: json };
+}
+const post = (path, body) => request(path, { method: "POST", body, authorized: true });
+const chat = (message) => post("/api/demo/chat", { id: "smoke", name: "Smoke [TEST]", message });
+
+function shutdown() {
+  for (const proc of children.reverse()) {
+    if (!proc.pid || proc.exitCode !== null) continue;
+    try {
+      if (process.platform !== "win32") process.kill(-proc.pid, "SIGTERM");
+      else proc.kill("SIGTERM");
+    } catch { /* Process may already have stopped. */ }
+  }
+}
+process.on("SIGINT", () => { shutdown(); process.exitCode = 130; });
+process.on("SIGTERM", () => { shutdown(); process.exitCode = 143; });
+
+try {
+  start([resolve(root, "node_modules/tsx/dist/cli.mjs"), "apps/server/src/index.ts"], root, {
+    PORT: String(port),
+    WEB_ORIGIN: web,
+    NODE_ENV: "development",
+    STREAMER_CONTROL_TOKEN: token,
+    TWITCH_CLIENT_ID: "",
+    TWITCH_CLIENT_SECRET: "",
+    TWITCH_REDIRECT_URI: host + "/auth/twitch/callback"
+  });
+  const vite = resolve(appRoot, "node_modules/vite/bin/vite.js");
+  start([vite, "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], appRoot, {});
+  await Promise.all([waitFor(host + "/health"), waitFor(web + "/")]);
+  for (const path of ["/", "/overlay", "/spectator"]) {
+    const response = await waitFor(web + path);
+    const html = await response.text();
+    assert.match(html, /id="root"/);
+  }
+  assert.equal((await request("/api/control/start", { method: "POST" })).status, 401, "Streamer controls must require the token");
+  assert.equal((await post("/api/control/start")).status, 200);
+  assert.equal((await chat("!join")).body.accepted, true);
+  await sleep(825);
+  assert.equal((await chat("!role warrior")).body.accepted, true);
+  assert.equal((await post("/api/control/advance")).body.phase, "briefing");
+  assert.equal((await post("/api/control/advance")).body.phase, "path");
+  await sleep(825);
+  assert.equal((await chat("!path B")).body.accepted, true);
+  assert.equal((await post("/api/control/advance")).body.phase, "encounter");
+  await sleep(825);
+  assert.equal((await chat("!act attack")).body.accepted, true);
+  let outcome = await post("/api/control/advance");
+  assert.equal(outcome.body.phase, "consequence");
+  assert.ok(outcome.body.lastResolution.attackPower > 0);
+  assert.equal((await post("/api/control/advance")).body.phase, "finale");
+  await sleep(825);
+  assert.equal((await chat("!act attack")).body.accepted, true);
+  outcome = await post("/api/control/advance");
+  assert.equal(outcome.body.phase, "result");
+  assert.equal(outcome.body.progress, 100);
+  assert.ok(["victory", "defeat"].includes(outcome.body.result));
+  assert.equal((await post("/api/control/reset")).body.phase, "lobby");
+  const badPreview = await post("/api/demo/rehearsal", { scene: "untrusted" });
+  assert.equal(badPreview.status, 400);
+  const preview = await post("/api/demo/rehearsal", { scene: "finale" });
+  assert.equal(preview.status, 200);
+  const snapshot = await request("/api/state");
+  assert.equal(snapshot.body.rehearsalActive, true);
+  assert.equal(snapshot.body.phase, "finale");
+  assert.ok(Object.values(snapshot.body.players).every((player) => player.name.endsWith("[Demo]")));
+  assert.equal((await post("/api/control/reset")).body.phase, "lobby");
+  assert.equal((await post("/api/session/auto-advance", { enabled: true })).status, 200);
+  assert.equal((await request("/api/state")).body.autoAdvance, true);
+  assert.equal((await post("/api/session/auto-advance", { enabled: "not a boolean" })).status, 400);
+  console.log("SMOKE TEST PASS: authenticated controls, chat, full quest, rehearsal isolation, auto-advance config, dashboard/OBS/spectator HTTP routes.");
+} catch (error) {
+  console.error("SMOKE TEST FAIL:", error instanceof Error ? error.stack : String(error));
+  console.error(output.join("\n"));
+  process.exitCode = 1;
+} finally {
+  shutdown();
+}
