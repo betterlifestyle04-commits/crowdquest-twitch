@@ -83,8 +83,8 @@ setInterval(() => {
     return;
   }
   const at = Date.now();
-  const canAutoAdvance = autoAdvanceEnabled && !rehearsalActive && getPhaseReadiness(state).complete;
-  if (canAutoAdvance) {
+  const readyForAuto = autoAdvanceEnabled && !rehearsalActive && getPhaseReadiness(state).complete;
+  if (readyForAuto) {
     if (autoReadySince === null) { autoReadySince = at; emit(); }
     if (canAutoAdvance(state, { enabled: autoAdvanceEnabled, paused, rehearsalActive, readySince: autoReadySince, now: at, graceMs: AUTO_GRACE_MS })) {
       state = advance(state, durationMs());
