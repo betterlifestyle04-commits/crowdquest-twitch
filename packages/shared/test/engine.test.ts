@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { act, advance, applyChatCommand, begin, chooseRole, getPhaseReadiness, initialState, join, makeRehearsal, parseChatCommand, triggerEvent, votePath } from "../src/index.js";
+import { act, advance, applyChatCommand, begin, canAutoAdvance, chooseRole, getPhaseReadiness, initialState, join, makeRehearsal, parseChatCommand, triggerEvent, votePath } from "../src/index.js";
 const prepare = (count = 1) => { let state = initialState(7); for (let i = 0; i < count; i++) state = join(state, `${i}`, `Player${i}`); state = begin(state); const roles = ["warrior", "guardian", "healer", "scout"] as const; for (let i = 0; i < count; i++) state = chooseRole(state, `${i}`, roles[i % roles.length]); state = advance(state); state = advance(state); return state; };
 describe("chat parser", () => { it("accepts only complete known commands", () => { expect(parseChatCommand("!role scout")).toEqual({ kind: "role", role: "scout" }); expect(parseChatCommand("!act scout")).toEqual({ kind: "act", action: "scout" }); expect(parseChatCommand("!role mage")).toBeNull(); expect(parseChatCommand("hello !join")).toBeNull(); }); });
 describe("Ember Gate", () => {
@@ -183,5 +183,49 @@ describe("Smart Host readiness boundaries", () => {
     state = advance(state);
     expect(state.phase).toBe("consequence");
     expect(getPhaseReadiness(state)).toMatchObject({ ready: 0, total: 0, complete: false });
+  });
+});
+
+describe("Smart Host grace period and stop conditions", () => {
+  it("waits for grace, observes pause, and never progresses during a rehearsal", () => {
+    let state = join(initialState(9), "u1", "Viewer");
+    state = begin(state);
+    state = chooseRole(state, "u1", "warrior");
+    const options = { enabled: true, paused: false, rehearsalActive: false, readySince: 1000, now: 4499, graceMs: 3500 };
+    expect(canAutoAdvance(state, options)).toBe(false);
+    expect(canAutoAdvance(state, { ...options, now: 4500 })).toBe(true);
+    expect(canAutoAdvance(state, { ...options, paused: true, now: 9999 })).toBe(false);
+    expect(canAutoAdvance(state, { ...options, rehearsalActive: true, now: 9999 })).toBe(false);
+    expect(canAutoAdvance(state, { ...options, enabled: false, now: 9999 })).toBe(false);
+    expect(canAutoAdvance(state, { ...options, readySince: null, now: 9999 })).toBe(false);
+  });
+  it("does not auto-advance if a new player joins during the grace period", () => {
+    let state = join(initialState(10), "u1", "Viewer1");
+    state = chooseRole(begin(state), "u1", "healer");
+    expect(canAutoAdvance(state, { enabled: true, paused: false, rehearsalActive: false, readySince: 1000, now: 5000, graceMs: 3500 })).toBe(true);
+    state = join(state, "u2", "Viewer2");
+    expect(getPhaseReadiness(state).complete).toBe(false);
+    expect(canAutoAdvance(state, { enabled: true, paused: false, rehearsalActive: false, readySince: 1000, now: 5000, graceMs: 3500 })).toBe(false);
+  });
+  it("never auto-advances briefing, consequence, or a completed quest", () => {
+    const options = { enabled: true, paused: false, rehearsalActive: false, readySince: 0, now: 9000, graceMs: 3500 };
+    let state = join(initialState(11), "u1", "Viewer1");
+    state = chooseRole(begin(state), "u1", "warrior");
+    state = advance(state);
+    expect(state.phase).toBe("briefing");
+    expect(canAutoAdvance(state, options)).toBe(false);
+    state = advance(state);
+    expect(state.phase).toBe("path");
+    state = votePath(state, "u1", "B");
+    state = advance(state);
+    state = act(state, "u1", "attack");
+    state = advance(state);
+    expect(state.phase).toBe("consequence");
+    expect(canAutoAdvance(state, options)).toBe(false);
+    state = advance(state);
+    state = act(state, "u1", "attack");
+    state = advance(state);
+    expect(state.phase).toBe("result");
+    expect(canAutoAdvance(state, options)).toBe(false);
   });
 });
