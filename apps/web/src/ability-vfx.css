@@ -1,0 +1,31 @@
+/* Combat preparation VFX: role-specific glyphs appear only after accepted actions. */
+.queued-spell-effects { pointer-events: none; }
+.queued-spell { transform-box: view-box; }
+.queued-spell .spell-ground { opacity: .5; animation: queued-ground 2.4s ease-in-out infinite alternate; }
+.queued-spell-warrior { color: #ffb28c; }
+.queued-spell-guardian { color: #a6dafa; }
+.queued-spell-healer { color: #94ffd5; }
+.queued-spell-scout { color: #aef9e9; }
+.queued-spell .spell-ground { stroke: currentColor; filter: drop-shadow(0 0 8px currentColor); }
+.queued-spell-warrior .spell-warrior-sigil { transform-origin: 0 -18px; animation: queued-warrior 1.1s ease-in-out infinite alternate; filter: drop-shadow(0 0 13px #f5a16e); }
+.queued-spell-guardian .spell-guardian-sigil { transform-origin: 0 -26px; animation: queued-shield 2s ease-in-out infinite alternate; filter: drop-shadow(0 0 12px #75c8f5); }
+.queued-spell-healer .spell-healer-sigil { transform-origin: 0 -40px; animation: queued-heal 2s ease-in-out infinite alternate; filter: drop-shadow(0 0 14px #77e6bc); }
+.queued-spell-scout .spell-scout-sigil { transform-origin: 0 -40px; animation: queued-scout 2.3s ease-in-out infinite alternate; filter: drop-shadow(0 0 13px #9ddfea); }
+.queued-spell .spell-bits { fill: currentColor; opacity: .8; animation: queued-bits 1.7s ease-in-out infinite alternate; }
+@keyframes queued-ground { from { opacity: .25; } to { opacity: .78; } }
+@keyframes queued-warrior { from { opacity: .4; transform: translateY(5px) rotate(-5deg); } to { opacity: .95; transform: translateY(-3px) rotate(7deg); } }
+@keyframes queued-shield { from { opacity: .45; transform: scale(.94); } to { opacity: 1; transform: scale(1.07); } }
+@keyframes queued-heal { from { opacity: .48; transform: scale(.88) rotate(-4deg); } to { opacity: 1; transform: scale(1.09) rotate(4deg); } }
+@keyframes queued-scout { from { opacity: .44; transform: rotate(-7deg); } to { opacity: 1; transform: rotate(9deg); } }
+@keyframes queued-bits { from { opacity: .22; transform: translateY(7px); } to { opacity: .85; transform: translateY(-12px); } }
+/* Crossroads are illustrated in the world; highlighting always follows real route votes. */
+.cinematic-crossroads { pointer-events: none; }
+.cinematic-crossroads .crossroads-bridge-road, .cinematic-crossroads .crossroads-moon-road { transition: stroke-width .35s ease, opacity .35s ease; opacity: .33; }
+.cinematic-stage.route-ahead-a .crossroads-bridge-road { stroke-width: 12px; opacity: .92; filter: drop-shadow(0 0 11px #ffbb88); }
+.cinematic-stage.route-ahead-b .crossroads-moon-road { stroke-width: 12px; opacity: .92; filter: drop-shadow(0 0 11px #9bffe6); }
+.cinematic-stage.route-ahead-a .crossroads-bridge-marker { filter: drop-shadow(0 0 18px #ffbd89); }
+.cinematic-stage.route-ahead-b .crossroads-moon-marker { filter: drop-shadow(0 0 18px #a1ffdf); }
+.cinematic-stage.crossroads .cinematic-fire { opacity: .7; }
+@media (prefers-reduced-motion: reduce) {
+  .queued-spell *, .cinematic-crossroads * { animation: none !important; transition: none !important; }
+}
