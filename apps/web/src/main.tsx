@@ -5,7 +5,7 @@ import { QuestHud } from "./QuestHud";
 import { AdventureStory } from "./AdventureStory";
 import { LiveGameplayMoment } from "./LiveGameplayMoment";
 import { TurnClock } from "./TurnClock";
-import { createRoot } from "react-dom/client"; import { io } from "socket.io-client"; import { getPhaseReadiness, type Player, type QuestState, type Role } from "@crowdquest/shared"; import "./style.css"; import "./game-stage.css"; import "./cinematic-scene.css"; import "./recording-view.css"; import "./game-feel.css"; import "./gameplay-moments.css"; import "./ability-vfx.css"; import "./adventure-story.css";
+import { createRoot } from "react-dom/client"; import { io } from "socket.io-client"; import { getPhaseReadiness, type Player, type QuestState, type Role } from "@crowdquest/shared"; import "./style.css"; import "./game-stage.css"; import "./cinematic-scene.css"; import "./recording-view.css"; import "./game-feel.css"; import "./gameplay-moments.css"; import "./ability-vfx.css"; import "./adventure-story.css"; import "./tactical-status.css";
 const API = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 type FeedStatus = "connecting" | "live" | "offline";
 type CommandActivity = { id: string; at: number; name: string; source: "twitch" | "demo"; command: string; accepted: boolean; feedback: string };
