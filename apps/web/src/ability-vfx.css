@@ -29,3 +29,17 @@
 @media (prefers-reduced-motion: reduce) {
   .queued-spell *, .cinematic-crossroads * { animation: none !important; transition: none !important; }
 }
+
+
+/* Player-identity nameplates on the game characters — real players or labeled demo actors. */
+.party-nameplates { pointer-events: none; }
+.party-nameplate rect { filter: drop-shadow(0 5px 12px rgba(0, 0, 0, .55)); }
+.party-nameplate text { font-family: Inter, system-ui, sans-serif; paint-order: stroke; stroke: rgba(8, 10, 26, .32); stroke-width: 2px; stroke-linejoin: round; }
+.party-nameplate.ability-ready rect { stroke: #a4f8d2; filter: drop-shadow(0 0 10px rgba(119, 247, 183, .52)); animation: nameplate-ready 1.6s ease-in-out infinite alternate; }
+.party-nameplate.nameplate-warrior rect { stroke: #dfad88; }
+.party-nameplate.nameplate-guardian rect { stroke: #9ecff0; }
+.party-nameplate.nameplate-healer rect { stroke: #86d9b5; }
+.party-nameplate.nameplate-scout rect { stroke: #ead29b; }
+.party-nameplate.ability-ready text:first-of-type { fill: #bfffe1; }
+@keyframes nameplate-ready { from { opacity: .72; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .party-nameplate rect { animation: none !important; } }
