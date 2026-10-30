@@ -78,6 +78,12 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## New real-time battle and viewer feedback
+
+The game now celebrates **accepted Twitch commands** with short, source-labeled in-game hero moments. Rehearsals remain visibly simulated. During battles, each class has a unique original SVG spell-preparation effect (Warrior sword, Guardian shield, Healer aura, Scout eye) which only appears once the server accepts the role-appropriate action. Actual damage, blocking and healing are still shown exclusively from resolved engine data. At crossroads, two illustrated paths highlight the real vote leader.
+
+See [GAMEPLAY_FEEDBACK_UPGRADE.md](GAMEPLAY_FEEDBACK_UPGRADE.md) for the full visual feature descriptions and OBS/testing checklist.
+
 ## Immersive RPG game interface
 
 The game now uses a proper **fantasy RPG HUD** in streamer, spectator, OBS overlay and recording views: a context-aware quest mission, chapter tracker, four-role party deck with real ability commitments, and a restrained cinematic phase introduction. Original atmospheric motes, foreground details, role lighting and Ember Gate runes make the world feel less static.
