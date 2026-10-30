@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { initialState, type BattleResolution } from "@crowdquest/shared";
+import { initialState, type BattleResolution, type QuestState } from "@crowdquest/shared";
 import { AdventureStory } from "../src/AdventureStory";
 import { BattleLedger, getBattleLedgerData, QuestChronicle } from "../src/BattleLedger";
 
@@ -31,13 +31,13 @@ describe("server-grounded battle ledger",()=>{
     expect(getBattleLedgerData(last).synergy).toBeNull();
   });
   it("consolidates the encounter report inside aftermath and the final report inside true result",()=>{
-    let state = {...initialState(),phase:"consequence" as const,lastResolution:battle};
+    const state: QuestState = {...initialState(),phase:"consequence",lastResolution:battle};
     const after=html(createElement(AdventureStory,{state}));
     expect(after).toContain("The party presses onward");
     expect(after).toContain("TRIAL BATTLE REPORT");
     expect((after.match(/TRIAL BATTLE REPORT/g)||[]).length).toBe(1);
-    state={...state,phase:"result" as const,result:"victory" as const,lastResolution:{...battle,phase:"finale"}};
-    const result=html(createElement(AdventureStory,{state}));
+    const resultState: QuestState = {...state,phase:"result",result:"victory",lastResolution:{...battle,phase:"finale"}};
+    const result=html(createElement(AdventureStory,{state:resultState}));
     expect(result).toContain("THE EMBER GATE OPENS");
     expect(result).toContain("FINAL BATTLE REPORT");
   });
