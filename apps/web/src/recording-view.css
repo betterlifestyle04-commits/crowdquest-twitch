@@ -1,0 +1,119 @@
+/* CrowdQuest 16:9 capture view. Browser route: /record
+ * Deliberately free of streamer tokens and administrative controls.
+ * Use OBS Window Capture for this page or a Browser Source at 1920 x 1080.
+ */
+.recording-view {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 600px;
+  height: 100dvh;
+  max-height: 100dvh;
+  display: grid;
+  grid-template-rows: minmax(90px, 12.5vh) minmax(0, 1fr) 49px;
+  gap: 14px;
+  padding: 16px 22px 14px;
+  overflow: hidden;
+  color: #f7f1ff;
+  background: radial-gradient(ellipse at 35% 8%, #33316c 0%, transparent 50%),
+              radial-gradient(ellipse at 85% 78%, #332044 0%, transparent 48%), #090e20;
+}
+.recording-view * { box-sizing: border-box; }
+.recording-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.4rem;
+  min-width: 0;
+  border: 1px solid rgba(174, 141, 244, .27);
+  border-radius: 15px;
+  background: rgba(10, 14, 33, .57);
+  padding: .75rem 1.5rem;
+}
+.recording-brand { min-width: 0; }
+.recording-kicker { display: inline-block; color: #e7c899; font-size: clamp(.64rem, .83vw, .97rem); letter-spacing: .18em; font-weight: 950; }
+.recording-brand h1 { margin: .15rem 0 0; font-size: clamp(1.4rem, 2.4vw, 3rem); font-weight: 1000; letter-spacing: .025em; line-height: 1.08; }
+.recording-brand p { margin: .25rem 0 0; color: #bfb3d6; font-size: clamp(.67rem, .81vw, .94rem); }
+.recording-header-status { display: grid; justify-items: end; gap: .4rem; min-width: 0; text-align: right; }
+.recording-header-status small { color: #aebcde; font-size: clamp(.62rem, .7vw, .9rem); overflow-wrap: anywhere; }
+.recording-status { display: block; max-width: 100%; padding: .5rem .72rem; border: 1px solid rgba(255, 184, 130, .63); border-radius: 10px; color: #ffd6b9; background: rgba(88, 46, 40, .63); font-weight: 950; letter-spacing: .06em; font-size: clamp(.6rem, .8vw, .88rem); }
+.recording-status.online { border-color: rgba(102, 245, 189, .68); color: #b7ffdb; background: rgba(34, 92, 72, .57); }
+.recording-grid { display: grid; grid-template-columns: minmax(0, 3.35fr) minmax(290px, .98fr); gap: 16px; min-height: 0; min-width: 0; }
+.recording-game { display: grid; grid-template-rows: minmax(0, 1fr) 91px; gap: 12px; min-width: 0; min-height: 0; }
+.recording-game-inner { display: flex; min-height: 0; min-width: 0; }
+.recording-game .game-stage.cinematic-stage {
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  flex: 1 1 auto;
+  border-radius: 18px;
+  margin: 0;
+  box-shadow: 0 0 28px rgba(116, 83, 216, .22);
+}
+.recording-game .game-stage .scene-sign { top: 1rem; left: 1rem; }
+.recording-game .game-stage .phase-banner { max-width: 80%; }
+.recording-game .game-stage::after { right: 1rem; top: 1rem; }
+.recording-game .game-stage .recording-watermark { z-index: 30; }
+.recording-quest-stats { display: grid; grid-template-columns: minmax(160px, 2.05fr) repeat(4, minmax(75px, 1fr)); gap: 9px; }
+.recording-quest-stats > div { display: grid; align-content: center; gap: .27rem; min-width: 0; padding: .48rem .72rem; border: 1px solid rgba(151, 136, 211, .28); border-radius: 11px; background: rgba(18, 23, 50, .82); }
+.recording-quest-stats span { color: #b6afcf; font-size: clamp(.55rem, .63vw, .77rem); letter-spacing: .1em; font-weight: 850; }
+.recording-quest-stats b { color: #fbf3ff; font-size: clamp(1.2rem, 1.65vw, 1.95rem); font-variant-numeric: tabular-nums; line-height: 1; }
+.recording-quest-stats b small { color: #aaa7c9; font-size: .6em; font-weight: 550; }
+.recording-hp-track { display: block; height: 6px; overflow: hidden; border-radius: 999px; background: #322e50; }
+.recording-hp-track em { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #62c69f, #9affa3); transition: width .4s ease; }
+.recording-activity { display: flex; flex-direction: column; gap: 12px; min-width: 0; min-height: 0; overflow: hidden; padding: 16px; border: 1px solid rgba(185, 149, 244, .33); border-radius: 18px; background: linear-gradient(145deg, rgba(29, 27, 67, .93), rgba(12, 18, 42, .97)); }
+.recording-chat-head h2 { margin: .3rem 0; color: #fff3d8; font-size: clamp(1.25rem, 1.35vw, 1.8rem); line-height: 1.15; }
+.recording-chat-head p { margin: .2rem 0 0; color: #b6bad8; font-size: clamp(.68rem, .75vw, .88rem); line-height: 1.38; }
+.recording-phase-guide { display: grid; gap: .3rem; padding: .72rem .88rem; border: 1px solid rgba(243, 201, 133, .4); border-radius: 12px; background: rgba(78, 53, 62, .34); }
+.recording-phase-guide small { font-size: .62rem; letter-spacing: .11em; color: #f2cb95; font-weight: 900; }
+.recording-phase-guide b { font-size: 1.12rem; letter-spacing: .06em; }
+.recording-phase-guide code { color: #b4f6df; font-size: clamp(.65rem, .7vw, .9rem); white-space: normal; overflow-wrap: anywhere; }
+.recording-chat-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .5rem; padding-bottom: .47rem; border-bottom: 1px solid rgba(167, 158, 226, .3); }
+.recording-chat-heading b { font-size: clamp(.85rem, 1vw, 1.12rem); }
+.recording-chat-heading small { color: #c6bdd9; font-size: .7rem; white-space: nowrap; }
+.recording-activity-list { display: grid; align-content: start; gap: .55rem; padding: 0 .2rem 0 0; margin: 0; min-height: 0; flex: 1; overflow-y: auto; list-style: none; scrollbar-color: #65538f #201d39; }
+.recording-activity-list li { display: grid; align-content: start; gap: .22rem; padding: .7rem .75rem; border-left: 3px solid #76e9ba; border-radius: 8px; background: rgba(7, 14, 33, .71); }
+.recording-activity-list li.command-rejected { border-left-color: #efb28d; opacity: .85; }
+.recording-actor { display: flex; align-items: center; justify-content: space-between; gap: .3rem; min-width: 0; }
+.recording-actor b { color: #eae1ff; font-size: clamp(.72rem, .86vw, 1rem); min-width: 0; overflow-wrap: anywhere; }
+.recording-actor span { color: #80e9bf; font-size: .6rem; letter-spacing: .055em; white-space: nowrap; font-weight: 950; }
+.command-rejected .recording-actor span { color: #ffc6a9; }
+.recording-activity-list code { color: #d1ffe7; font-size: clamp(.8rem, 1vw, 1.15rem); font-weight: 950; overflow-wrap: anywhere; white-space: normal; }
+.recording-activity-list small { color: #b9bcd6; line-height: 1.35; font-size: clamp(.6rem, .7vw, .8rem); }
+.recording-empty { display: grid; align-content: center; gap: .8rem; flex: 1; padding: 1rem; border: 1px dashed rgba(208, 179, 227, .3); border-radius: 10px; background: rgba(5, 11, 30, .5); text-align: center; }
+.recording-empty b { color: #f8d5ad; letter-spacing: .1em; font-size: .85rem; }
+.recording-empty p { color: #b4bddc; font-size: .8rem; line-height: 1.5; }
+.recording-empty code { color: #a6f7d9; }
+.recording-empty.simulated { background: rgba(90, 43, 37, .28); border-color: #ce9872; }
+.recording-chat-foot { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; color: #b3bad8; font-size: .68rem; border-top: 1px solid rgba(155, 152, 199, .28); padding-top: .65rem; }
+.recording-chat-foot small { display: block; width: 100%; color: #8e9ab8; font-size: .6rem; }
+.recording-dot { width: .55rem; height: .55rem; border-radius: 50%; background: #f6bd85; }
+.recording-dot.connected { background: #74e7ac; box-shadow: 0 0 8px rgba(101, 239, 184, .4); }
+.recording-footer { display: flex; align-items: center; justify-content: space-between; gap: .7rem; padding: .3rem .9rem; border: 1px solid rgba(151, 132, 207, .27); border-radius: 10px; background: rgba(10, 13, 31, .82); letter-spacing: .085em; color: #c2b8df; font-weight: 900; font-size: clamp(.6rem, .75vw, .84rem); }
+.recording-footer b { color: #ffdfb8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.recording-simulated .recording-header { border-color: rgba(246, 176, 114, .6); }
+.recording-simulated .recording-footer { border-color: rgba(246, 176, 114, .4); }
+.recording-loading { place-items: center; }
+.recording-loading-inner { display: grid; justify-items: center; gap: .7rem; color: #dcd0f6; }
+.recording-loading-inner b { color: #ffdeac; font-size: 2.5rem; letter-spacing: .15em; }
+@media (max-width: 1180px) {
+  .recording-view { gap: 9px; padding: 10px; }
+  .recording-grid { grid-template-columns: minmax(0, 2.4fr) minmax(270px, 1fr); gap: 10px; }
+  .recording-activity { padding: 10px; gap: 8px; }
+  .recording-game { grid-template-rows: minmax(0, 1fr) 77px; }
+  .recording-quest-stats { gap: 5px; }
+  .recording-quest-stats > div { padding: .35rem; }
+  .recording-footer { font-size: .56rem; }
+}
+@media (max-width: 760px) {
+  .recording-view { min-height: 100vh; max-height: none; height: auto; overflow: visible; grid-template-rows: auto auto auto; }
+  .recording-header { align-items: flex-start; padding: .7rem; flex-wrap: wrap; }
+  .recording-header-status { justify-items: start; text-align: left; }
+  .recording-grid { grid-template-columns: 1fr; }
+  .recording-game { grid-template-rows: minmax(340px, 58vh) auto; }
+  .recording-quest-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .recording-activity { min-height: 470px; }
+  .recording-activity-list { max-height: 380px; }
+  .recording-footer { flex-wrap: wrap; justify-content: center; padding: .7rem; }
+}
+@media (prefers-reduced-motion: reduce) { .recording-hp-track em { transition: none; } }
