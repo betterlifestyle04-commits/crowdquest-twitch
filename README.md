@@ -78,6 +78,12 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## Tactical party HUD and authentic health feedback
+
+The battlefield now has a single **RPG tactical status area** showing true party health, available healing supplies, current gate threat, and active cooperative ability combinations. The Scout–Warrior and four-class Formation messages only appear when the correct class actions are actually committed; no fake boss health or invented attacks are displayed.
+
+A short game-style red/green impact effect also reacts to **real net changes in party health** after the backend updates the expedition, without appearing spuriously on first load or reset. Full-screen effects are disabled for reduced-motion users. The setup remains OBS-compatible and uses original CSS without adding libraries. See [TACTICAL_HUD_GUIDE.md](TACTICAL_HUD_GUIDE.md) for details and acceptance tests.
+
 ## Storybook RPG chapters and dramatic ending
 
 Each phase has a fantasy-story presentation grounded in the game engine: a welcoming prologue, four-class muster tutorial, narrative journey briefing, authentic aftermath statistics, and an illustrated final chronicle. The quest conclusion reports actual route, players, remaining health and highest contributor; it never fabricates participants or an unresolved result. The battle role HUD now explains the exact `!act` command for each class.
