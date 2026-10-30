@@ -1,4 +1,5 @@
 import type { QuestState, Role } from "@crowdquest/shared";
+import { TacticalStatus } from "./TacticalStatus";
 
 const partyRoles: Array<{ role: Role; glyph: string; label: string; ability: string; command: string }> = [
   { role: "warrior", glyph: "⚔", label: "WARRIOR", ability: "STRIKE", command: "!act attack" },
@@ -72,6 +73,7 @@ export function QuestHud({ state }: { state: QuestState }) {
           </div>;
         })}
       </div>
+      <TacticalStatus state={state} />
       <div className="quest-hud-party-base"><span>✧ <b>THE EMBER GATE</b></span><div className="quest-hud-party-progress"><i style={{ width: Math.max(0, Math.min(100, state.progress)) + "%" }}/></div><span>{state.progress}% COMPLETE</span></div>
     </div>
   </div>;
