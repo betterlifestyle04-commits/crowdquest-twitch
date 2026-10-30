@@ -8,6 +8,7 @@ on:
       - chatgpt/cinematic-visuals
       - submission/integrated-crowdquest
       - submission/obs-recording
+      - submission/preflight-stability
   pull_request:
 
 permissions:
