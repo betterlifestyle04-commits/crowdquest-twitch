@@ -78,6 +78,12 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## Storybook RPG chapters and dramatic ending
+
+Each phase has a fantasy-story presentation grounded in the game engine: a welcoming prologue, four-class muster tutorial, narrative journey briefing, authentic aftermath statistics, and an illustrated final chronicle. The quest conclusion reports actual route, players, remaining health and highest contributor; it never fabricates participants or an unresolved result. The battle role HUD now explains the exact `!act` command for each class.
+
+A separate original CSS theme makes the new scenes work on the streamer dashboard, spectator view and OBS recording view, with a reduced-motion fallback and explicit simulation labels. See [STORYBOOK_UI_GUIDE.md](STORYBOOK_UI_GUIDE.md) for the chapter-by-chapter feature list and visual acceptance checklist.
+
 ## In-world character identities and active phase clock
 
 Named adventurers now appear above their actual Warrior, Guardian, Healer or Scout sprite. Shared classes show a participant count; demo participants are explicitly labeled. When a role action is committed, the character's nameplate and the matching spell preparation effect light up.
