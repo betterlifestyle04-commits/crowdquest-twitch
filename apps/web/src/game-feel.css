@@ -332,3 +332,15 @@ body {
 .game-stage.gate .quest-hud-mark { box-shadow: 0 0 24px rgba(254, 144, 80, .32); }
 .game-stage.victory .quest-hud-objective { border-left-color: #b7efaf; }
 .game-stage.defeat .quest-hud-objective { border-left-color: #ef9c9c; }
+
+
+/* OBS must composite a truly transparent browser page — not the dark game-page body. */
+html:has(#root > .overlay),
+body:has(#root > .overlay),
+body:has(#root > .overlay) #root {
+  background: transparent !important;
+  background-image: none !important;
+}
+body:has(#root > .overlay) .overlay {
+  background: transparent !important;
+}
