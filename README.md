@@ -74,6 +74,10 @@ apps/web          React/Vite/Tailwind dashboard and OBS overlay
 packages/shared   Typed game engine and chat parser with Vitest tests
 ```
 
+## Filming day quick guide
+
+See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
+
 ## OBS recording view — real Twitch receipts
 
 To record a competition demonstration, use **[http://localhost:5173/record](http://localhost:5173/record)**. This secret-free 1920×1080 browser layout combines the cinematic adventure with server-confirmed Twitch gameplay commands, current command instructions, party resources, and prominent connection status.
