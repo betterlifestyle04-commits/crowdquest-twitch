@@ -13,8 +13,9 @@ export function PartyNameplates({ state, simulated }: { state: QuestState; simul
       const demo = simulated || cleanName.endsWith("[Demo]");
       const label = cleanName.length > 15 ? cleanName.slice(0, 14) + "…" : cleanName;
       const more = members.length - 1;
+      const queued = (state.phase === "encounter" || state.phase === "finale") && members.some(p => Boolean(state.actions[p.id]));
       const x = 156 + index * 126;
-      return <g key={role} className={"party-nameplate nameplate-" + role} transform={"translate(" + x + " 210)"}>
+      return <g key={role} className={"party-nameplate nameplate-" + role + (queued ? " ability-ready" : "")} transform={"translate(" + x + " 210)"}>
         <rect x="-64" y="-16" width="128" height="42" rx="10" fill="#0a0c24" fillOpacity=".87" stroke="#d6bc91" strokeWidth="2"/>
         <path d="M-50 24H50" stroke="#776d8b" strokeWidth="1.5"/>
         <text x="0" y="1" textAnchor="middle" fill="#fff2dc" fontSize="13" fontWeight="900">{label}</text>
