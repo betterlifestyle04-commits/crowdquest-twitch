@@ -1,0 +1,57 @@
+/* Cinematic player moments — receipts of accepted gameplay, never fabricated impacts. */
+.live-gameplay-moment {
+  position: absolute;
+  z-index: 24;
+  left: 1.15rem;
+  top: 39%;
+  width: min(290px, 28%);
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  gap: .74rem;
+  padding: .65rem .78rem;
+  border: 1px solid rgba(242, 203, 148, .64);
+  border-left: 3px solid #f2c68a;
+  border-radius: .8rem;
+  background: linear-gradient(110deg, rgba(9, 12, 30, .96), rgba(32, 24, 49, .9));
+  box-shadow: 0 13px 38px rgba(2, 3, 12, .45), 0 0 21px rgba(231, 177, 104, .13);
+  backdrop-filter: blur(10px);
+  pointer-events: none;
+  animation: gameplay-moment-enter .38s ease-out both;
+}
+.live-gameplay-moment .moment-emblem {
+  flex: 0 0 2.75rem;
+  display: grid;
+  place-items: center;
+  height: 2.75rem;
+  border-radius: .65rem;
+  color: #fce4b8;
+  font-size: 1.55rem;
+  background: radial-gradient(circle at 50% 35%, rgba(221, 162, 92, .31), rgba(59, 39, 70, .72));
+  border: 1px solid rgba(237, 205, 157, .4);
+}
+.moment-shield .moment-emblem { color: #beebff; border-color: #83c7fa; background: rgba(38, 90, 125, .4); }
+.moment-heal .moment-emblem { color: #b5ffda; border-color: #7bddb5; background: rgba(22, 109, 82, .4); }
+.moment-scout .moment-emblem { color: #c5e5fc; border-color: #9ac9db; background: rgba(62, 99, 113, .4); }
+.moment-attack .moment-emblem { color: #ffdbc1; border-color: #f4a783; background: rgba(145, 63, 51, .42); }
+.moment-content { display: grid; min-width: 0; gap: .23rem; }
+.moment-provenance { color: #d9c79f; font-size: .5rem; font-weight: 950; letter-spacing: .1em; }
+.moment-content b { color: #fff5dd; font: 700 clamp(.88rem, 1.23vw, 1.3rem)/1.12 Georgia, 'Times New Roman', serif; }
+.moment-name { color: #cfdaed; font-size: clamp(.62rem, .72vw, .77rem); font-weight: 700; overflow-wrap: anywhere; }
+.moment-name i { color: #eacb95; font-style: normal; padding: 0 .13rem; }
+@keyframes gameplay-moment-enter {
+  from { opacity: 0; transform: translateY(16px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@media (max-width: 1120px) {
+  .live-gameplay-moment { top: 38%; width: min(240px, 32%); padding: .46rem; gap: .4rem; }
+  .live-gameplay-moment .moment-emblem { flex-basis: 1.7rem; height: 1.9rem; font-size: 1.1rem; }
+}
+@media (max-width: 680px) {
+  .live-gameplay-moment { top: auto; bottom: 31%; left: .35rem; width: 48%; min-height: 0; padding: .35rem; }
+  .moment-content b { font-size: .72rem; }
+  .moment-provenance, .moment-name { font-size: .49rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-gameplay-moment { animation: none !important; }
+}
