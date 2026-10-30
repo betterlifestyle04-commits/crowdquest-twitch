@@ -78,6 +78,14 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## Battle ledger and illustrated quest chronicle
+
+The **aftermath and final outcome** now show one integrated battle ledger, with actual attack power, blocked damage, healing, damage received, participation and optional Scout/Spirit contributions. The old separate combat report no longer competes with the on-stage character art.
+
+The streamer dashboard and spectator view also feature a bounded storybook timeline of the latest genuine server-recorded quest events. Rehearsal timelines are explicitly identified as simulated, and spectator history appears **outside the battlefield** so it cannot obscure the game.
+
+See [BATTLE_LEDGER_GUIDE.md](BATTLE_LEDGER_GUIDE.md) for the implementation details, UI test coverage and OBS filming acceptance checks.
+
 ## Tactical party HUD and authentic health feedback
 
 The battlefield now has a single **RPG tactical status area** showing true party health, available healing supplies, current gate threat, and active cooperative ability combinations. The Scout–Warrior and four-class Formation messages only appear when the correct class actions are actually committed; no fake boss health or invented attacks are displayed.
