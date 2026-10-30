@@ -33,7 +33,13 @@ The effects are not fake damage. Once the host or timer resolves combat, existin
 
 During the crossroads phase, the landscape includes two distinct roads and illustrated A/B direction markers. The brighter road reflects the **actual current route vote lead**. A tied vote doesn't artificially highlight either route. The established vote bar remains visible and remains the source of numeric vote counts.
 
-### 4. Accessibility and reliability
+### 4. Real player identities and phase timers
+
+Each hero sprite now has an in-world nameplate pulled from the actual joined players of that class. Where multiple players share a role, the plate shows the first member and a **+N** count. Nameplates highlight when at least one matching, server-accepted action has been committed. Demo heroes display **DEMO** on their nameplate and must not be represented as genuine Twitch viewers.
+
+A new circular turn clock appears in **role selection**, **crossroads voting**, **encounter**, and **finale**. It derives remaining seconds directly from the server's `phaseEndsAt`, respects the configured phase duration, and shows **QUEST PAUSED** instead of fake time when the host pauses. It doesn't appear in the lobby, briefing, aftermath or result screens. A ten-second visual warning helps viewers react before time expires.
+
+### 5. Accessibility and reliability
 
 - Respect the OS `prefers-reduced-motion` setting for queued effects and player moment entrance.
 - New player names are rendered as escaped React text and are length-limited by the existing server logger.
@@ -55,6 +61,6 @@ During the crossroads phase, the landscape includes two distinct roads and illus
 
 ## Verification
 
-The game-feel branch adds Vitest tests for accepted-command recency, source labels, rejected commands, phase bounds, empty-state rendering and role-correct action VFX. The main pipeline continues to run TypeScript checks, unit tests, production build, dependency audit and HTTP quest smoke testing.
+The game-feel branch adds Vitest tests for accepted-command recency, source labels, rejected commands, phase bounds, empty-state rendering, true character identities, ability-ready nameplates, real server deadlines and role-correct action VFX. The main pipeline continues to run TypeScript checks, unit tests, production build, dependency audit and HTTP quest smoke testing.
 
 The game has not been manually inspected in your local OBS session. GitHub Actions confirms code/test integrity only. Your previously manually verified Twitch baseline remains in `main`.
