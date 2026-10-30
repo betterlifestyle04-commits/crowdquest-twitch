@@ -7,6 +7,7 @@ on:
       - crowdquest-3-upgrade
       - chatgpt/cinematic-visuals
       - submission/integrated-crowdquest
+      - submission/obs-recording
   pull_request:
 
 permissions:
