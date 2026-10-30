@@ -1,0 +1,177 @@
+/* CrowdQuest — RPG game HUD. Immersive HUD elements reflect the authoritative quest engine. */
+.game-stage.cinematic-stage {
+  border: 1px solid rgba(226, 189, 121, .43);
+  background: #0e1129;
+  box-shadow: 0 0 0 1px rgba(6, 8, 24, .8), 0 22px 70px rgba(0, 0, 0, .56), inset 0 0 60px rgba(255, 185, 87, .09);
+}
+.cinematic-stage .scene-sign,
+.cinematic-stage .stage-footer,
+.cinematic-stage .action-board,
+.cinematic-stage .command-feed,
+.cinematic-stage .roll-call,
+.cinematic-stage .supply-cache,
+.cinematic-stage .aftermath-report { display: none; }
+.cinematic-stage .phase-banner {
+  z-index: 27;
+  top: 46%;
+  width: min(70%, 630px);
+  border: 0;
+  border-top: 1px solid rgba(255, 225, 158, .4);
+  border-bottom: 1px solid rgba(255, 225, 158, .4);
+  border-radius: 0;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(90deg, transparent, rgba(12, 11, 33, .9) 20%, rgba(12, 11, 33, .9) 80%, transparent);
+  box-shadow: none;
+  animation: game-phase-intro 3.4s ease-in-out both;
+}
+.cinematic-stage .phase-banner span { color: #edc994; font-size: .65rem; letter-spacing: .33em; }
+.cinematic-stage .phase-banner b { color: #fff3d5; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.35rem, 2.9vw, 2.8rem); letter-spacing: .08em; font-weight: 700; }
+.cinematic-stage.victory .phase-banner, .cinematic-stage.defeat .phase-banner {
+  animation: game-victory-entrance 1.2s ease-out both;
+  top: 43%;
+}
+@keyframes game-phase-intro {
+  0% { opacity: 0; visibility: visible; transform: translate(-50%, -40%) scale(.92); }
+  17%, 76% { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; visibility: hidden; transform: translate(-50%, -60%) scale(1.035); }
+}
+@keyframes game-victory-entrance {
+  from { opacity: 0; transform: translate(-50%, -45%) scale(.9); }
+  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+.quest-hud { position: absolute; inset: 0; z-index: 16; pointer-events: none; color: #ffefd4; font-family: Inter, ui-sans-serif, system-ui, sans-serif; }
+.quest-hud-vignette { position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(3, 7, 24, .53) 0%, transparent 30%, transparent 60%, rgba(3, 6, 20, .74) 100%); }
+.quest-hud-objective {
+  position: absolute; left: 1.1rem; top: 1.05rem; display: flex; gap: .7rem;
+  width: min(325px, 32%); padding: .88rem 1rem .86rem .8rem;
+  border: 1px solid rgba(223, 193, 139, .33); border-left: 3px solid #e5ba73;
+  border-radius: .45rem 1rem 1rem .45rem;
+  background: linear-gradient(125deg, rgba(12, 15, 37, .95), rgba(16, 15, 41, .79));
+  box-shadow: 0 15px 45px rgba(4, 5, 19, .5), 0 0 21px rgba(255, 189, 107, .07);
+  backdrop-filter: blur(12px);
+  animation: quest-hud-fade-in .6s ease-out both;
+}
+.quest-hud-mark {
+  display: grid; flex: 0 0 2rem; width: 2rem; height: 2rem; place-items: center;
+  border: 1px solid #cdaa78; border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 182, 112, .27), rgba(49, 29, 42, .7));
+  color: #ffe6b7; font-size: 1.2rem;
+  box-shadow: 0 0 13px rgba(255, 191, 96, .18);
+}
+.quest-hud-mission { min-width: 0; display: grid; align-content: start; gap: .29rem; }
+.quest-hud-eyebrow { color: #eec993; font-size: clamp(.53rem, .68vw, .72rem); font-weight: 900; letter-spacing: .14em; text-transform: uppercase; line-height: 1.4; }
+.quest-hud-diamond { padding: 0 .22rem; font-size: .55rem; color: #afa3e0; }
+.quest-hud-objective h2 { margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: clamp(1.05rem, 1.55vw, 1.65rem); line-height: 1.2; color: #fff1d7; letter-spacing: -.02em; text-shadow: 0 1px 6px #080615; }
+.quest-hud-objective p { margin: .09rem 0 .15rem; color: #c9d2e3; font-size: clamp(.58rem, .79vw, .8rem); line-height: 1.38; }
+.quest-hud-command { display: grid; gap: .18rem; padding-top: .4rem; border-top: 1px solid rgba(205, 176, 132, .21); }
+.quest-hud-command span { color: #9cacc3; font-size: .55rem; font-weight: 900; letter-spacing: .15em; }
+.quest-hud-command code { color: #9ef3dc; white-space: normal; overflow-wrap: anywhere; font: 800 clamp(.62rem, .84vw, .9rem)/1.4 ui-monospace, 'Cascadia Code', monospace; }
+.quest-hud-chapters { position: absolute; top: 1.05rem; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: .15rem; padding: .43rem .55rem; border: 1px solid rgba(218, 197, 160, .19); border-radius: 999px; background: rgba(9, 11, 30, .66); backdrop-filter: blur(10px); box-shadow: 0 8px 24px rgba(0,0,0,.24); }
+.quest-hud-chapter { display: flex; align-items: center; gap: .26rem; padding: .13rem .24rem; color: #a1a8c1; opacity: .7; }
+.quest-hud-chapter + .quest-hud-chapter::before { content: ''; width: .38rem; height: 1px; background: #777290; margin-right: .23rem; }
+.quest-hud-chapter span { display: grid; place-items: center; width: 1.2rem; height: 1.2rem; border: 1px solid #62627c; border-radius: 50%; font-size: .56rem; font-weight: 900; }
+.quest-hud-chapter small { font-size: .52rem; font-weight: 900; white-space: nowrap; letter-spacing: .06em; }
+.quest-hud-chapter.current { color: #ffebba; opacity: 1; }
+.quest-hud-chapter.current span { border-color: #f9d292; background: #7e5b3c; box-shadow: 0 0 17px rgba(255, 197, 117, .38); animation: quest-pulse 2s ease-in-out infinite alternate; }
+.quest-hud-chapter.complete { color: #96e9cb; opacity: 1; }
+.quest-hud-chapter.complete span { border-color: #6bc6a4; background: rgba(46, 100, 78, .76); }
+.quest-hud-party {
+  position: absolute; bottom: .68rem; left: 50%; transform: translateX(-50%);
+  width: min(745px, 82%); display: grid; gap: .42rem;
+  padding: .68rem .85rem .45rem;
+  border: 1px solid rgba(230, 198, 139, .34); border-radius: 1.05rem;
+  background: linear-gradient(180deg, rgba(13, 15, 36, .93), rgba(6, 10, 27, .97));
+  box-shadow: 0 0 0 2px rgba(2, 4, 13, .62), 0 14px 46px rgba(0, 0, 0, .59);
+  backdrop-filter: blur(12px);
+}
+.quest-hud-party-heading { display: flex; align-items: center; justify-content: space-between; gap: .7rem; }
+.quest-hud-party-heading > div { display: flex; align-items: center; gap: .5rem; }
+.quest-hud-party-glyph { color: #ffd993; font-size: 1rem; }
+.quest-hud-party-heading strong { font-size: .66rem; font-weight: 950; letter-spacing: .17em; white-space: nowrap; }
+.quest-hud-party-heading small { color: #a4acc9; font-size: .58rem; font-weight: 800; letter-spacing: .07em; }
+.quest-hud-ready { color: #dcbf9f; font-size: .6rem; }
+.quest-hud-ready span { letter-spacing: .12em; font-weight: 900; }
+.quest-hud-ready b { margin-left: .55rem; font-size: .83rem; color: #ffeab7; }
+.quest-hud-ready b i { color: #9c9fba; font-style: normal; margin: 0 .09rem; }
+.quest-hud-ready.complete { color: #93efd2; }
+.quest-hud-ready.complete b { color: #9ff7d9; }
+.quest-hud-roles { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: .35rem; }
+.quest-hud-role {
+  display: flex; align-items: center; min-width: 0; gap: .45rem;
+  padding: .39rem .46rem;
+  border: 1px solid rgba(174, 164, 208, .22); border-radius: .62rem;
+  background: linear-gradient(125deg, rgba(35, 38, 67, .63), rgba(12, 18, 38, .77));
+  opacity: .63;
+}
+.quest-hud-role.active { opacity: 1; border-color: rgba(218, 198, 155, .49); }
+.quest-hud-role.committed { border-color: rgba(113, 238, 201, .82); background: linear-gradient(120deg, rgba(35, 79, 69, .7), rgba(15, 34, 47, .95)); box-shadow: inset 0 0 16px rgba(69, 225, 166, .12), 0 0 15px rgba(69, 225, 166, .12); }
+.quest-hud-portrait { position: relative; flex: 0 0 2.05rem; display: grid; place-items: center; width: 2.05rem; height: 2.3rem; border: 1px solid rgba(240, 205, 151, .36); border-radius: .46rem; background: linear-gradient(150deg, #544477, #241e47); box-shadow: inset 0 0 9px rgba(255,255,255,.09); }
+.quest-hud-portrait > span { font-size: 1.2rem; color: #ffe5b8; }
+.quest-hud-portrait small { position: absolute; right: -.27rem; top: -.33rem; min-width: .94rem; height: .94rem; padding: 0 .15rem; display: grid; place-items: center; color: #281927; border-radius: 99px; background: #f0d49b; font-size: .52rem; font-weight: 950; }
+.quest-hud-role.guardian .quest-hud-portrait { background: linear-gradient(150deg, #47729a, #213752); }
+.quest-hud-role.healer .quest-hud-portrait { background: linear-gradient(150deg, #368b80, #194849); }
+.quest-hud-role.scout .quest-hud-portrait { background: linear-gradient(150deg, #947243, #3e382b); }
+.quest-hud-role-label { display: grid; gap: .18rem; min-width: 0; }
+.quest-hud-role-label b { color: #fff1d6; font-size: clamp(.58rem, .76vw, .78rem); font-weight: 950; letter-spacing: .04em; }
+.quest-hud-role-label small { color: #aeb4cf; font-size: clamp(.49rem, .62vw, .62rem); letter-spacing: .03em; font-weight: 800; white-space: nowrap; }
+.quest-hud-role.committed .quest-hud-role-label small { color: #b2f7dc; }
+.quest-hud-role-orb { margin-left: auto; display: grid; place-items: center; width: 1.05rem; height: 1.05rem; border-radius: 50%; border: 1px solid #625977; color: #a5a4b6; font-size: .7rem; font-weight: 900; }
+.quest-hud-role-orb.lit { border-color: #7debba; color: #0e2d21; background: #95f9d1; box-shadow: 0 0 11px rgba(120, 245, 190, .43); }
+.quest-hud-party-base { display: flex; justify-content: space-between; align-items: center; gap: .65rem; padding-top: .28rem; border-top: 1px solid rgba(179, 174, 211, .19); color: #b1aac2; font-size: .55rem; font-weight: 800; letter-spacing: .09em; white-space: nowrap; }
+.quest-hud-party-base b { color: #ffe2ad; }
+.quest-hud-party-progress { flex: 1; min-width: 25px; max-width: 245px; height: .22rem; border-radius: 99px; background: #322a46; overflow: hidden; }
+.quest-hud-party-progress i { display: block; height: 100%; background: linear-gradient(90deg, #a687e9, #ffe2a8); transition: width .6s ease; }
+.quest-hud-result .quest-hud-party, .quest-hud-consequence .quest-hud-party { display: none; }
+.cinematic-stage .cinematic-boss-indicator { top: 17%; right: 1.3rem; border-color: rgba(235, 161, 116, .62); border-radius: .55rem; }
+.cinematic-stage .battle-report { bottom: 9%; width: min(355px, 40%); }
+.cinematic-stage .vote-momentum { left: auto; right: 2%; top: 45%; bottom: auto; transform: none; width: min(355px, 44%); }
+.cinematic-stage .vote-momentum > div { border-color: rgba(243, 199, 129, .49); box-shadow: 0 9px 30px rgba(4, 4, 24, .4); }
+.cinematic-stage .hero-ticker { bottom: 12%; }
+.cinematic-stage .audience-link { top: auto; bottom: 1rem; right: 1rem; z-index: 22; }
+.cinematic-stage .transport-badge { z-index: 23; }
+@keyframes quest-hud-fade-in { from { opacity: 0; transform: translateX(-12px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes quest-pulse { from { box-shadow: 0 0 3px #dba664; } to { box-shadow: 0 0 19px rgba(255, 204, 119, .55); } }
+@media (max-width: 1220px) {
+  .quest-hud-chapter small { display: none; }
+  .quest-hud-objective { width: min(305px, 37%); }
+  .quest-hud-party { width: min(705px, 85%); }
+}
+@media (max-width: 900px) {
+  .quest-hud-objective { top: .6rem; left: .6rem; padding: .55rem .6rem; width: 37%; }
+  .quest-hud-mark { display: none; }
+  .quest-hud-objective p { display: none; }
+  .quest-hud-chapters { top: .45rem; left: auto; right: .7rem; transform: none; }
+  .quest-hud-party { bottom: .35rem; width: 95%; padding: .42rem .5rem .32rem; gap: .23rem; }
+  .quest-hud-party-heading small { display: none; }
+  .quest-hud-roles { gap: .22rem; }
+  .quest-hud-role { gap: .25rem; padding: .2rem .27rem; }
+  .quest-hud-portrait { flex-basis: 1.6rem; width: 1.6rem; height: 1.75rem; }
+  .quest-hud-portrait > span { font-size: .94rem; }
+  .quest-hud-role-label small { display: none; }
+  .cinematic-stage .cinematic-boss-indicator { top: 30%; right: .7rem; }
+  .cinematic-stage .vote-momentum { top: 38%; }
+}
+@media (max-width: 560px) {
+  .quest-hud-objective { width: min(72%, 260px); }
+  .quest-hud-objective h2 { font-size: 1rem; }
+  .quest-hud-eyebrow { font-size: .47rem; }
+  .quest-hud-chapters { display: none; }
+  .quest-hud-command span { display: none; }
+  .quest-hud-party-heading { display: none; }
+  .quest-hud-role-label { display: none; }
+  .quest-hud-role { justify-content: center; }
+  .quest-hud-role-orb { margin-left: 0; font-size: .58rem; width: .83rem; height: .83rem; }
+  .quest-hud-party { width: 93%; }
+  .quest-hud-portrait { height: 1.55rem; flex-basis: 1.5rem; }
+  .quest-hud-party-base { font-size: .42rem; }
+  .quest-hud-party-base span:first-child { display: none; }
+  .cinematic-stage .cinematic-boss-indicator { top: 33%; right: .4rem; width: 105px; }
+  .cinematic-stage .vote-momentum { top: 43%; left: 5%; right: auto; width: 90%; }
+  .cinematic-stage .phase-banner { width: 89%; padding: .65rem .5rem; top: 46%; }
+  .cinematic-stage .battle-report { bottom: 13%; right: 2%; width: 68%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quest-hud *, .quest-hud-objective, .quest-hud-chapter.current span { animation: none !important; transition: none !important; }
+  .cinematic-stage .phase-banner { animation: none; display: none; }
+  .cinematic-stage.victory .phase-banner, .cinematic-stage.defeat .phase-banner { display: grid; opacity: 1; transform: translate(-50%, -50%); }
+}
