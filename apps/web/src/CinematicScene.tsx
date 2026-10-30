@@ -2,6 +2,7 @@ import React from "react";
 import type { QuestState, Role } from "@crowdquest/shared";
 import { EncounterFoe, ResolutionPlayback } from "./EncounterArtwork";
 import { QueuedSpellEffects } from "./QueuedSpellEffects";
+import { PartyNameplates } from "./PartyNameplates";
 
 /** Original vector artwork. All visual feedback derives from the authoritative game state. */
 type Props = { state: QuestState; scene: string };
@@ -94,6 +95,7 @@ export function CinematicScene({ state, scene }: Props) {
       </g>
       <QueuedSpellEffects state={state}/>
       <g className="cinematic-party-art">{roles.map((role,i)=><g key={role} transform={"translate("+(156+i*126)+" 362) scale(1.46)"}><Adventurer role={role} present={countByRole[role]>0} queued={queued.has(role)}/></g>)}</g>
+      <PartyNameplates state={state} simulated={participants.some(p => p.name.includes("[Demo]"))}/>
       {participants.length === 1 && participants[0].role && <g className="ember-companion" transform="translate(665 344)"><ellipse cx="0" cy="0" rx="33" ry="46" fill="#b9f6ed" opacity=".09"/><circle className="spirit-light" cx="0" cy="-12" r="22" fill="#9aead8" opacity=".29"/><circle className="spirit-core" cx="0" cy="-12" r="9" fill="#eaffd0" stroke="#8ff3d8" strokeWidth="3"/><path d="M-15 7 Q0 37 16 7" stroke="#8ff3d8" strokeWidth="4" fill="none" opacity=".65"/></g>}{showEnemy && <g transform={"translate(947 356) scale("+(boss?1.15:.85)+")"}><EncounterFoe encounter={state.encounter} boss={boss}/></g>}
       {state.lastResolution && (state.phase === "consequence" || state.phase === "result") && <ResolutionPlayback key={state.lastResolution.phase + "-" + state.lastResolution.at} resolution={state.lastResolution}/>}
       {state.result === "victory" && <g className="cinematic-triumph"><path d="M860 195 945 145 1030 195" fill="none" stroke="#fff2b3" strokeWidth="8"/><circle cx="945" cy="140" r="27" fill="#ffe9a1" opacity=".8"/></g>}
