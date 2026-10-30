@@ -25,11 +25,11 @@ describe("fantasy RPG chapter presentation", () => {
     state = begin(state);
     const choosing = html(state);
     expect(choosing).toContain("Choose your calling");
-    expect(choosing).toContain("0 of 1 adventurers");
+    expect(choosing).toContain("0 of 1 adventurer");
     expect(choosing).toContain("!role guardian");
     state = chooseRole(state, "p", "guardian");
     expect(html(state)).toContain("The fellowship is ready");
-    expect(html(state)).toContain("1 of 1 adventurers");
+    expect(html(state)).toContain("1 of 1 adventurer");
   });
 
   it("previews two paths only during the briefing, without falsely showing an outcome", () => {
