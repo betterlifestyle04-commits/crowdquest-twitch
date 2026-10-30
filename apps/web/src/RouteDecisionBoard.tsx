@@ -20,8 +20,8 @@ export function RouteDecisionBoard({ state }: { state: QuestState }) {
   if (state.phase !== "path") return null;
   const counts = getRouteCounts(state);
   const options = [
-    { id:"A" as const, symbol:"⚔", name:"SUNKEN BRIDGE", tag:"RISK & REWARD", description:"+2 supplies · extra threat", count:counts.a, percent:counts.aPct, command:"!path A" },
-    { id:"B" as const, symbol:"☽", name:"MOONLIT PASS", tag:"SAFER ROUTE", description:"Lower route threat", count:counts.b, percent:counts.bPct, command:"!path B" }
+    { id:"A" as const, symbol:"⚔", name:"SUNKEN BRIDGE", tag:"RISK & REWARD", description:"+2 supplies · +4 route threat", count:counts.a, percent:counts.aPct, command:"!path A" },
+    { id:"B" as const, symbol:"☽", name:"MOONLIT PASS", tag:"SAFER ROUTE", description:"−2 route threat", count:counts.b, percent:counts.bPct, command:"!path B" }
   ];
   return <aside className="route-decision-board" aria-label="Provisional Twitch vote results for the crossroads">
     <div className="route-decision-heading">
@@ -45,6 +45,6 @@ export function RouteDecisionBoard({ state }: { state: QuestState }) {
       <b>{counts.total === 0 ? "AWAITING THE FIRST VOTE" : counts.lead === null ? "THE VOTE IS TIED" : "CURRENT LEAD · ROUTE " + counts.lead}</b>
       <small>{counts.waiting} {counts.waiting===1?"adventurer hasn't":"adventurers haven't"} voted · Ties resolve to A</small>
     </div>
-    <p className="route-decision-disclaimer">Live tally · route locks when the phase ends</p>
+    <p className="route-decision-disclaimer">Provisional tally · route locks when the phase ends</p>
   </aside>;
 }
