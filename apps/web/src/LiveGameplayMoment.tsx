@@ -25,15 +25,15 @@ export function getVisibleGameplayReceipt(
 ): { receipt: GameplayReceipt; label: { icon: string; title: string; detail: string; className: string }; ageMs: number } | null {
   if (options.transport !== "live" || options.phase === "result" || options.phase === "consequence") return null;
   const maxAgeMs = options.maxAgeMs ?? 4500;
-  const latest = receipts.filter(entry =>
-    entry.accepted && entry.at > 0 && entry.at <= options.now + 1000 &&
-    options.now - entry.at < maxAgeMs &&
-    Object.prototype.hasOwnProperty.call(commandLabels, entry.command.trim().toLowerCase()) ||
-    (entry.accepted && entry.at > 0 && entry.at <= options.now + 1000 &&
-     options.now - entry.at < maxAgeMs && /^!role (warrior|guardian|healer|scout)$/i.test(entry.command.trim()) ) ||
-    (entry.accepted && entry.at > 0 && entry.at <= options.now + 1000 &&
-     options.now - entry.at < maxAgeMs && /^!path [ab]$/i.test(entry.command.trim()) )
-  ).sort((a,b) => b.at - a.at)[0];
+  const validCommand = (command: string) =>
+    Object.prototype.hasOwnProperty.call(commandLabels, command) ||
+    /^!role (warrior|guardian|healer|scout)$/.test(command) ||
+    /^!path [ab]$/.test(command);
+  const latest = receipts.filter(entry => {
+    const age = options.now - entry.at;
+    return entry.accepted && entry.at > 0 && age >= -1000 && age < maxAgeMs &&
+      validCommand(entry.command.trim().toLowerCase());
+  }).sort((a, b) => b.at - a.at)[0];
   if (!latest) return null;
   const normalized = latest.command.trim().toLowerCase();
   const key = normalized.startsWith("!role ") ? "!role" : normalized.startsWith("!path ") ? "!path" : normalized;
