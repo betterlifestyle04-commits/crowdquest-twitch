@@ -78,6 +78,14 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## Real Twitch decisions in the world
+
+The crossroads now has two detailed fantasy route cards that show **actual Twitch vote counts, percentages, the provisional leader, player participation and the real tie-break rule**. Vote totals update if viewers change their choice before the phase closes. The game no longer needs an overlapping generic vote panel.
+
+The dedicated `/record` OBS layout now shows a true **party readiness meter** during role selection, voting and combat, making audience decisions visible alongside the server-confirmed Twitch command feed. No gameplay decision is fabricated or performed by a button in these views.
+
+See [LIVE_DECISIONS_GUIDE.md](LIVE_DECISIONS_GUIDE.md) for the route rules, test coverage and 1920×1080 filming checklist.
+
 ## Battle ledger and illustrated quest chronicle
 
 The **aftermath and final outcome** now show one integrated battle ledger, with actual attack power, blocked damage, healing, damage received, participation and optional Scout/Spirit contributions. The old separate combat report no longer competes with the on-stage character art.
