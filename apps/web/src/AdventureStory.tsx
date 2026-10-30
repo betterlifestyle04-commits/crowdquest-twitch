@@ -47,6 +47,7 @@ export function getStoryPanel(state: QuestState): StoryPanel | null {
       };
     }
     case "result": {
+      if (state.result === null) return null;
       const win = state.result === "victory";
       return {
         kind: win ? "victory" : "defeat",
