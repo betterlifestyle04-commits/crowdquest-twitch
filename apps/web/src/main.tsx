@@ -3,7 +3,7 @@ import { CinematicScene } from "./CinematicScene";
 import { GameAudioControl } from "./GameAudio";
 import { QuestHud } from "./QuestHud";
 import { LiveGameplayMoment } from "./LiveGameplayMoment";
-import { createRoot } from "react-dom/client"; import { io } from "socket.io-client"; import { getPhaseReadiness, type Player, type QuestState, type Role } from "@crowdquest/shared"; import "./style.css"; import "./game-stage.css"; import "./cinematic-scene.css"; import "./recording-view.css"; import "./game-feel.css"; import "./gameplay-moments.css";
+import { createRoot } from "react-dom/client"; import { io } from "socket.io-client"; import { getPhaseReadiness, type Player, type QuestState, type Role } from "@crowdquest/shared"; import "./style.css"; import "./game-stage.css"; import "./cinematic-scene.css"; import "./recording-view.css"; import "./game-feel.css"; import "./gameplay-moments.css"; import "./ability-vfx.css";
 const API = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
 type FeedStatus = "connecting" | "live" | "offline";
 type CommandActivity = { id: string; at: number; name: string; source: "twitch" | "demo"; command: string; accepted: boolean; feedback: string };
