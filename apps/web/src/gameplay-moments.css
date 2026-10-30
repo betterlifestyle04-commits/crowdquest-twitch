@@ -55,3 +55,59 @@
 @media (prefers-reduced-motion: reduce) {
   .live-gameplay-moment { animation: none !important; }
 }
+
+
+/* Phase timer: a readable game-world clock based on the server deadline. */
+.turn-clock {
+  position: absolute;
+  z-index: 26;
+  top: .85rem;
+  right: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: .62rem;
+  padding: .4rem .8rem .4rem .46rem;
+  border: 1px solid rgba(234, 202, 151, .57);
+  border-radius: .9rem;
+  background: linear-gradient(115deg, rgba(10, 12, 32, .94), rgba(37, 25, 51, .92));
+  box-shadow: 0 10px 30px rgba(3, 5, 15, .45);
+  backdrop-filter: blur(9px);
+  pointer-events: none;
+}
+.turn-clock-orbit {
+  flex: 0 0 2.8rem;
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  height: 2.8rem;
+  border-radius: 50%;
+  background: conic-gradient(#f2c789 var(--turn-pct), #49364a var(--turn-pct));
+  box-shadow: 0 0 12px rgba(255, 209, 146, .15);
+}
+.turn-clock-orbit::before { content: ""; position: absolute; width: 2.22rem; height: 2.22rem; border-radius: 50%; background: #151529; }
+.turn-clock-orbit i { z-index: 1; font-size: 1.1rem; color: #ffdfb0; font-style: normal; }
+.turn-clock-copy { display: grid; gap: .15rem; min-width: 0; }
+.turn-clock-copy small { color: #dcbf99; font-size: .53rem; font-weight: 950; letter-spacing: .12em; white-space: nowrap; }
+.turn-clock-copy b { color: #fff0d3; font-size: 1.33rem; font-weight: 950; font-variant-numeric: tabular-nums; line-height: 1; }
+.turn-clock-urgent { border-color: #ff9779; background: rgba(78, 26, 42, .94); box-shadow: 0 0 20px rgba(235, 93, 86, .31); }
+.turn-clock-urgent .turn-clock-orbit { background: conic-gradient(#ffb082 var(--turn-pct), #662d3a var(--turn-pct)); }
+.turn-clock-urgent .turn-clock-copy b { color: #ffbfaa; }
+.turn-clock-paused { border-color: #b7a9d9; }
+.turn-clock-paused .turn-clock-orbit { background: #6d608a; }
+.turn-clock-waiting { border-color: #9b9abc; }
+.turn-clock-waiting .turn-clock-orbit { background: #45415a; }
+@media (max-width: 900px) {
+  .turn-clock { top: .42rem; right: .45rem; padding: .25rem .45rem; gap: .32rem; }
+  .turn-clock-orbit { flex-basis: 2rem; width: 2rem; height: 2rem; }
+  .turn-clock-orbit::before { width: 1.55rem; height: 1.55rem; }
+  .turn-clock-orbit i { font-size: .82rem; }
+  .turn-clock-copy small { font-size: .44rem; }
+  .turn-clock-copy b { font-size: 1rem; }
+}
+@media (max-width: 560px) {
+  .turn-clock { top: .35rem; right: .35rem; }
+  .turn-clock-copy small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .turn-clock, .turn-clock * { animation: none !important; transition: none !important; }
+}
