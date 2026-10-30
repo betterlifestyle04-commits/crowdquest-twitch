@@ -34,6 +34,12 @@ The dashboard has an **Open recording view** link next to **Open OBS overlay**.
 
 **Important:** A local Browser Source needs your computer to keep `npm run dev` and OBS running. Don't shut down your server while recording.
 
+## If the game server disconnects
+
+If the backend is unavailable on initial load, the recording page shows an explicit **Game server not responding** screen with a **Retry connection** button instead of an indefinite spinner. Check that `npm run dev` is still running and `http://localhost:3001/health` responds. The UI discards a late initial HTTP snapshot after it has already received a newer live socket state, preventing an old phase from briefly appearing in your recording.
+
+If the status says **GAME SYNC DISCONNECTED**, do not rely on the displayed game state until live synchronization is restored.
+
 ## If you'd rather use Window Capture
 
 Open `http://localhost:5173/record` in Chrome and press **F11** for fullscreen. In OBS, add **Window Capture** for that Chrome window. This is often simpler when browser-source capture behaves unexpectedly. However, never switch the captured window to a secrets page.
