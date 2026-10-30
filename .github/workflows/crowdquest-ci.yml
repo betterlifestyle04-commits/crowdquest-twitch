@@ -9,6 +9,7 @@ on:
       - submission/integrated-crowdquest
       - submission/obs-recording
       - submission/preflight-stability
+      - ui/gamefeel-v2
   pull_request:
 
 permissions:
