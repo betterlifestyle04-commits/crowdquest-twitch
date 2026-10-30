@@ -19,7 +19,7 @@ describe("server-grounded battle ledger",()=>{
     expect(data.synergy).toContain("Scout assisted +4");
     expect(data.synergy).toContain("Spirit assisted +7");
     const content=html(createElement(BattleLedger,{resolution:battle}));
-    for(const item of ["TRIAL BATTLE REPORT","24","5","10","3","4 ACTIONS","SCOUT"]) expect(content).toContain(item);
+    for(const item of ["TRIAL BATTLE REPORT","24","5","10","3","4 ACTIONS","Scout assisted +4"]) expect(content).toContain(item);
     expect(content).not.toContain("ENEMY HP");
   });
   it("uses the final fight label only for final server resolution and describes no actions honestly",()=>{
@@ -35,7 +35,7 @@ describe("server-grounded battle ledger",()=>{
     const after=html(createElement(AdventureStory,{state}));
     expect(after).toContain("The party presses onward");
     expect(after).toContain("TRIAL BATTLE REPORT");
-    expect((after.match(/TRIAL BATTLE REPORT/g)||[]).length).toBe(1);
+    expect((after.match(/<strong>TRIAL BATTLE REPORT<\\/strong>/g)||[]).length).toBe(1);
     const resultState: QuestState = {...state,phase:"result",result:"victory",lastResolution:{...battle,phase:"finale"}};
     const result=html(createElement(AdventureStory,{state:resultState}));
     expect(result).toContain("THE EMBER GATE OPENS");
