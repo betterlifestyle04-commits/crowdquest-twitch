@@ -74,6 +74,14 @@ apps/web          React/Vite/Tailwind dashboard and OBS overlay
 packages/shared   Typed game engine and chat parser with Vitest tests
 ```
 
+## OBS recording view — real Twitch receipts
+
+To record a competition demonstration, use **[http://localhost:5173/record](http://localhost:5173/record)**. This secret-free 1920×1080 browser layout combines the cinematic adventure with server-confirmed Twitch gameplay commands, current command instructions, party resources, and prominent connection status.
+
+It **never labels demo players as Twitch viewers**: simulated Showcase Studio sessions are explicitly watermarked, and the feed displays only events received from Twitch. The normal streamer dashboard provides a direct **Open recording view** link.
+
+For an OBS Browser Source, set URL to `http://localhost:5173/record`, width `1920`, height `1080`, and fit to screen. Keep the local server running and verify a real Twitch `!join` before recording. The recording view is silent by default and contains no host password/token input. See [OBS_RECORDING_GUIDE.md](OBS_RECORDING_GUIDE.md) for full instructions and privacy guidance.
+
 ## Submission readiness (October 30, 2026)
 
 - Full source, cinematic assets, Codex-enhanced cooperative mechanics and read-only OBS/spectator views are available **on this branch**.
