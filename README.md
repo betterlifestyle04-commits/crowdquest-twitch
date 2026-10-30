@@ -78,6 +78,14 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## Immersive RPG game interface
+
+The game now uses a proper **fantasy RPG HUD** in streamer, spectator, OBS overlay and recording views: a context-aware quest mission, chapter tracker, four-role party deck with real ability commitments, and a restrained cinematic phase introduction. Original atmospheric motes, foreground details, role lighting and Ember Gate runes make the world feel less static.
+
+Old overlapping battlefield panels have been consolidated, while full streamer diagnostics remain available below the game. A proper page title and original gate emblem appear in the browser. All status values are read from the actual game engine; demo participants remain visibly marked as simulated.
+
+See [GAME_UI_UPGRADE.md](GAME_UI_UPGRADE.md) for implemented design details, new UI tests and the manual OBS acceptance checklist.
+
 ## OBS recording view — real Twitch receipts
 
 To record a competition demonstration, use **[http://localhost:5173/record](http://localhost:5173/record)**. This secret-free 1920×1080 browser layout combines the cinematic adventure with server-confirmed Twitch gameplay commands, current command instructions, party resources, and prominent connection status.
