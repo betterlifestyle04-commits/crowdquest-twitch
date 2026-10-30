@@ -35,7 +35,7 @@ describe("server-grounded battle ledger",()=>{
     const after=html(createElement(AdventureStory,{state}));
     expect(after).toContain("The party presses onward");
     expect(after).toContain("TRIAL BATTLE REPORT");
-    expect((after.match(/<strong>TRIAL BATTLE REPORT<\\/strong>/g)||[]).length).toBe(1);
+    expect(after.split("<strong>TRIAL BATTLE REPORT</strong>").length - 1).toBe(1);
     const resultState: QuestState = {...state,phase:"result",result:"victory",lastResolution:{...battle,phase:"finale"}};
     const result=html(createElement(AdventureStory,{state:resultState}));
     expect(result).toContain("THE EMBER GATE OPENS");
