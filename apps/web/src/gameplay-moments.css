@@ -75,6 +75,7 @@
   pointer-events: none;
 }
 .turn-clock-orbit {
+  position: relative;
   flex: 0 0 2.8rem;
   display: grid;
   place-items: center;
