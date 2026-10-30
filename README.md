@@ -78,6 +78,12 @@ packages/shared   Typed game engine and chat parser with Vitest tests
 
 See [FILM_TOMORROW.md](FILM_TOMORROW.md) for a short step-by-step OBS, genuine Twitch chat, Codex session, YouTube and Devpost preflight checklist. The game now prevents a late HTTP bootstrap response from overwriting newer live state, and displays a clear connection error/retry screen if the local server cannot be reached.
 
+## In-world character identities and active phase clock
+
+Named adventurers now appear above their actual Warrior, Guardian, Healer or Scout sprite. Shared classes show a participant count; demo participants are explicitly labeled. When a role action is committed, the character's nameplate and the matching spell preparation effect light up.
+
+A visual **phase clock** displays time remaining until the server's real deadline in role selection, route voting, trials and the final battle. Its indicator respects pause, configurable turn duration and urgent final seconds; noninteractive scenes don't invent a timer.
+
 ## New real-time battle and viewer feedback
 
 The game now celebrates **accepted Twitch commands** with short, source-labeled in-game hero moments. Rehearsals remain visibly simulated. During battles, each class has a unique original SVG spell-preparation effect (Warrior sword, Guardian shield, Healer aura, Scout eye) which only appears once the server accepts the role-appropriate action. Actual damage, blocking and healing are still shown exclusively from resolved engine data. At crossroads, two illustrated paths highlight the real vote leader.
