@@ -1,4 +1,5 @@
 import type { QuestState } from "@crowdquest/shared";
+import { BattleLedger } from "./BattleLedger";
 
 export type StoryPanel = {
   kind: "camp" | "muster" | "briefing" | "aftermath" | "victory" | "defeat";
@@ -111,9 +112,11 @@ export function AdventureStory({ state, simulated = false }: { state: QuestState
       <div><span>SUPPLIES</span><b>{state.supplies}</b></div>
       <div><span>THREAT</span><b>{state.threat}</b></div>
     </div>}
+    {panel.kind === "aftermath" && state.lastResolution?.phase === "encounter" && <BattleLedger resolution={state.lastResolution} />}
     {outcome && <>
       <div className="story-result-seal" aria-hidden="true"><span>{panel.kind === "victory" ? "♛" : "⚔"}</span></div>
       <div className="story-results-line"><span>{playerCount} adventurers</span><span>{state.chosenPath === "A" ? "Sunken Bridge" : state.chosenPath === "B" ? "Moonlit Pass" : "No route selected"}</span><span>{state.health}/{state.maxHealth} health</span></div>
+      {state.lastResolution?.phase === "finale" && <BattleLedger resolution={state.lastResolution} compact />}
       {top && <div className="story-top-hero"><small>HIGHEST CONTRIBUTION</small><b>{top.name}</b><span>{top.contribution} {top.contribution === 1 ? "point" : "points"}</span></div>}
       {!top && <p className="story-no-champions">No adventurers joined this expedition.</p>}
     </>}
