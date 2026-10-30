@@ -14,6 +14,7 @@ on:
       - ui/storybook-v4
       - ui/tactical-hud-v5
       - ui/chronicle-ledger-v6
+      - ui/live-decisions-v7
       - ui/gameplay-feedback-v3
   pull_request:
 
