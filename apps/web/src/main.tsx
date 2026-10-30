@@ -5,6 +5,7 @@ import { QuestHud } from "./QuestHud";
 import { AdventureStory } from "./AdventureStory";
 import { QuestChronicle } from "./BattleLedger";
 import { RouteDecisionBoard } from "./RouteDecisionBoard";
+import { PhaseParticipation } from "./PhaseParticipation";
 import { PartyImpact } from "./PartyImpact";
 import { LiveGameplayMoment } from "./LiveGameplayMoment";
 import { TurnClock } from "./TurnClock";
@@ -357,7 +358,7 @@ function RecordingView() {
       </section>
       <aside className="recording-activity" aria-label="Server-confirmed Twitch gameplay commands">
         <div className="recording-chat-head"><span className="recording-kicker">TWITCH INTERACTION</span><h2>Chat drives the story</h2><p>Commands shown here are received and evaluated by CrowdQuest's server.</p></div>
-        <div className="recording-phase-guide"><small>CURRENT PHASE</small><b>{state.phase.toUpperCase()}</b><code>{commandHint}</code></div>
+        <div className="recording-phase-guide"><small>CURRENT PHASE</small><b>{state.phase.toUpperCase()}</b><code>{commandHint}</code><PhaseParticipation state={state}/></div>
         <div className="recording-chat-heading"><b>Recent Twitch commands</b><small>{actual.length ? actual.length + " received" : "None received"}</small></div>
         {state.rehearsalActive ? <div className="recording-empty simulated"><b>SIMULATED REHEARSAL</b><p>These characters are demos. Reset in the streamer dashboard and use real Twitch chat to record genuine interaction.</p></div> : actual.length ? <ol className="recording-activity-list">{actual.map((event)=><li key={event.id} className={event.accepted ? "command-accepted" : "command-rejected"}>
           <div className="recording-actor"><b>{event.name}</b><span>{event.accepted ? "✓ ACCEPTED" : "× REJECTED"}</span></div>
