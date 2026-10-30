@@ -84,7 +84,7 @@ try {
   const vite = resolve(appRoot, "node_modules/vite/bin/vite.js");
   start([vite, "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], appRoot, {});
   await Promise.all([waitFor(host + "/health"), waitFor(web + "/")]);
-  for (const path of ["/", "/overlay", "/spectator"]) {
+  for (const path of ["/", "/overlay", "/spectator", "/record", "/recording"]) {
     const response = await waitFor(web + path);
     const html = await response.text();
     assert.match(html, /id="root"/);
@@ -92,6 +92,10 @@ try {
   assert.equal((await request("/api/control/start", { method: "POST" })).status, 401, "Streamer controls must require the token");
   assert.equal((await post("/api/control/start")).status, 200);
   assert.equal((await chat("!join")).body.accepted, true);
+  const demoReceipt = await request("/api/state");
+  assert.equal(demoReceipt.body.activity[0]?.source, "demo");
+  assert.equal(demoReceipt.body.activity[0]?.accepted, true);
+  assert.ok(!demoReceipt.body.activity.some((entry) => entry.source === "twitch"), "Demo participation must never impersonate Twitch");
   await sleep(825);
   assert.equal((await chat("!role warrior")).body.accepted, true);
   assert.equal((await post("/api/control/advance")).body.phase, "briefing");
@@ -124,7 +128,7 @@ try {
   assert.equal((await post("/api/session/auto-advance", { enabled: true })).status, 200);
   assert.equal((await request("/api/state")).body.autoAdvance, true);
   assert.equal((await post("/api/session/auto-advance", { enabled: "not a boolean" })).status, 400);
-  console.log("SMOKE TEST PASS: authenticated controls, chat, full quest, rehearsal isolation, auto-advance config, dashboard/OBS/spectator HTTP routes.");
+  console.log("SMOKE TEST PASS: authenticated controls, chat identity, full quest, rehearsal isolation, auto-advance config, dashboard/OBS/spectator/recording HTTP routes.");
 } catch (error) {
   console.error("SMOKE TEST FAIL:", error instanceof Error ? error.stack : String(error));
   console.error(output.join("\n"));
