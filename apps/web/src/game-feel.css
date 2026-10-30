@@ -292,3 +292,20 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .shell button, .shell .primary, .shell .overlay-link { transition: none !important; }
 }
+
+
+/* Original environmental motion remains subtle and avoids false game state. */
+.cinematic-mote { animation: cinematic-mote-drift 4s ease-in-out infinite alternate; filter: drop-shadow(0 0 5px rgba(255, 197, 137, .6)); }
+.cinematic-ancient-runes { transform-origin: 944px 400px; animation: cinematic-rune-breathe 3.5s ease-in-out infinite alternate; }
+.cinematic-hero-light ellipse { transition: opacity .3s ease; }
+@keyframes cinematic-mote-drift {
+  from { opacity: .15; transform: translate(0, 5px); }
+  to { opacity: .72; transform: translate(7px, -27px); }
+}
+@keyframes cinematic-rune-breathe {
+  from { opacity: .32; }
+  to { opacity: .85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cinematic-mote, .cinematic-ancient-runes { animation: none !important; }
+}
