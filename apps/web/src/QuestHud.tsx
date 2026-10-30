@@ -1,10 +1,10 @@
 import type { QuestState, Role } from "@crowdquest/shared";
 
-const partyRoles: Array<{ role: Role; glyph: string; label: string; ability: string }> = [
-  { role: "warrior", glyph: "⚔", label: "WARRIOR", ability: "STRIKE" },
-  { role: "guardian", glyph: "⬡", label: "GUARDIAN", ability: "GUARD" },
-  { role: "healer", glyph: "✦", label: "HEALER", ability: "RESTORE" },
-  { role: "scout", glyph: "◈", label: "SCOUT", ability: "REVEAL" }
+const partyRoles: Array<{ role: Role; glyph: string; label: string; ability: string; command: string }> = [
+  { role: "warrior", glyph: "⚔", label: "WARRIOR", ability: "STRIKE", command: "!act attack" },
+  { role: "guardian", glyph: "⬡", label: "GUARDIAN", ability: "GUARD", command: "!act shield" },
+  { role: "healer", glyph: "✦", label: "HEALER", ability: "RESTORE", command: "!act heal" },
+  { role: "scout", glyph: "◈", label: "SCOUT", ability: "REVEAL", command: "!act scout" }
 ];
 
 const chapters: Array<{ title: string; phases: QuestState["phase"][] }> = [
@@ -67,7 +67,7 @@ export function QuestHud({ state }: { state: QuestState }) {
           const sealed = inCombat && committed > 0;
           return <div key={item.role} className={"quest-hud-role " + item.role + (live ? " active" : " missing") + (sealed ? " committed" : "")}>
             <div className="quest-hud-portrait"><span aria-hidden="true">{item.glyph}</span>{live && <small>{members.length}</small>}</div>
-            <div className="quest-hud-role-label"><b>{item.label}</b><small>{inCombat ? (sealed ? committed + " LOCKED" : live ? "AWAITING ACTION" : "UNASSIGNED") : live ? members.length + " IN PARTY" : "NOT RECRUITED"}</small></div>
+            <div className="quest-hud-role-label"><b>{item.label}</b><small>{inCombat ? (sealed ? committed + " LOCKED" : live ? "AWAITING ACTION · " + item.command : "UNASSIGNED") : live ? members.length + " IN PARTY" : "NOT RECRUITED"}</small></div>
             {inCombat && <span className={"quest-hud-role-orb " + (sealed ? "lit" : "")} aria-hidden="true">{sealed ? "✓" : "·"}</span>}
           </div>;
         })}
