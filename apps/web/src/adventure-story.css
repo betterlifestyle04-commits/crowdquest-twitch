@@ -281,3 +281,6 @@
   .adventure-story { animation: none !important; }
   .adventure-story-victory, .adventure-story-defeat { transform: translate(-50%,-50%); }
 }
+
+/* Allow exact role/action hints to wrap instead of clipping in narrower class slots. */
+.quest-hud-role-label small { white-space: normal; line-height: 1.25; overflow-wrap: anywhere; }
