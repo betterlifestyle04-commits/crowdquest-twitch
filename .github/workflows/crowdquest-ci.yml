@@ -10,6 +10,7 @@ on:
       - submission/obs-recording
       - submission/preflight-stability
       - ui/gamefeel-v2
+      - ui/gameplay-feedback-v3
   pull_request:
 
 permissions:
