@@ -25,7 +25,7 @@ export function getStoryPanel(state: QuestState): StoryPanel | null {
         kind: "muster",
         eyebrow: "CHAPTER I · THE MUSTER",
         title: ready === party.length && party.length > 0 ? "The fellowship is ready" : "Choose your calling",
-        narrative: `${ready} of ${party.length} adventurers ${ready === 1 ? "has" : "have"} chosen a role. Each class brings a different strength to the party.`
+        narrative: `${ready} of ${party.length} ${party.length === 1 ? "adventurer" : "adventurers"} ${ready === 1 ? "has" : "have"} chosen a role. Each class brings a different strength to the party.`
       };
     }
     case "briefing":
