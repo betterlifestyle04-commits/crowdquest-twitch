@@ -1,6 +1,7 @@
 import React from "react";
 import type { QuestState, Role } from "@crowdquest/shared";
 import { EncounterFoe, ResolutionPlayback } from "./EncounterArtwork";
+import { QueuedSpellEffects } from "./QueuedSpellEffects";
 
 /** Original vector artwork. All visual feedback derives from the authoritative game state. */
 type Props = { state: QuestState; scene: string };
@@ -57,6 +58,22 @@ export function CinematicScene({ state, scene }: Props) {
       <path d="M0 467 Q240 418 460 465 T880 457 T1200 451V520H0Z" fill="#171627" opacity=".85" />
       <ellipse cx="610" cy="416" rx="700" ry="55" fill="#be93db" opacity=".045" className="cinematic-fog" />
       {(scene === "camp" || scene === "crossroads") && <g className="cinematic-fire"><ellipse cx="800" cy="426" rx="73" ry="20" fill="#f79551" opacity=".24"/><path d="M777 433 800 379 825 432" stroke="#a0735b" strokeWidth="11" strokeLinecap="round" fill="none"/><path d="M790 418 Q778 391 805 359 Q827 384 813 420 Q832 402 821 383 Q852 431 802 445 Q774 440 790 418Z" fill="#ff9d55"/><path d="M796 430 Q791 402 807 386 Q817 414 808 437Z" fill="#fff0ae"/></g>}
+      {scene === "crossroads" && <g className="cinematic-crossroads" aria-hidden="true">
+        <path d="M610 520 Q492 417 222 339 L125 308" stroke="#917e82" strokeWidth="33" opacity=".35" fill="none" strokeLinecap="round"/>
+        <path d="M610 520 Q704 423 924 333 L1073 298" stroke="#8b999d" strokeWidth="33" opacity=".31" fill="none" strokeLinecap="round"/>
+        <path d="M610 520 Q492 417 222 339 L125 308" className="crossroads-bridge-road" stroke="#ffc58b" strokeWidth="7" opacity=".48" fill="none" strokeDasharray="21 19"/>
+        <path d="M610 520 Q704 423 924 333 L1073 298" className="crossroads-moon-road" stroke="#afffe7" strokeWidth="7" opacity=".48" fill="none" strokeDasharray="21 19"/>
+        <g className="crossroads-bridge-marker" transform="translate(197 305)">
+          <path d="M-48 7 L0 -67 48 7Z" fill="#503b51" stroke="#e6a87b" strokeWidth="5"/>
+          <path d="M-8 -30 L17 -7 M7 -31 L-12 0" stroke="#ffc89c" strokeWidth="5" strokeLinecap="round"/>
+          <text x="0" y="37" textAnchor="middle" fontSize="18" fontWeight="900" fill="#fff0ce" stroke="#26182e" strokeWidth="4" paintOrder="stroke">A · BRIDGE</text>
+        </g>
+        <g className="crossroads-moon-marker" transform="translate(1052 300)">
+          <path d="M-10 -59 A35 35 0 1 0 18 9 A29 29 0 1 1 -10 -59Z" fill="#b3f5ec" stroke="#d8fffa" strokeWidth="4"/>
+          <path d="M-34 16 Q0 -3 33 16" stroke="#b9ffea" strokeWidth="3" fill="none"/>
+          <text x="0" y="42" textAnchor="middle" fontSize="18" fontWeight="900" fill="#d5fff8" stroke="#152837" strokeWidth="4" paintOrder="stroke">B · MOONLIT</text>
+        </g>
+      </g>}
       <g className="cinematic-ground-detail" aria-hidden="true">
         <path d="M0 461Q181 430 333 456T683 456T1200 445" fill="none" stroke="#c3a0aa" strokeWidth="2" opacity=".13"/>
         <path d="M0 486Q244 460 458 489T960 482T1200 480" fill="none" stroke="#d0aec1" strokeWidth="1.5" opacity=".12"/>
@@ -75,6 +92,7 @@ export function CinematicScene({ state, scene }: Props) {
       <g className="cinematic-ambient-particles" aria-hidden="true">
         {Array.from({length:22},(_,i)=><circle key={i} className="cinematic-mote" cx={(i*211+53)%1190} cy={185+(i*83)%260} r={i%4===0?2.8:1.45} fill={scene==="moonlit"?"#a1eee2":"#ffcc91"} opacity=".48" style={{animationDelay:(i%9)*-.53+"s",animationDuration:(3.1+(i%5)*.7)+"s"}}/>)}
       </g>
+      <QueuedSpellEffects state={state}/>
       <g className="cinematic-party-art">{roles.map((role,i)=><g key={role} transform={"translate("+(156+i*126)+" 362) scale(1.46)"}><Adventurer role={role} present={countByRole[role]>0} queued={queued.has(role)}/></g>)}</g>
       {participants.length === 1 && participants[0].role && <g className="ember-companion" transform="translate(665 344)"><ellipse cx="0" cy="0" rx="33" ry="46" fill="#b9f6ed" opacity=".09"/><circle className="spirit-light" cx="0" cy="-12" r="22" fill="#9aead8" opacity=".29"/><circle className="spirit-core" cx="0" cy="-12" r="9" fill="#eaffd0" stroke="#8ff3d8" strokeWidth="3"/><path d="M-15 7 Q0 37 16 7" stroke="#8ff3d8" strokeWidth="4" fill="none" opacity=".65"/></g>}{showEnemy && <g transform={"translate(947 356) scale("+(boss?1.15:.85)+")"}><EncounterFoe encounter={state.encounter} boss={boss}/></g>}
       {state.lastResolution && (state.phase === "consequence" || state.phase === "result") && <ResolutionPlayback key={state.lastResolution.phase + "-" + state.lastResolution.at} resolution={state.lastResolution}/>}
