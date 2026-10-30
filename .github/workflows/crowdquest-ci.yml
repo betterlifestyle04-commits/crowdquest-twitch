@@ -11,6 +11,7 @@ on:
       - submission/preflight-stability
       - ui/gamefeel-v2
       - ui/gameplay-feedback-v3
+      - ui/storybook-v4
       - ui/gameplay-feedback-v3
   pull_request:
 
