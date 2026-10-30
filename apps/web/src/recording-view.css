@@ -166,3 +166,21 @@
   color: #fff4ff;
   cursor: pointer;
 }
+
+
+/* Server-derived completion meter for OBS audiences: no simulated progress. */
+.phase-participation { display:grid; gap:.31rem; padding:.54rem .6rem .25rem; border-top:1px solid rgba(233,199,138,.3); }
+.phase-participation-header { display:flex; align-items:center; justify-content:space-between; gap:.45rem; }
+.phase-participation-header span { color:#e1c494; font-size:.58rem; font-weight:950; letter-spacing:.11em; }
+.phase-participation-header b { color:#fff0d2; font-size:1rem; font-variant-numeric:tabular-nums; }
+.phase-participation-header b small { color:#a5b3cb; font-size:.66rem; letter-spacing:0; }
+.phase-participation-track { height:.4rem; border-radius:20px; border:1px solid rgba(173,157,202,.24); background:#332f4b; overflow:hidden; }
+.phase-participation-track i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#8b8cda,#d0aaff); transition:width .3s ease; }
+.phase-participation.complete .phase-participation-track i { background:linear-gradient(90deg,#3cae84,#adffd6); }
+.phase-participation > small { color:#b6bbd5; font-size:.56rem; letter-spacing:.06em; font-weight:800; }
+.phase-participation.complete > small { color:#a6f4cc; }
+@media(max-width:1180px) {
+ .phase-participation { padding:.4rem .3rem .15rem; }
+ .phase-participation-header span { font-size:.49rem; }
+}
+@media(prefers-reduced-motion:reduce) { .phase-participation-track i { transition:none; } }
