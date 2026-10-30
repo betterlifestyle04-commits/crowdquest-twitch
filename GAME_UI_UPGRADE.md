@@ -44,6 +44,12 @@ This visual pass improves the existing game UI without changing Twitch authoriza
 
 Only actual server state drives locked abilities, role counts, route votes, combat results and progress. The simulated Showcase Studio remains clearly watermarked. The UI does not claim to play back Twitch messages that weren't received by the backend.
 
+## Clarity and OBS compositing fixes
+
+- The Viewer Ability Deck no longer suggests `!join` during the briefing, aftermath, or completed result phase, when the server would reject it. It gives clear noninteractive-phase guidance instead.
+- Only the dedicated `/overlay` route has a transparent document background. The dashboard, spectator and `/record` screens retain their immersive opaque world background.
+- Real current health, high threat, complete four-role formation and final outcomes change the world lighting and border accents. No health bars are fabricated.
+
 ## Quality checks
 
 - Updated root `npm test` to include the web UI test suite.
