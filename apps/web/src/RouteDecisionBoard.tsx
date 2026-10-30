@@ -43,7 +43,7 @@ export function RouteDecisionBoard({ state }: { state: QuestState }) {
     </div>
     <div className="route-decision-bottom">
       <b>{counts.total === 0 ? "AWAITING THE FIRST VOTE" : counts.lead === null ? "THE VOTE IS TIED" : "CURRENT LEAD · ROUTE " + counts.lead}</b>
-      <small>{counts.waiting} {counts.waiting===1?"adventurer hasn't":"adventurers haven't"} voted · Ties resolve to A</small>
+      <small>{counts.eligible === 0 ? "No adventurers joined" : counts.waiting === 0 ? "All adventurers have voted" : counts.waiting + (counts.waiting === 1 ? " adventurer has not voted" : " adventurers have not voted")} · Ties resolve to A</small>
     </div>
     <p className="route-decision-disclaimer">Provisional tally · route locks when the phase ends</p>
   </aside>;
