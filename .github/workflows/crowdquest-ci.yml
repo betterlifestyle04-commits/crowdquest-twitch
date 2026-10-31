@@ -16,6 +16,7 @@ on:
       - ui/chronicle-ledger-v6
       - ui/live-decisions-v7
       - release/public-showcase-2026
+      - fix/showcase-visible-stage
       - ui/gameplay-feedback-v3
   pull_request:
 
