@@ -68,6 +68,19 @@ npm run build
 
 The server validates phase eligibility and participant identity, makes all phase transitions, and rate-limits each chatter to one accepted command every 800 ms. In production, dashboard and Demo Mode controls require `STREAMER_CONTROL_TOKEN` entered in the in-page streamer control field. It is sent as an authorization header and is never compiled into the frontend or stored in the repository. Read-only state and the OBS overlay have no control authority.
 
+## Connect an existing Twitch channel — fastest path
+
+If you already connected CrowdQuest locally, **reuse the same Twitch developer app**; don't register another app. The broadcaster connection worked locally before, but the deployed Render server has its own empty private environment and cannot read your computer's `.env` file.
+
+1. Open [Twitch Developer Console](https://dev.twitch.tv/console/apps) and edit the existing CrowdQuest app. Add the exact hosted callback `https://crowdquest-ember-gate.onrender.com/auth/twitch/callback`. **Keep** the original `http://localhost:3001/auth/twitch/callback` callback for local tests.
+2. Open [CrowdQuest on Render](https://dashboard.render.com/web/srv-dbijeibbc2fs73ag4ij0) → **Environment**, save `TWITCH_CLIENT_ID`, `TWITCH_CLIENT_SECRET`, and `TWITCH_REDIRECT_URI=https://crowdquest-ember-gate.onrender.com/auth/twitch/callback`. Also set a strong random `STREAMER_CONTROL_TOKEN`. Save and redeploy. **Never paste secrets into GitHub, the frontend, or chat.**
+3. Open the [live streamer dashboard](https://crowdquest-ember-gate.onrender.com/dashboard). The new **Twitch connection wizard** shows exactly what's configured. Enter the streamer token in the private field, then click **Connect Twitch securely**. Twitch will ask you to authorize the broadcaster account and return you to `/dashboard`.
+4. Wait until the dashboard shows **LIVE TWITCH**. Open your Twitch channel chat and type `!join` in the lobby, then click **Start quest** in CrowdQuest. During subsequent phases type `!role warrior`, `!path B`, and `!act attack`. The dashboard's command receipt feed confirms each real message.
+
+If you visit the legacy `/auth/twitch` URL, it now returns you to the Twitch setup wizard instead of an unhelpful error. In hosted production, starting OAuth requires the private streamer token; Twitch client secrets never reach browsers, and server-to-server credentials cannot be skipped. For the least complicated immediate live Twitch test, **run the same locally configured version of CrowdQuest** using `npm run dev` on the computer that already has your private `.env` file.
+
+**Security:** the public `/showcase` and `/play` routes remain simulated; never present their gameplay as actual Twitch evidence.
+
 ## Twitch setup (manual, required for live chat)
 
 This is intentionally not faked: Demo Mode is available without credentials, while the **Connect Twitch** button reports an error until a real application is configured.
