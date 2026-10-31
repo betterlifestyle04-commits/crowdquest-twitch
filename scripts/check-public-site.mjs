@@ -26,7 +26,7 @@ async function run() {
   await waitUntilReady();
   console.log("PASS live /health");
   let indexHTML = "";
-  const routes = ["/", "/showcase", "/dashboard", "/spectator", "/record", "/recording", "/overlay"];
+  const routes = ["/", "/showcase", "/play", "/dashboard", "/spectator", "/record", "/recording", "/overlay"];
   for (const path of routes) {
     const r = await get(path);
     assert.equal(r.status, 200, path + " status");
