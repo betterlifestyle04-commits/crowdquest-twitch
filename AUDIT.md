@@ -1,3 +1,5 @@
+> **Historical note:** This audit describes the October 28 baseline. Its claims about unpatched Zod and pending lifecycle work are outdated for the October 30 submission build. See [SECURITY_AND_RELEASE.md](SECURITY_AND_RELEASE.md) and the integrated branch's GitHub Actions results: the lockfile now uses Zod 4.6.7 and Vitest 5.0.5 with zero npm-audit findings as of the verified CI run. This does not establish that all runtime risks are resolved.
+
 # CrowdQuest 2.0 audit
 
 Audited: 28 October 2026
@@ -22,3 +24,7 @@ The repository is a TypeScript npm workspace: a dependency-free shared quest eng
 3. **Game scope:** The current Ember Gate has one route and one encounter. Roles, seeded multi-stage branching, scaling, and results/leaderboard remain Milestone 2 work.
 4. **Operational persistence:** State and OAuth session are memory-only; a process restart ends an active session. This is acceptable for local development but must be made explicit for deployment.
 5. **E2E testing:** Unit and server integration tests exist; real Twitch events and browser/OBS behavior remain unverified without valid credentials and a configured Twitch app.
+
+## Dependency audit
+
+`npm audit --omit=dev --audit-level=high` was run on 28 October 2026. It reports one high-severity advisory in `zod` (GHSA-mrhx-c7xc-m3w5) with no upstream fix currently available. CrowdQuest accepts only bounded, small request bodies (`20kb`) and validates fixed-size strings/enums rather than unbounded collections, which limits the relevant exposure. Monitor the advisory and upgrade when a compatible fixed release is published.

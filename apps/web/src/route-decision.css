@@ -1,0 +1,60 @@
+/* Route choice is a true live Twitch ballot, not an on-page button. */
+.route-decision-board { 
+  position:absolute; z-index:19; top:37%; right:1.2rem; width:min(325px, 32%);
+  box-sizing:border-box; display:grid; gap:.48rem; padding:.8rem;
+  border:1px solid rgba(239,199,131,.56); border-radius:.85rem;
+  background:linear-gradient(140deg,rgba(12,17,39,.96),rgba(32,25,54,.94));
+  box-shadow:0 0 0 2px rgba(8,10,24,.7),0 14px 35px rgba(0,0,0,.48);
+  color:#f8ead1; pointer-events:none; backdrop-filter:blur(11px);
+}
+.route-decision-heading { display:flex; gap:.5rem; align-items:center; padding-bottom:.36rem; border-bottom:1px solid rgba(221,190,147,.23); }
+.route-decision-crest { font-size:1.55rem; color:#ebcb98; line-height:1; }
+.route-decision-heading > div { flex:1; min-width:0; }
+.route-decision-kicker { display:block; color:#e3bf8d; font-size:.56rem; font-weight:950; letter-spacing:.15em; }
+.route-decision-heading h2 { margin:.08rem 0 0; color:#fff0cc; font:700 clamp(.85rem,1.04vw,1.1rem)/1.12 Georgia,'Times New Roman',serif; letter-spacing:.04em; }
+.route-decision-total { display:grid; justify-items:center; font-size:1.1rem; color:#fff4d5; font-weight:950; font-variant-numeric:tabular-nums; }
+.route-decision-total small { font-size:.48rem; color:#aeafc8; letter-spacing:.12em; }
+.route-decision-options { display:grid; gap:.4rem; }
+.route-decision-option { display:flex; gap:.48rem; padding:.47rem; border:1px solid rgba(155,157,193,.3); border-radius:.58rem; background:rgba(5,13,31,.6); }
+.route-decision-option.leading { border-color:rgba(247,211,144,.86); background:rgba(66,48,75,.64); box-shadow:inset 0 0 16px rgba(236,191,128,.09),0 0 14px rgba(233,189,132,.12); }
+.route-decision-symbol { width:2.1rem; height:2.1rem; flex:0 0 2.1rem; display:grid; place-items:center; align-self:center; font-size:1.3rem; border:1px solid rgba(231,179,119,.43); border-radius:.45rem; color:#f8d6a4; background:rgba(149,86,61,.22); }
+.route-decision-b .route-decision-symbol { color:#b3fbeb; border-color:rgba(140,238,219,.5); background:rgba(38,113,103,.24); }
+.route-decision-body { min-width:0; flex:1; display:grid; gap:.16rem; }
+.route-decision-top { display:flex; justify-content:space-between; gap:.3rem; }
+.route-decision-top > span { font-size:.48rem; letter-spacing:.09em; font-weight:900; color:#b5b5cc; }
+.route-decision-top > strong { font-size:.47rem; letter-spacing:.07em; color:#f9d79c; }
+.route-decision-body > b { color:#fff0d0; font-size:clamp(.7rem,.9vw,.92rem); letter-spacing:.035em; }
+.route-decision-body > small { color:#b8c0d3; font-size:.58rem; }
+.route-decision-track { height:.36rem; border:1px solid rgba(184,185,206,.13); border-radius:99px; background:#2b3049; overflow:hidden; }
+.route-decision-track i { display:block; height:100%; border-radius:inherit; background:linear-gradient(90deg,#bc8359,#ffc883); transition:width .3s ease; }
+.route-decision-b .route-decision-track i { background:linear-gradient(90deg,#4aaea5,#aaf6dc); }
+.route-decision-footer { display:flex; justify-content:space-between; gap:.2rem; align-items:center; }
+.route-decision-footer code { color:#c7ffdb; font-size:.68rem; font-weight:900; }
+.route-decision-footer span { color:#d1d1de; font-size:.6rem; font-variant-numeric:tabular-nums; }
+.route-decision-bottom { display:grid; gap:.2rem; text-align:center; padding-top:.38rem; border-top:1px solid rgba(197,176,146,.21); }
+.route-decision-bottom b { color:#fae0b4; font-size:.62rem; letter-spacing:.08em; }
+.route-decision-bottom small { color:#c5bdd4; font-size:.58rem; }
+.route-decision-disclaimer { margin:0; text-align:center; font-size:.52rem; color:#95a7c3; }
+@media(max-width:1120px) {
+ .route-decision-board { width:min(270px,38%); top:40%; right:.5rem; padding:.54rem; gap:.29rem; }
+ .route-decision-heading h2 { font-size:.77rem; }
+ .route-decision-option { padding:.3rem; gap:.3rem; }
+ .route-decision-symbol { width:1.5rem; height:1.55rem; flex-basis:1.5rem; font-size:1rem; }
+ .route-decision-body > small, .route-decision-disclaimer { display:none; }
+ .route-decision-top > span, .route-decision-bottom small { font-size:.5rem; }
+}
+@media(max-width:680px) {
+ .route-decision-board { top:39%; width:min(55%, 260px); gap:.2rem; padding:.35rem; }
+ .route-decision-heading { padding-bottom:.16rem; }
+ .route-decision-crest { display:none; }
+ .route-decision-heading h2 { font-size:.67rem; }
+ .route-decision-total { font-size:.82rem; }
+ .route-decision-option { padding:.23rem; }
+ .route-decision-symbol { display:none; }
+ .route-decision-body > b { font-size:.62rem; }
+ .route-decision-top { display:none; }
+ .route-decision-footer code,.route-decision-footer span { font-size:.47rem; }
+ .route-decision-bottom b { font-size:.5rem; }
+ .route-decision-bottom small { display:none; }
+}
+@media(prefers-reduced-motion:reduce) { .route-decision-track i { transition:none; } }
