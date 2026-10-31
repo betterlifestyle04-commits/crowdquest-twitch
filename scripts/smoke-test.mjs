@@ -94,6 +94,21 @@ try {
   const hostedShowcase = await fetch(host + "/showcase");
   assert.equal(hostedShowcase.status, 200, "Compiled SPA must be served from Node origin");
   assert.match(await hostedShowcase.text(), /id="root"/);
+  // OAuth must be started by the authenticated streamer; old GET bookmarks should
+  // show the setup dashboard rather than a cryptic missing-credentials page.
+  const oauthLegacy = await fetch(host + "/auth/twitch", { redirect: "manual" });
+  assert.equal(oauthLegacy.status, 302);
+  assert.match(oauthLegacy.headers.get("location") ?? "", /\/dashboard\?setup=twitch/);
+  assert.equal((await request("/api/twitch/authorize", {method:"POST"})).status, 401);
+  const missingApp = await post("/api/twitch/authorize");
+  assert.equal(missingApp.status, 503);
+  assert.match(missingApp.body.error, /Twitch setup is incomplete/);
+  const stateForSetup = await request("/api/state");
+  assert.equal(stateForSetup.body.hostTokenConfigured, true);
+  assert.equal(stateForSetup.body.twitch.configured, false);
+  const failedCallback = await fetch(host + "/auth/twitch/callback?code=invalid&state=invalid", {redirect:"manual"});
+  assert.equal(failedCallback.status,302);
+  assert.match(failedCallback.headers.get("location") ?? "", /\/dashboard\?twitch=error/);
   assert.equal((await request("/api/demo/rehearsal", {method:"POST",body:{scene:"finale"}})).status, 401, "Unauthenticated public visitors cannot operate rehearsal state");
   assert.equal((await request("/api/control/start", { method: "POST" })).status, 401, "Streamer controls must require the token");
   assert.equal((await post("/api/control/start")).status, 200);
