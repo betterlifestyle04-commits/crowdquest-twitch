@@ -33,8 +33,9 @@ export function createPublicPreviewState(id: SceneId): QuestState {
   return {...state,phaseEndsAt:null};
 }
 /** Public, read-only and always clearly simulated. Never contacts Twitch or host controls. */
-export function PublicShowcase({renderGame}: {renderGame:(state:QuestState)=>ReactNode}) {
+export function PublicShowcase({renderGame}: {renderGame:(state:QuestState,focused:boolean)=>ReactNode}) {
   const [selected,setSelected] = useState<SceneId>("trial");
+  const [focused,setFocused] = useState(true);
   const preview = useMemo(()=>createPublicPreviewState(selected),[selected]);
   const current = scenes.find(x=>x.id===selected)!;
   const currentIndex = scenes.findIndex(x=>x.id===selected);
@@ -72,8 +73,8 @@ export function PublicShowcase({renderGame}: {renderGame:(state:QuestState)=>Rea
           <small>{scene.number}</small><span>{scene.title}</span><b>{scene.tag}</b>
         </button>)}
       </div>
-      <div className="showcase-stage-meta"><div><span>SCENE {current.number} / 06</span><h3>{current.title}</h3><p>{current.subtitle}</p></div><span>ENGINE-BASED REHEARSAL</span></div>
-      <div className="showcase-stage-shell">{renderGame(preview)}</div>
+      <div className="showcase-stage-meta"><div><span>SCENE {current.number} / 06</span><h3>{current.title}</h3><p>{current.subtitle}</p></div><button className="game-display-toggle" aria-pressed={!focused} type="button" onClick={()=>setFocused(value=>!value)}>{focused?"Show detailed HUD":"Hide extra panels"}</button></div>
+      <div className="showcase-stage-shell">{renderGame(preview,focused)}</div>
       <div className="showcase-stage-bottom"><p><b>About this preview:</b> These are simulated demo adventurers and a frozen engine state. No real Twitch commands are being received on this page.</p><div><button type="button" disabled={currentIndex===0} onClick={()=>setSelected(scenes[currentIndex-1].id)}>← Previous</button><button type="button" disabled={currentIndex===scenes.length-1} onClick={()=>setSelected(scenes[currentIndex+1].id)}>Next chapter →</button></div></div>
     </section>
     <section id="how-it-works" className="showcase-how" aria-labelledby="how-title">
