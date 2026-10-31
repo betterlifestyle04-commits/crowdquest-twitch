@@ -42,7 +42,7 @@ export function PublicShowcase({renderGame}: {renderGame:(state:QuestState)=>Rea
     <header className="showcase-navigation">
       <a className="showcase-brand" href="/" aria-label="CrowdQuest home"><span className="showcase-brand-seal">✦</span><span>CROWD<span className="showcase-gold">QUEST</span><small>THE EMBER GATE</small></span></a>
       <nav aria-label="Project links">
-        <a href="#explore">Explore game</a>
+        <a href="/play">Play solo demo</a><a href="#explore">Explore game</a>
         <a href="#how-it-works">How it works</a>
         <a className="showcase-code-link" href="https://github.com/betterlifestyle04-commits/crowdquest-twitch" target="_blank" rel="noreferrer">View source ↗</a>
       </nav>
@@ -52,7 +52,7 @@ export function PublicShowcase({renderGame}: {renderGame:(state:QuestState)=>Rea
         <div className="showcase-eyebrow"><span className="showcase-pulse" /> CODEX × TWITCHCON · INTERACTIVE ADVENTURE</div>
         <h1 id="showcase-title">Your chat.<br/><em>Your quest.</em></h1>
         <p>CrowdQuest transforms a Twitch channel into a collaborative fantasy world. Viewers join as heroes, vote on the path, and combine their abilities in real-time combat.</p>
-        <div className="showcase-hero-actions"><a href="#explore" className="showcase-cta">Explore the adventure <span aria-hidden="true">↓</span></a><a className="showcase-secondary" href="#how-it-works">See how it works</a></div>
+        <div className="showcase-hero-actions"><a href="/play" className="showcase-cta">Play the solo demo <span aria-hidden="true">⚔</span></a><a className="showcase-secondary" href="#explore">Explore six chapters</a></div>
         <div className="showcase-facts"><span><b>4</b><small>Hero classes</small></span><span><b>6</b><small>Quest chapters</small></span><span><b>1</b><small>Shared destiny</small></span></div>
       </div>
       <div className="showcase-hero-art" aria-hidden="true">
@@ -64,7 +64,7 @@ export function PublicShowcase({renderGame}: {renderGame:(state:QuestState)=>Rea
     </section>
     <section id="explore" className="showcase-experience" aria-labelledby="explore-title">
       <div className="showcase-section-top">
-        <div><span className="showcase-overline">INTERACTIVE GALLERY · LOCAL ENGINE</span><h2 id="explore-title">Enter the story</h2><p>Select a chapter to preview the actual game UI and its deterministic simulated quest state.</p></div>
+        <div><span className="showcase-overline">INTERACTIVE GALLERY · LOCAL ENGINE</span><h2 id="explore-title">Enter the story</h2><p>Select a chapter to view the game, or <a href="/play" className="showcase-inline-play">play the single-player rehearsal</a>. These previews are simulated, not real Twitch sessions.</p></div>
         <span className="showcase-simulated-tag">◉ SIMULATED PREVIEW — NOT LIVE TWITCH</span>
       </div>
       <div className="showcase-scene-grid" role="group" aria-label="Choose a chapter preview">
