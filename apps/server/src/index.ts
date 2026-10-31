@@ -1,4 +1,4 @@
-import { config as loadEnv } from "dotenv"; import express, { type NextFunction, type Request, type Response } from "express"; import cors from "cors"; import { createServer } from "node:http"; import { Server } from "socket.io"; import { z } from "zod"; import { fileURLToPath } from "node:url"; import { resolve } from "node:path"; import crypto from "node:crypto";
+import { config as loadEnv } from "dotenv"; import express, { type NextFunction, type Request, type Response } from "express"; import cors from "cors"; import { createServer } from "node:http"; import { Server } from "socket.io"; import { z } from "zod"; import { fileURLToPath } from "node:url"; import { resolve } from "node:path"; import { existsSync } from "node:fs"; import crypto from "node:crypto";
 import { applyChatCommand, advance, begin, canAutoAdvance, getPhaseReadiness, initialState, makeRehearsal, triggerEvent, type Difficulty, type QuestState } from "@crowdquest/shared";
 import { TwitchClient } from "./twitch.js";
 loadEnv({ path: resolve(fileURLToPath(new URL("../../../.env", import.meta.url))) });
@@ -78,6 +78,16 @@ app.post("/api/demo/rehearsal", requireStreamer, (req, res) => {
 });
 app.get("/auth/twitch", (_req, res) => { try { res.redirect(twitch.authorizeUrl()); } catch (error) { res.status(503).send(error instanceof Error ? error.message : "Twitch credentials are not configured"); } });
 app.get("/auth/twitch/callback", async (req, res) => { try { await twitch.callback(String(req.query.code ?? ""), String(req.query.state ?? "")); res.redirect(`${origin}/?twitch=authorized`); } catch (error) { res.status(400).send(`Twitch connection failed: ${error instanceof Error ? error.message : "unknown error"}`); } });
+// Production hosting: one origin serves the compiled Vite UI, API and WebSocket.
+// The normal local development workflow keeps Vite on localhost:5173.
+const webDist = fileURLToPath(new URL("../../web/dist/", import.meta.url));
+if (existsSync(resolve(webDist, "index.html"))) {
+  app.use(express.static(webDist, { index: false, dotfiles: "ignore" }));
+  app.get(["/", "/dashboard", "/showcase", "/spectator", "/overlay", "/record", "/recording"], (_req, res) => {
+    res.setHeader("Cache-Control", "no-cache");
+    res.sendFile(resolve(webDist, "index.html"));
+  });
+}
 io.on("connection", (socket) => socket.emit("state", viewState()));
 setInterval(() => {
   if (autoObservedPhase !== state.phase) resetAutoWindow();
