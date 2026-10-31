@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { act, advance, begin, chooseRole, initialState, join, votePath, type Action, type Path, type QuestState, type Role } from "@crowdquest/shared";
 
 const heroId = "public:solo";
@@ -43,13 +43,13 @@ export function soloNext(state: QuestState, action:
 /** A fully local, single-player rehearsal using the actual shared quest engine.
  * Does not touch Twitch, Socket.IO, authentication, or the live backend state. */
 export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState)=>ReactNode}) {
-  const [seed,setSeed] = useState(20261102);
-  const [state,setState] = useState<QuestState>(()=>initialState(seed));
+  const seed = useRef(20261102);
+  const [state,setState] = useState<QuestState>(()=>initialState(seed.current));
   const [name,setName] = useState("Hero");
   const participant = state.players[heroId];
   const ability = roleDescriptions.find(x=>x.role===participant?.role);
   const next = (action:Parameters<typeof soloNext>[1])=>setState(current=>soloNext(current,action));
-  const restart=()=>{setSeed(value=>{const newSeed=value+1;setState(initialState(newSeed));return newSeed;});};
+  const restart=()=>{seed.current += 1;setState(initialState(seed.current));};
   const chapter = state.phase === "lobby" ? "The Campfire" :
     state.phase === "roles" ? "The Muster" :
     state.phase === "briefing" ? "The Journey Begins" :
