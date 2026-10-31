@@ -84,11 +84,17 @@ try {
   const vite = resolve(appRoot, "node_modules/vite/bin/vite.js");
   start([vite, "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], appRoot, {});
   await Promise.all([waitFor(host + "/health"), waitFor(web + "/")]);
-  for (const path of ["/", "/overlay", "/spectator", "/record", "/recording"]) {
+  for (const path of ["/", "/showcase", "/overlay", "/spectator", "/record", "/recording"]) {
     const response = await waitFor(web + path);
     const html = await response.text();
     assert.match(html, /id="root"/);
   }
+  // In a production build, the Node server must serve the public site and SPA routes
+  // without opening streamer control endpoints.
+  const hostedShowcase = await fetch(host + "/showcase");
+  assert.equal(hostedShowcase.status, 200, "Compiled SPA must be served from Node origin");
+  assert.match(await hostedShowcase.text(), /id="root"/);
+  assert.equal((await request("/api/demo/rehearsal", {method:"POST",body:{scene:"finale"}})).status, 401, "Unauthenticated public visitors cannot operate rehearsal state");
   assert.equal((await request("/api/control/start", { method: "POST" })).status, 401, "Streamer controls must require the token");
   assert.equal((await post("/api/control/start")).status, 200);
   assert.equal((await chat("!join")).body.accepted, true);
