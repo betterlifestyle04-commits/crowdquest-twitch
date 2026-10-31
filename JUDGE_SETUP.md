@@ -1,8 +1,8 @@
 # CrowdQuest — Judge Setup and Test Guide
 
-**Submission branch:** `submission/integrated-crowdquest`
+**Submission branch:** `main`
 
-**Repository:** https://github.com/betterlifestyle04-commits/crowdquest-twitch/tree/submission/integrated-crowdquest
+**Repository:** https://github.com/betterlifestyle04-commits/crowdquest-twitch
 
 ## Prerequisites
 
@@ -13,7 +13,6 @@ Node.js **22+** and npm **10+**. Windows, macOS or Linux with a modern browser. 
 ```bash
 git clone https://github.com/betterlifestyle04-commits/crowdquest-twitch.git
 cd crowdquest-twitch
-git switch submission/integrated-crowdquest
 npm ci
 npm test
 npm run typecheck
@@ -22,8 +21,11 @@ npm run smoke
 npm run dev
 ```
 
+Use the hosted, explicitly simulated gallery at the project's public website once deployed, or run the local project below. The hosted gallery **is not evidence of real Twitch chat**. See [PUBLIC_WEBSITE_GUIDE.md](PUBLIC_WEBSITE_GUIDE.md) for service details.
+
 Open:
 - **Streamer dashboard:** http://localhost:5173
+- **Public scene gallery:** http://localhost:5173/showcase
 - **Full-screen spectator:** http://localhost:5173/spectator
 - **Transparent OBS overlay:** http://localhost:5173/overlay
 - **Server health:** http://localhost:3001/health
@@ -71,4 +73,4 @@ The HTTP smoke test launches isolated backend/web servers without a Twitch conne
 - **Port already in use:** Stop other local CrowdQuest processes running on ports 3001/5173.
 - **Simulated viewers shown:** Reset the quest before demonstrating genuine live Twitch chat.
 
-No deployed hosted service is claimed or required for this local-first project.
+The hosted gallery is optional for local game evaluation; it is distinct from the genuine Twitch gameplay demonstration. A public service URL must be verified independently before adding it to Devpost.
