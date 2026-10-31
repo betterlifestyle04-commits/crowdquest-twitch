@@ -83,7 +83,7 @@ app.get("/auth/twitch/callback", async (req, res) => { try { await twitch.callba
 const webDist = fileURLToPath(new URL("../../web/dist/", import.meta.url));
 if (existsSync(resolve(webDist, "index.html"))) {
   app.use(express.static(webDist, { index: false, dotfiles: "ignore" }));
-  app.get(["/", "/dashboard", "/showcase", "/spectator", "/overlay", "/record", "/recording"], (_req, res) => {
+  app.get(["/", "/dashboard", "/showcase", "/play", "/spectator", "/overlay", "/record", "/recording"], (_req, res) => {
     res.setHeader("Cache-Control", "no-cache");
     res.sendFile(resolve(webDist, "index.html"));
   });
