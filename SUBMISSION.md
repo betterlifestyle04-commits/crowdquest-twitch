@@ -3,7 +3,9 @@
 
 **Tagline:** Your chat becomes the party. Every decision changes the adventure.
 
-**Source code:** https://github.com/betterlifestyle04-commits/crowdquest-twitch/tree/submission/integrated-crowdquest
+**Source code:** https://github.com/betterlifestyle04-commits/crowdquest-twitch
+
+**Hosted demo:** [Add verified CrowdQuest public showcase URL after successful deployment; clearly simulated]
 
 **Demo video:** [Add public or unlisted YouTube link after uploading]
 
