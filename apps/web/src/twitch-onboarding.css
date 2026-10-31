@@ -1,0 +1,46 @@
+/* CrowdQuest streamer onboarding — step-by-step Twitch connection with no leaked secrets. */
+.twitch-onboarding {
+  display:grid;gap:1.05rem;max-width:1600px;margin:1.1rem auto 1.3rem;
+  padding:clamp(1rem,2vw,1.55rem);border:1px solid rgba(226,184,121,.55);
+  border-radius:1rem;background:radial-gradient(circle at 94% 0%,rgba(124,73,112,.22),transparent 48%),
+  linear-gradient(135deg,rgba(32,28,53,.97),rgba(13,21,42,.98));
+  box-shadow:0 12px 40px rgba(0,0,0,.28);
+}
+.twitch-onboarding.connected {border-color:rgba(98,214,164,.62);background:linear-gradient(120deg,rgba(19,57,54,.97),rgba(15,28,47,.97));}
+.twitch-onboarding-top {display:flex;align-items:center;justify-content:space-between;gap:1.2rem;}
+.twitch-onboarding-top .eyebrow {font-size:.62rem;letter-spacing:.16em;color:#e2b97d;font-weight:900;margin:0;}
+.twitch-onboarding-top h2 {font:700 clamp(1.35rem,2vw,2.05rem)/1.16 Georgia,'Times New Roman',serif;color:#fff0cf;margin:.42rem 0;}
+.twitch-onboarding-top p:not(.eyebrow) {font-size:.79rem;color:#bfcbe1;line-height:1.5;margin:0;max-width:760px;}
+.twitch-connection-pill {font-size:.62rem;font-weight:950;letter-spacing:.07em;border:1px solid rgba(228,190,147,.59);background:rgba(109,65,67,.33);border-radius:2rem;padding:.52rem .75rem;white-space:nowrap;color:#ffdbb3;}
+.twitch-connection-pill.ready {color:#d2e9ff;border-color:rgba(151,181,255,.6);background:rgba(45,69,111,.3);}
+.twitch-connection-pill.online {color:#b2fbd3;border-color:rgba(103,225,163,.67);background:rgba(29,95,69,.3);}
+.twitch-onboarding-steps {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;}
+.twitch-setup-step {min-width:0;display:grid;align-content:start;gap:.48rem;padding:1rem;border:1px solid rgba(181,166,202,.32);border-radius:.65rem;background:rgba(9,15,33,.57);}
+.twitch-step-heading {display:flex;align-items:center;gap:.48rem;flex-wrap:wrap;}
+.twitch-step-heading>b {width:1.55rem;height:1.55rem;display:grid;place-items:center;border:1px solid #d5b68a;border-radius:50%;background:rgba(119,76,82,.41);color:#ffe4b8;font-size:.7rem;}
+.twitch-step-heading span {font-weight:900;color:#fce7c4;font-size:.78rem;flex:1;min-width:110px;}
+.twitch-step-heading em {font-style:normal;font-size:.58rem;font-weight:900;color:#ffce9b;}
+.twitch-step-heading em.complete {color:#b4f2cd;}
+.twitch-setup-step p {font-size:.73rem;line-height:1.57;color:#b8c6db;margin:0;}
+.twitch-setup-step code {color:#b8f3db;font-size:.68rem;overflow-wrap:anywhere;}
+.twitch-setup-step>a {color:#f1cb92;font-weight:800;font-size:.73rem;text-decoration:underline;text-underline-offset:.18rem;}
+.twitch-callback {display:flex;align-items:center;gap:.45rem;min-width:0;padding:.45rem;background:rgba(13,25,50,.95);border:1px solid rgba(152,177,200,.34);border-radius:.4rem;}
+.twitch-callback code {font-size:.59rem;flex:1;min-width:0;}
+.twitch-callback button {cursor:pointer;border:1px solid rgba(234,193,139,.59);border-radius:.35rem;padding:.4rem .45rem;white-space:nowrap;background:rgba(95,66,67,.54);font-size:.62rem;color:#ffe2bd;font-weight:900;}
+.twitch-onboarding-actions {display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.95rem 1rem;background:rgba(20,27,50,.74);border:1px solid rgba(244,204,145,.31);border-radius:.65rem;}
+.twitch-onboarding-actions b {color:#ffebc6;font-size:.88rem;}
+.twitch-onboarding-actions p {color:#b8c7dc;font-size:.72rem;margin:.3rem 0 0;}
+.twitch-onboarding-actions button {min-width:215px;max-width:100%;cursor:pointer;}
+.twitch-onboarding-actions button:disabled {cursor:not-allowed;opacity:.55;filter:grayscale(.75);}
+.twitch-onboarding-error,.twitch-onboarding-notice {margin:0;padding:.75rem;border-radius:.55rem;font-size:.78rem;line-height:1.5;}
+.twitch-onboarding-error {border:1px solid rgba(255,140,137,.45);background:rgba(117,36,45,.32);color:#ffd3c4;}
+.twitch-onboarding-notice {border:1px solid rgba(100,213,159,.44);background:rgba(35,93,77,.31);color:#c5f8da;}
+.twitch-onboarding-footer {font-size:.67rem;color:#b7bcd2;margin:0;line-height:1.5;overflow-wrap:anywhere;}
+.twitch-onboarding-footer strong {color:#f5d3a4;}
+.twitch-connected-steps {padding:.8rem 1rem;border:1px solid rgba(126,230,161,.37);border-radius:.58rem;background:rgba(15,46,41,.68);}
+.twitch-connected-steps strong {font:700 1.12rem Georgia,serif;color:#d1ffdc;}
+.twitch-connected-steps p {font-size:.78rem;color:#d3e9e5;line-height:1.65;margin:.55rem 0;}
+.twitch-connected-steps code {color:#b4ffc9;font-weight:800;}
+.twitch-connected-steps a {color:#ffe2ac;font-size:.75rem;font-weight:900;text-decoration:underline;}
+@media(max-width:1100px){.twitch-onboarding-steps {grid-template-columns:1fr;}.twitch-setup-step {padding:.8rem;}.twitch-connection-pill {white-space:normal;text-align:center;}}
+@media(max-width:650px){.twitch-onboarding-top,.twitch-onboarding-actions {display:grid;}.twitch-connection-pill {justify-self:start;}.twitch-onboarding-actions button {width:100%;min-width:0;}.twitch-callback {flex-wrap:wrap;}.twitch-callback code {width:100%;flex-basis:100%;}}
