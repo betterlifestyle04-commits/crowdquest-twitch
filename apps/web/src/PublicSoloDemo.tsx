@@ -42,10 +42,11 @@ export function soloNext(state: QuestState, action:
 
 /** A fully local, single-player rehearsal using the actual shared quest engine.
  * Does not touch Twitch, Socket.IO, authentication, or the live backend state. */
-export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState)=>ReactNode}) {
+export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState,focused:boolean)=>ReactNode}) {
   const seed = useRef(20261102);
   const [state,setState] = useState<QuestState>(()=>initialState(seed.current));
   const [name,setName] = useState("Hero");
+  const [focused,setFocused] = useState(true);
   const participant = state.players[heroId];
   const ability = roleDescriptions.find(x=>x.role===participant?.role);
   const next = (action:Parameters<typeof soloNext>[1])=>setState(current=>soloNext(current,action));
@@ -65,8 +66,8 @@ export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState)=>Rea
     <section className="solo-intro"><div><p className="showcase-overline">PLAYABLE REHEARSAL · SINGLE PLAYER</p><h1>Become the hero.</h1><p>Join the expedition, choose your role, make the journey's decisions and fight the Ember Lord—all in your browser.</p></div><span className="showcase-simulated-tag">SIMULATED DEMO · NOT LIVE TWITCH</span></section>
     <div className="solo-layout">
       <section className="solo-playfield" aria-label="CrowdQuest simulated gameplay">
-        <div className="showcase-stage-meta"><div><span>THE EMBER GATE · SIMULATED</span><h3>{chapter}</h3><p>{state.history[0]?.text ?? "The adventure is yours to begin."}</p></div><span>LOCAL GAME ENGINE</span></div>
-        <div className="showcase-stage-shell">{renderGame(state)}</div>
+        <div className="showcase-stage-meta"><div><span>THE EMBER GATE · SIMULATED</span><h3>{chapter}</h3><p>{state.history[0]?.text ?? "The adventure is yours to begin."}</p></div><button className="game-display-toggle" aria-pressed={!focused} type="button" onClick={()=>setFocused(value=>!value)}>{focused?"Show detailed HUD":"Hide extra panels"}</button></div>
+        <div className="showcase-stage-shell">{renderGame(state,focused)}</div>
         <p className="solo-stage-note">This is a single-player engine rehearsal. Actions happen in this browser only, with an Ember Spirit companion in combat. The real multiplayer game uses Twitch chat.</p>
       </section>
       <aside className="solo-controls" aria-labelledby="solo-controls-title">
