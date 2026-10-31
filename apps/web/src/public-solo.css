@@ -1,0 +1,57 @@
+/* Standalone, browser-playable CrowdQuest solo rehearsal. Never touches live host state. */
+.public-solo { min-height:100vh; }
+.solo-intro { max-width:1560px; padding:2.6rem clamp(1rem,4vw,4rem) 1.65rem; margin:auto;display:flex;justify-content:space-between;align-items:center;gap:1rem; }
+.solo-intro h1 { color:#fff0d4; font:700 clamp(2.3rem,4.4vw,4.2rem)/1.04 Georgia,serif;letter-spacing:-.055em; margin:.5rem 0; }
+.solo-intro >div>p:last-child {font-size:.88rem;line-height:1.5;color:#adbdd3;max-width:730px;margin:.4rem 0;}
+.solo-layout { max-width:1560px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,330px);align-items:start;gap:1rem;padding:0 clamp(1rem,4vw,4rem) 4rem; }
+.solo-playfield {min-width:0;}
+.solo-playfield .showcase-stage-shell {border-radius:0 0 .65rem .65rem;overflow:hidden;}
+.solo-playfield .showcase-stage-shell > .game-stage.cinematic-stage.stage-overlay {min-height:clamp(525px,43vw,690px);height:auto;margin:0;width:100%;}
+.solo-stage-note {color:#b1bed0;font-size:.72rem;line-height:1.5;padding:.7rem 1rem;margin:0;border:1px solid rgba(231,196,147,.32);background:rgba(22,24,45,.75);border-top:0;border-radius:0 0 .65rem .65rem;}
+.solo-controls {min-width:0;display:grid;gap:1rem;position:sticky;top:1rem;padding:1.25rem;border:1px solid rgba(232,185,133,.47);border-radius:.78rem;background:linear-gradient(150deg,rgba(36,29,57,.96),rgba(13,20,41,.97));box-shadow:0 20px 60px rgba(0,0,0,.32);}
+.solo-controls-heading {border-bottom:1px solid rgba(229,204,152,.27);padding-bottom:.7rem;}
+.solo-controls-heading span {color:#e1bc89;font-size:.58rem;letter-spacing:.15em;font-weight:950;}
+.solo-controls-heading h2 {margin:.35rem 0 0;font:700 1.6rem Georgia,serif;color:#ffe9c1;}
+.solo-actions {display:grid;gap:.7rem;}
+.solo-actions >p {line-height:1.52;color:#c2cadb;font-size:.8rem;margin:0;}
+.solo-actions >p strong {color:#fff0cd;}
+.solo-actions label {font-weight:900;color:#e6d8b9;font-size:.7rem;}
+.solo-actions input {background:#0d142b;color:#fff0d7;border:1px solid rgba(205,185,161,.55);width:100%;border-radius:.45rem;padding:.78rem;font-size:.93rem;}
+.solo-primary {display:block;width:100%;border:1px solid #f2d09b;border-radius:.5rem;background:linear-gradient(135deg,#f8d59a,#cda16b);color:#2b2030;font-size:.86rem;font-weight:950;padding:.88rem 1rem;text-align:center;cursor:pointer;transition:transform .2s,filter .2s;}
+.solo-primary:not(:disabled):hover {filter:brightness(1.06);transform:translateY(-2px);}
+.solo-primary:disabled {filter:grayscale(.85);opacity:.5;cursor:not-allowed;}
+.solo-role-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem;}
+.solo-choice {display:grid;gap:.2rem;width:100%;text-align:left;padding:.75rem .7rem;border:1px solid rgba(175,175,212,.4);border-radius:.5rem;background:rgba(22,29,53,.7);color:#ffebcd;cursor:pointer;transition:border-color .2s,background .2s;}
+.solo-choice:hover,.solo-choice.chosen {border-color:#ffdb9b;background:linear-gradient(110deg,rgba(84,65,90,.85),rgba(47,39,75,.8));}
+.solo-choice.chosen {box-shadow:inset 0 0 14px rgba(221,177,123,.1);}
+.solo-choice b {font-size:.78rem;line-height:1.3;}
+.solo-choice small {font-size:.65rem;color:#b2bbcf;line-height:1.4;}
+.solo-choice:disabled {cursor:default;opacity:.67;}
+.solo-route {padding:.86rem;}
+.solo-stats {border-top:1px solid rgba(230,195,151,.24);padding-top:.8rem;display:grid;grid-template-columns:repeat(2,1fr);gap:.5rem;}
+.solo-stats span {display:grid;gap:.22rem;padding:.55rem;background:rgba(12,19,40,.6);border:1px solid rgba(167,159,192,.24);border-radius:.38rem;}
+.solo-stats small {color:#9db0ca;font-size:.55rem;font-weight:900;letter-spacing:.09em;}
+.solo-stats b {color:#ffebca;font-size:.78rem;text-transform:capitalize;}
+.solo-result {font:700 1.23rem Georgia,serif!important;color:#f7d59a!important;}
+.solo-disclaimer {padding:.7rem .8rem;border:1px solid rgba(107,204,176,.35);background:rgba(27,65,69,.26);border-radius:.52rem;}
+.solo-disclaimer b {color:#b6efdf;font-size:.74rem;}
+.solo-disclaimer p {color:#b7c8c8;font-size:.66rem;line-height:1.45;margin:.35rem 0 0;}
+@media(max-width:1120px) {
+ .solo-layout {grid-template-columns:minmax(0,1fr) 280px;gap:.7rem;padding:0 1.1rem 3rem;}
+ .solo-controls {padding:.95rem;}
+ .solo-intro {padding:2rem 1.1rem 1rem;}
+}
+@media(max-width:850px) {
+ .solo-layout {grid-template-columns:1fr;}
+ .solo-controls {position:static;}
+ .solo-playfield .showcase-stage-shell > .game-stage.cinematic-stage.stage-overlay {min-height:clamp(460px,70vw,600px);}
+}
+@media(max-width:560px) {
+ .solo-intro {display:grid;padding:1.6rem .8rem 1rem;}
+ .solo-layout {padding:0 .6rem 2rem;gap:.6rem;}
+ .solo-intro h1 {font-size:2.5rem;}
+ .solo-playfield .showcase-stage-shell > .game-stage.cinematic-stage.stage-overlay {min-height:440px;}
+ .solo-controls {padding:.8rem;}
+ .solo-role-grid {gap:.3rem;}
+}
+@media(prefers-reduced-motion:reduce){.solo-primary,.solo-choice{transition:none!important;}}
