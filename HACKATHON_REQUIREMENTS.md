@@ -5,7 +5,7 @@
 - Rules: https://twitchcon-codex.devpost.com/rules
 - Resources/FAQ: https://twitchcon-codex.devpost.com/resources
 - Deadline: **November 2, 2026, 2:00 PM Pacific Standard Time = 23:00 Oslo time**.
-- Code release candidate: https://github.com/betterlifestyle04-commits/crowdquest-twitch/tree/submission/integrated-crowdquest
+- Code release candidate: https://github.com/betterlifestyle04-commits/crowdquest-twitch
 
 | Requirement | Evidence / status | Final human action |
 | --- | --- | --- |
@@ -13,7 +13,7 @@
 | Interactive project for Twitch streamers and viewers | Twitch chat commands, Twitch OAuth/EventSub, streamer dashboard, spectator and OBS overlay. **Implemented** | Verify complete live Twitch quest using integrated branch |
 | Built with OpenAI Codex | Many Codex-generated commits and user's development sessions. **Claimed and reflected in Git history** | Provide actual Codex session ID; show Codex use in demo |
 | Installs and runs reliably | Node 22/npm 10 instructions; GitHub Actions installation, 34 tests, TypeScript/build, and HTTP smoke test pass. **Automated checks passed** | Confirm Windows/OBS live display and reconnect |
-| Repository source, assets and setup instructions | Public GitHub branch includes all source assets, README, .env.example and JUDGE_SETUP. **Present** | Link exactly this branch in Devpost or merge to main after live verification |
+| Repository source, assets and setup instructions | Public GitHub branch includes all source assets, README, .env.example and JUDGE_SETUP. **Present** | Link the public main branch in Devpost; manually validate genuine Twitch + OBS before claiming it |
 | English project description | SUBMISSION.md. **Prepared** | Copy into Devpost and tailor personal Codex account details |
 | Codex session ID | **Missing from this repository** | Run `/status` inside the Codex thread where most code was developed; paste ID in Devpost |
 | Demo video under 3 minutes | VIDEO_STORYBOARD.md prepared. **No video yet** | Record actual Twitch gameplay and actual Codex development; edit to ~2:40 |
