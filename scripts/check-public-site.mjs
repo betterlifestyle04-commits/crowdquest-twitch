@@ -12,8 +12,16 @@ async function waitUntilReady() {
   for (let i = 0; i < 28; i++) {
     try {
       const r = await get("/health");
-      if (r.ok && (await r.json()).ok === true) return;
-      last = "/health returned HTTP " + r.status;
+      if (r.ok && (await r.json()).ok === true) {
+        const stateResponse = await get("/api/state");
+        if (stateResponse.ok) {
+          const liveState = await stateResponse.json();
+          if (typeof liveState.hostTokenConfigured === "boolean") return;
+        }
+        last = "Old version still deployed (Twitch setup readiness unavailable)";
+      } else {
+        last = "/health returned HTTP " + r.status;
+      }
     } catch (e) {
       last = String(e).slice(0, 400);
     }
@@ -54,6 +62,10 @@ async function run() {
   assert.equal(typeof state.twitch?.configured, "boolean", "Twitch configuration status must be available");
   assert.equal(state.rehearsalActive, false, "Public gallery must not silently alter the real backend quest");
   console.log("PASS public state reports protected controls and explicit Twitch setup readiness");
+  const legacyConnect = await get("/auth/twitch", {redirect:"manual"});
+  assert.equal(legacyConnect.status,302,"Old Connect Twitch link should redirect to dashboard setup");
+  assert.match(legacyConnect.headers.get("location") ?? "", /\/dashboard\?setup=twitch/);
+  console.log("PASS legacy Twitch link leads to the setup wizard instead of an error");
   for (const path of ["/api/control/start", "/api/demo/rehearsal", "/api/session/settings", "/api/twitch/authorize"]) {
     const r = await get(path, {method:"POST", headers:{"Content-Type":"application/json"},body:"{}"});
     assert.equal(r.status, 401, path + " must reject unauthenticated mutation");
