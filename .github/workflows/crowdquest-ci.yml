@@ -17,6 +17,7 @@ on:
       - ui/live-decisions-v7
       - release/public-showcase-2026
       - fix/showcase-visible-stage
+      - fix/twitch-onboarding-20261031
       - ui/gameplay-feedback-v3
   pull_request:
 
