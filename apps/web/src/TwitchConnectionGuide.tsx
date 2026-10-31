@@ -86,12 +86,12 @@ export function TwitchConnectionGuide({ twitch, controlsProtected, hostTokenConf
         <div className="twitch-setup-step">
           <div className="twitch-step-heading"><b>2</b><span>Connect this server to the app</span><em className={progress.appReady ? "complete" : ""}>{progress.appReady ? "✓ Configured" : "Not configured"}</em></div>
           {hosted ? <p>Open Render → Environment. Set <code>TWITCH_CLIENT_ID</code>, <code>TWITCH_CLIENT_SECRET</code>, and <code>TWITCH_REDIRECT_URI</code> using this callback. Save and redeploy. Keep both credentials private.</p> :
-          <p>On your computer, configure the three Twitch settings in the repository's private <code>.env</code> file and restart <code>npm run dev</code>.</p>}
+          <p>On your computer, set <code>TWITCH_CLIENT_ID</code>, <code>TWITCH_CLIENT_SECRET</code>, and <code>TWITCH_REDIRECT_URI</code> in the private <code>.env</code> file, then restart <code>npm run dev</code>.</p>}
           {hosted ? <a href="https://dashboard.render.com/web/srv-dbijeibbc2fs73ag4ij0" target="_blank" rel="noreferrer">Open CrowdQuest's Render settings ↗</a> : <a href="https://github.com/betterlifestyle04-commits/crowdquest-twitch/blob/main/.env.example" target="_blank" rel="noreferrer">See required environment names ↗</a>}
         </div>
         <div className="twitch-setup-step">
           <div className="twitch-step-heading"><b>3</b><span>Unlock streamer controls</span><em className={progress.accessReady ? "complete" : ""}>{progress.accessReady ? "✓ Ready" : "Action required"}</em></div>
-          {progress.needsServerToken ? <p>In Render → Environment, create <code>STREAMER_CONTROL_TOKEN</code> with a long random secret. Save and redeploy; enter the same private token in the streamer field above.</p> :
+          {progress.needsServerToken ? <p>Create <code>STREAMER_CONTROL_TOKEN</code> with a long random secret in your {hosted ? "Render Environment" : "private .env file"}. Restart the server, then enter it in the streamer field above.</p> :
           controlsProtected && !controlToken.trim() ? <p>Enter your private <code>STREAMER_CONTROL_TOKEN</code> in the streamer field above. It stays in this browser tab.</p> :
           <p>{controlsProtected ? "Streamer token entered. Authorization is validated when you press Connect Twitch." : "Local development: host authorization is not required unless you set a streamer token."}</p>}
         </div>
