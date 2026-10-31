@@ -50,10 +50,11 @@ async function run() {
   assert.equal(stateResponse.status, 200);
   const state = await stateResponse.json();
   assert.equal(state.controlsProtected, true, "Production streamer controls must be protected");
-  assert.equal(state.twitch?.configured, false, "No Twitch credentials should be assumed on the public demo");
+  assert.equal(typeof state.hostTokenConfigured, "boolean", "Streamer token readiness must be explicit");
+  assert.equal(typeof state.twitch?.configured, "boolean", "Twitch configuration status must be available");
   assert.equal(state.rehearsalActive, false, "Public gallery must not silently alter the real backend quest");
-  console.log("PASS public state reports protected controls and unconfigured Twitch");
-  for (const path of ["/api/control/start", "/api/demo/rehearsal", "/api/session/settings"]) {
+  console.log("PASS public state reports protected controls and explicit Twitch setup readiness");
+  for (const path of ["/api/control/start", "/api/demo/rehearsal", "/api/session/settings", "/api/twitch/authorize"]) {
     const r = await get(path, {method:"POST", headers:{"Content-Type":"application/json"},body:"{}"});
     assert.equal(r.status, 401, path + " must reject unauthenticated mutation");
     console.log("PASS unauthorized HTTP 401 " + path);
