@@ -8,13 +8,13 @@ const phaseTitles: Record<QuestState["phase"], string> = {
 
 /** Quiet, accurate game information for a screenshot-friendly scene.
  * Player instructions are outside the battlefield in /play and /showcase. */
-export function FocusedGameHUD({state}: {state: QuestState}) {
+export function FocusedGameHUD({state, simulated = false}: {state: QuestState; simulated?: boolean}) {
   const party = Object.keys(state.players).length;
   const hp = Math.max(0,Math.min(100,state.health / Math.max(1,state.maxHealth)*100));
   return <div className="focused-game-hud" aria-label="Simplified gameplay information">
     <div className="focused-chapter">
       <span className="focused-chapter-mark" aria-hidden="true">✦</span>
-      <span className="focused-chapter-label"><small>THE EMBER GATE · {state.rehearsalActive ? "SIMULATED" : "ADVENTURE"}</small><b>{phaseTitles[state.phase]}</b></span>
+      <span className="focused-chapter-label"><small>THE EMBER GATE · {simulated ? "SIMULATED" : "ADVENTURE"}</small><b>{phaseTitles[state.phase]}</b></span>
     </div>
     <div className="focused-vitals">
       <div className="focused-health">
