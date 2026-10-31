@@ -30,7 +30,17 @@ export function TwitchConnectionGuide({ twitch, controlsProtected, hostTokenConf
   const hosted = typeof window !== "undefined" && window.location.hostname.endsWith(".onrender.com");
   const callback = hosted ? window.location.origin + "/auth/twitch/callback" : "http://localhost:3001/auth/twitch/callback";
   const progress = getTwitchSetupProgress(twitch, controlsProtected, hostTokenConfigured, Boolean(controlToken.trim()));
-  const callbackNotice = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("twitch") : null;
+  const callbackParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : new URLSearchParams();
+  const callbackNotice = callbackParams.get("twitch");
+  const oauthReasons: Record<string,string> = {
+    access_denied: "Twitch authorization was cancelled or permission was denied. Select Connect my Twitch account and approve the request.",
+    invalid_state: "The sign-in session expired or the game server restarted before Twitch returned. Leave PowerShell running, then start a NEW connection from this dashboard. Do not reuse an old Twitch authorization link.",
+    token_exchange: "Twitch rejected the authorization code. Check that the Client ID and Client Secret in your private .env belong to the SAME Twitch developer app, and that TWITCH_REDIRECT_URI exactly matches the registered callback. Restart after editing .env.",
+    user_lookup: "Twitch granted authorization but CrowdQuest could not retrieve the broadcaster account. Check your internet connection and try again.",
+    twitch_rejected: "Twitch rejected the authorization request. Check the app's registered redirect URL and ensure your Twitch account can authorize this application.",
+    unexpected: "Something unexpected interrupted Twitch authorization. Keep the game server running and check PowerShell for the safe failure category."
+  };
+  const callbackErrorMessage = oauthReasons[callbackParams.get("reason") ?? ""] ?? "Twitch authorization did not finish. Check the callback URL, keep the game server running, and start a fresh connection.";
   const [showOwnerSetup, setShowOwnerSetup] = useState(false);
   const connect = async () => {
     if (pending || !progress.appReady || !progress.accessReady) return;
@@ -76,7 +86,7 @@ export function TwitchConnectionGuide({ twitch, controlsProtected, hostTokenConf
       <div className="twitch-quick-actions"><a href={twitch.login ? "https://www.twitch.tv/" + encodeURIComponent(twitch.login) : "https://www.twitch.tv/"} target="_blank" rel="noreferrer">Open your Twitch chat ↗</a><a href="#game-dashboard">Go to game controls ↓</a></div>
     </div> : <>
       {callbackNotice === "authorized" && <p className="twitch-onboarding-notice" role="status">Twitch authorization finished. Checking the channel connection now.</p>}
-      {callbackNotice === "error" && <p className="twitch-onboarding-error" role="alert">Twitch authorization was not completed. Check the app's callback URL and try again.</p>}
+      {callbackNotice === "error" && <p className="twitch-onboarding-error" role="alert">{callbackErrorMessage}</p>}
       {!progress.appReady && <div className="twitch-connect-blocked" role="status">
         <span className="twitch-blocked-icon" aria-hidden="true">⚠</span>
         <div><strong>Why can't I connect?</strong><p>Our hosted CrowdQuest server has no Twitch application credentials. This is a <b>one-time platform-owner setup</b>, not something every Twitch streamer should have to do. We cannot connect a real channel until the app is configured.</p></div>

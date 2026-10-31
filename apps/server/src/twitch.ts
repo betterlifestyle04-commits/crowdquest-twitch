@@ -37,6 +37,10 @@ export class TwitchClient {
     const me = await this.request<{ data: Array<{ id: string; login: string }> }>("https://api.twitch.tv/helix/users", token.access_token, false); if (!me.data[0]) throw new Error("Twitch account lookup failed");
     this.session = { accessToken: token.access_token, refreshToken: token.refresh_token ?? null, broadcasterId: me.data[0].id, login: me.data[0].login }; this.subscriptionCreated = false; this.reconnectAttempts = 0; this.setStatus("connecting", "Authorized; connecting to Twitch chat"); this.startSocket(TWITCH_SOCKET, false, false);
   }
+  /** Communicates only an allowlisted diagnosis; never the Twitch code or secret. */
+  authorizationFailed(reason: string) {
+    this.setStatus("error", "Twitch authorization failed (" + reason + "). Start a fresh connection from the dashboard.");
+  }
   private setStatus(connection: Connection, message: string) { this.connection = connection; this.message = message; this.onChange(); }
   private async exchangeToken(body: URLSearchParams) { const response = await fetch("https://id.twitch.tv/oauth2/token", { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body }); if (!response.ok) throw new Error(`Twitch token exchange failed (${response.status})`); const token = await response.json() as { access_token?: string; refresh_token?: string }; if (!token.access_token) throw new Error("Twitch token response did not contain an access token"); return token as { access_token: string; refresh_token?: string }; }
   private async refreshSession() { if (!this.session?.refreshToken) throw new Error("Twitch authorization expired; reconnect Twitch"); const token = await this.exchangeToken(new URLSearchParams({ client_id: this.credentials.clientId, client_secret: this.credentials.clientSecret, grant_type: "refresh_token", refresh_token: this.session.refreshToken })); this.session.accessToken = token.access_token; this.session.refreshToken = token.refresh_token ?? this.session.refreshToken; }

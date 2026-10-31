@@ -1,6 +1,7 @@
 import { config as loadEnv } from "dotenv"; import express, { type NextFunction, type Request, type Response } from "express"; import cors from "cors"; import { createServer } from "node:http"; import { Server } from "socket.io"; import { z } from "zod"; import { fileURLToPath } from "node:url"; import { resolve } from "node:path"; import { existsSync } from "node:fs"; import crypto from "node:crypto";
 import { applyChatCommand, advance, begin, canAutoAdvance, getPhaseReadiness, initialState, makeRehearsal, triggerEvent, type Difficulty, type QuestState } from "@crowdquest/shared";
 import { TwitchClient } from "./twitch.js";
+import { classifyOAuthFailure } from "./oauth-diagnostics.js";
 loadEnv({ path: resolve(fileURLToPath(new URL("../../../.env", import.meta.url))) });
 const port = Number(process.env.PORT ?? 3001); const origin = process.env.WEB_ORIGIN ?? "http://localhost:5173";
 const origins = origin.split(",").map((value) => value.trim()).filter(Boolean); const controlToken = process.env.STREAMER_CONTROL_TOKEN; const protectControls = process.env.NODE_ENV === "production" || Boolean(controlToken);
@@ -93,10 +94,21 @@ app.get("/auth/twitch", (_req, res) => {
 });
 app.get("/auth/twitch/callback", async (req, res) => {
   try {
+    // Twitch reports cancelled consent as a provider error, not an authorization code.
+    if (typeof req.query.error === "string") {
+      const reason = classifyOAuthFailure(undefined, req.query.error);
+      twitch.authorizationFailed(reason);
+      console.warn("[CrowdQuest] Twitch OAuth did not complete:", reason);
+      return res.redirect((origins[0] ?? origin) + "/dashboard?twitch=error&reason=" + encodeURIComponent(reason));
+    }
     await twitch.callback(String(req.query.code ?? ""), String(req.query.state ?? ""));
     res.redirect((origins[0] ?? origin) + "/dashboard?twitch=authorized");
-  } catch {
-    res.redirect((origins[0] ?? origin) + "/dashboard?twitch=error");
+  } catch (error) {
+    const reason = classifyOAuthFailure(error);
+    twitch.authorizationFailed(reason);
+    // Do not print raw errors here: callback URLs contain short-lived authorization codes.
+    console.warn("[CrowdQuest] Twitch OAuth callback failed:", reason);
+    res.redirect((origins[0] ?? origin) + "/dashboard?twitch=error&reason=" + encodeURIComponent(reason));
   }
 });
 // Production hosting: one origin serves the compiled Vite UI, API and WebSocket.
