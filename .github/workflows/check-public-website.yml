@@ -1,0 +1,26 @@
+name: Check deployed CrowdQuest website
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live-site-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check public Render website, bundled assets and secure host controls
+        env:
+          CROWDQUEST_PUBLIC_URL: https://crowdquest-ember-gate.onrender.com
+        run: node scripts/check-public-site.mjs
