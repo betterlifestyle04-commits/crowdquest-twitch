@@ -22,7 +22,7 @@ function recordActivity(name: string, text: string, accepted: boolean, feedback:
   const cleanName = name.replace(/[\r\n\t]/g, " ").slice(0, 28);
   activity = [{ id: String(++activitySeq), at: Date.now(), name: cleanName, source, command: commandLabel, accepted, feedback: feedback.slice(0, 140) }, ...activity].slice(0, 24);
 }
-const durationMs = () => settings.phaseDurationSeconds * 1000; const viewState = () => ({ ...state, paused, rehearsalActive, activity, autoAdvance: autoAdvanceEnabled, autoAdvanceAt: autoReadySince === null ? null : autoReadySince + AUTO_GRACE_MS, eventCooldownUntil, controlsProtected: protectControls, twitch: twitch.status() });
+const durationMs = () => settings.phaseDurationSeconds * 1000; const viewState = () => ({ ...state, paused, rehearsalActive, activity, autoAdvance: autoAdvanceEnabled, autoAdvanceAt: autoReadySince === null ? null : autoReadySince + AUTO_GRACE_MS, eventCooldownUntil, controlsProtected: protectControls, hostTokenConfigured: Boolean(controlToken), twitch: twitch.status() });
 const emit = () => io.emit("state", viewState());
 function handleCommand(userId: string, name: string, text: string): { accepted: boolean; feedback: string } {
   const source: ActivityEvent["source"] = userId.startsWith("demo:") ? "demo" : "twitch";
@@ -76,8 +76,29 @@ app.post("/api/demo/rehearsal", requireStreamer, (req, res) => {
   emit();
   res.json({ accepted: true, mode: "SIMULATED", scene: parsed.data.scene });
 });
-app.get("/auth/twitch", (_req, res) => { try { res.redirect(twitch.authorizeUrl()); } catch (error) { res.status(503).send(error instanceof Error ? error.message : "Twitch credentials are not configured"); } });
-app.get("/auth/twitch/callback", async (req, res) => { try { await twitch.callback(String(req.query.code ?? ""), String(req.query.state ?? "")); res.redirect(`${origin}/?twitch=authorized`); } catch (error) { res.status(400).send(`Twitch connection failed: ${error instanceof Error ? error.message : "unknown error"}`); } });
+// Streamer-authorized, server-generated Twitch OAuth URL. The browser never sees a client secret.
+// This prevents anonymous visitors from replacing the hosted broadcaster session.
+app.post("/api/twitch/authorize", requireStreamer, (_req, res) => {
+  res.setHeader("Cache-Control", "no-store");
+  if (!twitch.configured()) return res.status(503).json({ error: "Twitch setup is incomplete. Add the existing Twitch app's Client ID, Client Secret, and callback URL in your server environment, then restart." });
+  try { res.json({ url: twitch.authorizeUrl() }); }
+  catch { res.status(503).json({ error: "Twitch authorization could not start. Check the server's private Twitch configuration." }); }
+});
+// Previous versions used an unprotected GET link. Keep a helpful route for old bookmarks,
+// without allowing unauthenticated guests to connect a different Twitch channel.
+app.get("/auth/twitch", (_req, res) => {
+  if (protectControls || !twitch.configured()) return res.redirect(302, (origins[0] ?? origin) + "/dashboard?setup=twitch");
+  try { res.redirect(twitch.authorizeUrl()); }
+  catch { res.redirect((origins[0] ?? origin) + "/dashboard?setup=twitch"); }
+});
+app.get("/auth/twitch/callback", async (req, res) => {
+  try {
+    await twitch.callback(String(req.query.code ?? ""), String(req.query.state ?? ""));
+    res.redirect((origins[0] ?? origin) + "/dashboard?twitch=authorized");
+  } catch {
+    res.redirect((origins[0] ?? origin) + "/dashboard?twitch=error");
+  }
+});
 // Production hosting: one origin serves the compiled Vite UI, API and WebSocket.
 // The normal local development workflow keeps Vite on localhost:5173.
 const webDist = fileURLToPath(new URL("../../web/dist/", import.meta.url));
