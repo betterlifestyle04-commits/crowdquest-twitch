@@ -15,7 +15,15 @@ export class TwitchClient {
   private keepaliveTimer: ReturnType<typeof setTimeout> | null = null; private retryTimer: ReturnType<typeof setTimeout> | null = null; private seenEvents = new Map<string, number>();
   constructor(private credentials: Credentials, private onChat: (userId: string, displayName: string, text: string) => void, private onChange: () => void) {}
   configured() { return Boolean(this.credentials.clientId && this.credentials.clientSecret && this.credentials.redirectUri); }
-  status(): TwitchStatus { return { configured: this.configured(), connected: this.connection === "connected", login: this.session?.login ?? null, connection: this.connection, message: this.message }; }
+  status(): TwitchStatus {
+    const configured = this.configured();
+    const awaitingAuthorization = configured && this.connection === "not_configured";
+    return {
+      configured, connected: this.connection === "connected", login: this.session?.login ?? null,
+      connection: awaitingAuthorization ? "disconnected" : this.connection,
+      message: awaitingAuthorization ? "Twitch application ready. Authorize your broadcaster account to receive real chat." : this.message
+    };
+  }
   authorizeUrl() {
     if (!this.configured()) throw new Error("Twitch credentials are not configured");
     const now = Date.now(); for (const [value, expires] of this.states) if (expires <= now) this.states.delete(value);
