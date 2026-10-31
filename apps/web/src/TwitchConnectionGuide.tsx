@@ -31,6 +31,7 @@ export function TwitchConnectionGuide({ twitch, controlsProtected, hostTokenConf
   const callback = hosted ? window.location.origin + "/auth/twitch/callback" : "http://localhost:3001/auth/twitch/callback";
   const progress = getTwitchSetupProgress(twitch, controlsProtected, hostTokenConfigured, Boolean(controlToken.trim()));
   const callbackNotice = typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("twitch") : null;
+  const [showOwnerSetup, setShowOwnerSetup] = useState(false);
   const connect = async () => {
     if (pending || !progress.appReady || !progress.accessReady) return;
     setPending(true);
@@ -70,40 +71,55 @@ export function TwitchConnectionGuide({ twitch, controlsProtected, hostTokenConf
       </span>
     </div>
     {twitch.connected ? <div className="twitch-connected-steps">
-      <strong>Connected as {twitch.login ? "@" + twitch.login : "your broadcaster account"}</strong>
-      <p>Open your channel's chat, type <code>!join</code> while the game is in the lobby, then press <b>Start quest</b>. Next use <code>!role warrior</code>, <code>!path B</code> and <code>!act attack</code> in their respective phases.</p>
-      <a href={twitch.login ? "https://www.twitch.tv/" + encodeURIComponent(twitch.login) : "https://www.twitch.tv/"} target="_blank" rel="noreferrer">Open Twitch chat ↗</a>
+      <strong>Connected to {twitch.login ? "@" + twitch.login : "your Twitch channel"}</strong>
+      <p>You're ready to play. Open your channel chat and type <code>!join</code> in the lobby. Then press <b>Start quest</b> below. As the adventure progresses, use <code>!role warrior</code>, <code>!path B</code>, and <code>!act attack</code>.</p>
+      <div className="twitch-quick-actions"><a href={twitch.login ? "https://www.twitch.tv/" + encodeURIComponent(twitch.login) : "https://www.twitch.tv/"} target="_blank" rel="noreferrer">Open your Twitch chat ↗</a><a href="#game-dashboard">Go to game controls ↓</a></div>
     </div> : <>
-      {callbackNotice === "authorized" && <p className="twitch-onboarding-notice" role="status">Twitch authorized this application. The server is connecting to your channel chat; watch the connection status below.</p>}
-      {callbackNotice === "error" && <p className="twitch-onboarding-error" role="alert">Twitch could not complete authorization. Check the registered callback address and try Connect Twitch again.</p>}
-      <div className="twitch-onboarding-steps">
-        <div className="twitch-setup-step">
-          <div className="twitch-step-heading"><b>1</b><span>Use your existing Twitch app</span></div>
-          <p>In Twitch Developer Console, open the app you already created. Add this exact hosted callback URL and keep your existing local callback too.</p>
-          <div className="twitch-callback"><code>{callback}</code><button type="button" onClick={()=>void copyCallback()}>{copied ? "Copied ✓" : "Copy URL"}</button></div>
-          <a href="https://dev.twitch.tv/console/apps" target="_blank" rel="noreferrer">Open Twitch Developer Console ↗</a>
-        </div>
-        <div className="twitch-setup-step">
-          <div className="twitch-step-heading"><b>2</b><span>Connect this server to the app</span><em className={progress.appReady ? "complete" : ""}>{progress.appReady ? "✓ Configured" : "Not configured"}</em></div>
-          {hosted ? <p>Open Render → Environment. Set <code>TWITCH_CLIENT_ID</code>, <code>TWITCH_CLIENT_SECRET</code>, and <code>TWITCH_REDIRECT_URI</code> using this callback. Save and redeploy. Keep both credentials private.</p> :
-          <p>On your computer, set <code>TWITCH_CLIENT_ID</code>, <code>TWITCH_CLIENT_SECRET</code>, and <code>TWITCH_REDIRECT_URI</code> in the private <code>.env</code> file, then restart <code>npm run dev</code>.</p>}
-          {hosted ? <a href="https://dashboard.render.com/web/srv-dbijeibbc2fs73ag4ij0" target="_blank" rel="noreferrer">Open CrowdQuest's Render settings ↗</a> : <a href="https://github.com/betterlifestyle04-commits/crowdquest-twitch/blob/main/.env.example" target="_blank" rel="noreferrer">See required environment names ↗</a>}
-        </div>
-        <div className="twitch-setup-step">
-          <div className="twitch-step-heading"><b>3</b><span>Unlock streamer controls</span><em className={progress.accessReady ? "complete" : ""}>{progress.accessReady ? "✓ Ready" : "Action required"}</em></div>
-          {progress.needsServerToken ? <p>Create <code>STREAMER_CONTROL_TOKEN</code> with a long random secret in your {hosted ? "Render Environment" : "private .env file"}. Restart the server, then enter it in the streamer field above.</p> :
-          controlsProtected && !controlToken.trim() ? <p>Enter your private <code>STREAMER_CONTROL_TOKEN</code> in the streamer field above. It stays in this browser tab.</p> :
-          <p>{controlsProtected ? "Streamer token entered. Authorization is validated when you press Connect Twitch." : "Local development: host authorization is not required unless you set a streamer token."}</p>}
+      {callbackNotice === "authorized" && <p className="twitch-onboarding-notice" role="status">Twitch authorization finished. Checking the channel connection now.</p>}
+      {callbackNotice === "error" && <p className="twitch-onboarding-error" role="alert">Twitch authorization was not completed. Check the app's callback URL and try again.</p>}
+      {!progress.appReady && <div className="twitch-connect-blocked" role="status">
+        <span className="twitch-blocked-icon" aria-hidden="true">⚠</span>
+        <div><strong>Why can't I connect?</strong><p>Our hosted CrowdQuest server has no Twitch application credentials. This is a <b>one-time platform-owner setup</b>, not something every Twitch streamer should have to do. We cannot connect a real channel until the app is configured.</p></div>
+      </div>}
+      <div className="twitch-quick-actions">
+        <a className="twitch-play-now" href="/play"> <span aria-hidden="true">⚔</span><span><strong>Play the game now</strong><small>Browser solo demo · no Twitch needed</small></span><span aria-hidden="true">↗</span></a>
+        {progress.appReady ?
+          <button type="button" className="twitch-connect-now" disabled={pending || !progress.accessReady} onClick={()=>void connect()}>
+            <strong>{pending ? "Opening Twitch…" : "Connect my Twitch account"}</strong>
+            <small>{progress.needsServerToken ? "Streamer access is not set on this server" : !controlToken.trim() && controlsProtected ? "Enter the streamer token above first" : "Sign in and authorize your channel"}</small>
+          </button> :
+          <button type="button" className="twitch-owner-open" onClick={()=>setShowOwnerSetup(value=>!value)} aria-expanded={showOwnerSetup} aria-controls="twitch-owner-setup">
+            <strong>{showOwnerSetup?"Hide setup instructions":"Enable real Twitch play"}</strong><small>One-time setup by the owner of CrowdQuest</small>
+          </button>
+        }
+      </div>
+      <div id="twitch-owner-setup" className="twitch-owner-setup" hidden={!showOwnerSetup && !progress.appReady}>
+        <h3>Set up Twitch for this hosted game — once</h3>
+        <p className="twitch-owner-description">Use the Twitch app you already created. Only the CrowdQuest owner must do this. Other streamers must never be asked to enter developer secrets or a shared admin token.</p>
+        <div className="twitch-onboarding-steps">
+          <div className="twitch-setup-step">
+            <div className="twitch-step-heading"><b>1</b><span>Copy this callback into your existing Twitch app</span></div>
+            <div className="twitch-callback"><code>{callback}</code><button type="button" onClick={()=>void copyCallback()}>{copied ? "Copied ✓" : "Copy URL"}</button></div>
+            <a href="https://dev.twitch.tv/console/apps" target="_blank" rel="noreferrer">Open Twitch Developer Console ↗</a>
+            <p>Keep the original localhost callback too, so your working local game still connects.</p>
+          </div>
+          <div className="twitch-setup-step">
+            <div className="twitch-step-heading"><b>2</b><span>Save the app credentials privately on the server</span><em className={progress.appReady ? "complete" : ""}>{progress.appReady ? "✓ Configured" : "Missing"}</em></div>
+            <p>Add <code>TWITCH_CLIENT_ID</code>, <code>TWITCH_CLIENT_SECRET</code>, and <code>TWITCH_REDIRECT_URI</code> to {hosted ? "the CrowdQuest Render Environment" : "your local .env"}. They must be saved server-side—not in the browser or GitHub.</p>
+            {hosted ? <a href="https://dashboard.render.com/web/srv-dbijeibbc2fs73ag4ij0" target="_blank" rel="noreferrer">Open CrowdQuest on Render ↗</a> : <a href="https://github.com/betterlifestyle04-commits/crowdquest-twitch/blob/main/.env.example" target="_blank" rel="noreferrer">See the environment template ↗</a>}
+          </div>
+          <div className="twitch-setup-step">
+            <div className="twitch-step-heading"><b>3</b><span>Protect the game controls</span><em className={progress.accessReady ? "complete" : ""}>{progress.accessReady ? "✓ Ready" : "Needed"}</em></div>
+            {progress.needsServerToken ? <p>Create <code>STREAMER_CONTROL_TOKEN</code> as a long random secret in {hosted ? "Render's private Environment" : "your private .env"}. Save and restart. Enter the same token in the dashboard field above.</p> :
+              controlsProtected && !controlToken.trim() ? <p>Enter the privately configured <code>STREAMER_CONTROL_TOKEN</code> in the dashboard field above.</p> :
+              <p>{controlsProtected?"Your streamer token is entered.":"Local development can work without a separate token."} Then select <b>Connect my Twitch account</b>.</p>}
+          </div>
         </div>
       </div>
-      <div className="twitch-onboarding-actions">
-        <div><b>4. Connect your broadcaster account</b><p>Once the app is configured, sign in to Twitch. Your channel's chat then controls the game.</p></div>
-        <button type="button" className="primary" disabled={pending || !progress.appReady || !progress.accessReady} onClick={()=>void connect()}>
-          {pending ? "Opening Twitch…" : "Connect Twitch securely →"}
-        </button>
-      </div>
+      {!progress.appReady && <p className="twitch-onboarding-footer">Need the fastest real Twitch recording today? If your computer still has the original working <code>.env</code>, run the game locally with <code>npm run dev</code> and connect there. <a href="https://github.com/betterlifestyle04-commits/crowdquest-twitch/blob/main/JUDGE_SETUP.md" target="_blank" rel="noreferrer">Local setup instructions ↗</a></p>}
+      {progress.appReady && <p className="twitch-onboarding-footer">The platform app is configured. {progress.accessReady ? "Select Connect my Twitch account to authorize the channel." : "Complete the private streamer-control step above."} <button className="twitch-text-button" onClick={()=>setShowOwnerSetup(value=>!value)} type="button">{showOwnerSetup ? "Hide technical setup" : "Show technical setup"}</button></p>}
       {notice && <p className="twitch-onboarding-error" role="alert">{notice}</p>}
-      <p className="twitch-onboarding-footer">Server status: {twitch.message}. <strong>Never paste your Twitch Client Secret or streamer token into GitHub or public chat.</strong></p>
+      <p className="twitch-onboarding-footer">Server status: {twitch.message}. Never share Twitch client secrets or admin tokens. This hosted release supports one connected broadcaster at a time; independent streamer accounts require a separate platform upgrade.</p>
     </>}
   </section>;
 }
