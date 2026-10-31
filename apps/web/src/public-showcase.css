@@ -62,12 +62,10 @@
 .showcase-stage-meta p {font-size:.69rem;color:#a9b9cb;margin:0;}
 .showcase-stage-meta > span {font-size:.58rem;letter-spacing:.08em;color:#ffe2bb;font-weight:900;white-space:nowrap;}
 .showcase-stage-shell {position:relative;border:1px solid rgba(234,195,131,.47);padding:.3rem;background:#0e1429;}
-/* Showcase is standalone, unlike the flex-stretched OBS overlay.
- * The overlay's .game-stage.cinematic-stage.stage-overlay {min-height:0}
- * was winning specificity and collapsing the entire scene in production. */
-.showcase-stage-shell > .game-stage.cinematic-stage.stage-overlay {
- width:100%; min-height:clamp(460px,44vw,670px); height:auto; margin:0;
- border:0; border-radius:.2rem;
+/* Public stages use dedicated, explicit dimensions, never the zero-height OBS flex overlay. */
+.showcase-stage-shell > .game-stage.cinematic-stage.stage-standalone {
+ display:block;flex:none;width:100%;min-height:clamp(460px,44vw,670px);height:clamp(460px,44vw,670px);margin:0;
+ border:0;border-radius:.2rem;
 }
 .showcase-stage-shell .turn-clock,.showcase-stage-shell .audience-link,.showcase-stage-shell .transport-badge {display:none!important;}
 .showcase-stage-bottom {display:flex;justify-content:space-between;align-items:center;gap:1.4rem;padding:.95rem 1rem;background:rgba(23,27,48,.9);border:1px solid rgba(220,181,133,.35);border-top:0;border-radius:0 0 .7rem .7rem;}
@@ -99,7 +97,7 @@
  .showcase-hero-art {height:340px;}
  .showcase-portal {height:280px;}
  .showcase-scene-grid {grid-template-columns:repeat(3,minmax(0,1fr));}
- .showcase-stage-shell > .game-stage.cinematic-stage.stage-overlay {min-height:490px;}
+ .showcase-stage-shell > .game-stage.cinematic-stage.stage-standalone {min-height:490px;height:490px;}
  .showcase-simulated-tag {white-space:normal;text-align:center;}
 }
 @media(max-width:700px) {
@@ -120,7 +118,7 @@
  .showcase-stage-meta h3 {font-size:1.1rem;}
  .showcase-stage-meta p {font-size:.61rem;}
  .showcase-stage-meta > span {display:none;}
- .showcase-stage-shell > .game-stage.cinematic-stage.stage-overlay {min-height:440px;}
+ .showcase-stage-shell > .game-stage.cinematic-stage.stage-standalone {min-height:460px;height:460px;}
  .showcase-stage-bottom {display:grid;justify-items:start;}
  .showcase-stage-bottom > div {justify-self:stretch;width:100%;}
  .showcase-stage-bottom button {flex:1;}

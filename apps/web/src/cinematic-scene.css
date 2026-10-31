@@ -473,3 +473,7 @@
 .preflight-footnote { margin: 0; color: #a8b4d1; font-size: .67rem; }
 @media (max-width: 980px) { .preflight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .stream-preflight { padding: .8rem; } .preflight-grid { grid-template-columns: 1fr; } }
+
+/* The solo hero is intentionally the largest readable character; multiplayer keeps four slots. */
+.cinematic-art .solo-party-art {filter:drop-shadow(0 12px 16px rgba(2,4,17,.9)) drop-shadow(0 0 17px rgba(255,215,151,.2));}
+.cinematic-art .cinematic-solo-hero-label {paint-order:stroke;stroke:#141226;stroke-width:4px;}

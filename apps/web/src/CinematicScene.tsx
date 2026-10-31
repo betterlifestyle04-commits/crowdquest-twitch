@@ -31,6 +31,8 @@ function Adventurer({ role, queued, present }: { role: Role; queued: boolean; pr
 
 export function CinematicScene({ state, scene, simulated = false }: Props) {
   const participants = Object.values(state.players);
+  const soloHero = participants.find(player => player.id === "public:solo");
+  const soloRole = soloHero?.role ?? null;
   const showEnemy = state.phase === "encounter" || state.phase === "finale";
   const boss = state.phase === "finale";
   const queued = new Set(Object.entries(state.actions).map(([id]) => state.players[id]?.role).filter(Boolean));
@@ -84,7 +86,7 @@ export function CinematicScene({ state, scene, simulated = false }: Props) {
         </g>)}
       </g>
       <g className="cinematic-hero-light" aria-hidden="true">
-        {roles.map((role,i)=><ellipse key={role} cx={156+i*126} cy="443" rx="47" ry="11" fill={queued.has(role) ? "#d6b2ff" : "#a0a1cc"} opacity={queued.has(role)?".3":".1"}/>)}
+        {soloRole ? <ellipse cx="360" cy="446" rx="89" ry="16" fill={queued.has(soloRole) ? "#ffdc9d" : "#a0a1cc"} opacity=".28" /> : roles.map((role,i)=><ellipse key={role} cx={156+i*126} cy="443" rx="47" ry="11" fill={queued.has(role) ? "#d6b2ff" : "#a0a1cc"} opacity={queued.has(role)?".3":".1"}/>)}
       </g>
       {(scene === "gate" || scene === "victory" || scene === "defeat") && <g className="cinematic-ancient-runes" aria-hidden="true">
         <ellipse cx="944" cy="400" rx="180" ry="30" stroke="#efaa7e" fill="none" strokeWidth="3" strokeDasharray="13 12" opacity=".37"/>
@@ -94,8 +96,9 @@ export function CinematicScene({ state, scene, simulated = false }: Props) {
         {Array.from({length:22},(_,i)=><circle key={i} className="cinematic-mote" cx={(i*211+53)%1190} cy={185+(i*83)%260} r={i%4===0?2.8:1.45} fill={scene==="moonlit"?"#a1eee2":"#ffcc91"} opacity=".48" style={{animationDelay:(i%9)*-.53+"s",animationDuration:(3.1+(i%5)*.7)+"s"}}/>)}
       </g>
       <QueuedSpellEffects state={state}/>
-      <g className="cinematic-party-art">{roles.map((role,i)=><g key={role} transform={"translate("+(156+i*126)+" 362) scale(1.46)"}><Adventurer role={role} present={countByRole[role]>0} queued={queued.has(role)}/></g>)}</g>
-      <PartyNameplates state={state} simulated={simulated}/>
+      <g className={"cinematic-party-art" + (soloRole ? " solo-party-art" : "")}>{soloRole ? <g transform="translate(360 348) scale(2.05)"><Adventurer role={soloRole} present queued={queued.has(soloRole)}/></g> : roles.map((role,i)=><g key={role} transform={"translate("+(156+i*126)+" 362) scale(1.46)"}><Adventurer role={role} present={countByRole[role]>0} queued={queued.has(role)}/></g>)}</g>
+      {soloRole && <text className="cinematic-solo-hero-label" x="360" y="487" textAnchor="middle" fill="#ffe7b6" fontSize="15" fontWeight="900" letterSpacing="3">YOUR HERO</text>}
+      <PartyNameplates state={state} simulated={simulated} soloRole={soloRole}/>
       {participants.length === 1 && participants[0].role && <g className="ember-companion" transform="translate(665 344)"><ellipse cx="0" cy="0" rx="33" ry="46" fill="#b9f6ed" opacity=".09"/><circle className="spirit-light" cx="0" cy="-12" r="22" fill="#9aead8" opacity=".29"/><circle className="spirit-core" cx="0" cy="-12" r="9" fill="#eaffd0" stroke="#8ff3d8" strokeWidth="3"/><path d="M-15 7 Q0 37 16 7" stroke="#8ff3d8" strokeWidth="4" fill="none" opacity=".65"/></g>}{showEnemy && <g transform={"translate(947 356) scale("+(boss?1.15:.85)+")"}><EncounterFoe encounter={state.encounter} boss={boss}/></g>}
       {state.lastResolution && (state.phase === "consequence" || state.phase === "result") && <ResolutionPlayback key={state.lastResolution.phase + "-" + state.lastResolution.at} resolution={state.lastResolution}/>}
       {state.result === "victory" && <g className="cinematic-triumph"><path d="M860 195 945 145 1030 195" fill="none" stroke="#fff2b3" strokeWidth="8"/><circle cx="945" cy="140" r="27" fill="#ffe9a1" opacity=".8"/></g>}
