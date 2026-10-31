@@ -2,8 +2,9 @@ import { describe, expect, it } from "vitest";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { PublicShowcase, createPublicPreviewState } from "../src/PublicShowcase";
+import type { QuestState } from "@crowdquest/shared";
 
-const render = (state:any) => "<scene>" + state.phase + ":" + state.result + "</scene>";
+const render = (state:QuestState) => createElement("span",{"data-phase":state.phase,"data-result":String(state.result)},state.phase);
 
 describe("public interactive game gallery", () => {
   it("offers six genuine engine-based phases with explicitly fictional names", () => {
@@ -28,7 +29,7 @@ describe("public interactive game gallery", () => {
     expect(markup).toContain("No real Twitch commands");
     expect(markup).toContain("View source");
     expect(markup).toContain("The First Trial");
-    expect(markup).toContain("<scene>encounter:null</scene>");
+    expect(markup).toContain('data-phase="encounter"');
   });
   it("uses actual recorded route ballots and only simulated battle outcomes", () => {
     const crossroads = createPublicPreviewState("crossroads");
