@@ -1,0 +1,101 @@
+/* CrowdQuest focused scene: game artwork first, no overlapping coaching panels.
+ * This mode is opt-in at GameStage and defaults on public /play and /showcase only.
+ * Dashboard, OBS recording and Twitch overlay keep their existing full HUD. */
+.game-stage.cinematic-stage.stage-focused .quest-hud,
+.game-stage.cinematic-stage.stage-focused .quest-hud-objective,
+.game-stage.cinematic-stage.stage-focused .quest-hud-chapters,
+.game-stage.cinematic-stage.stage-focused .quest-hud-party,
+.game-stage.cinematic-stage.stage-focused .phase-banner,
+.game-stage.cinematic-stage.stage-focused .rehearsal-watermark,
+.game-stage.cinematic-stage.stage-focused .route-decision-board,
+.game-stage.cinematic-stage.stage-focused .scene-sign,
+.game-stage.cinematic-stage.stage-focused .supply-cache,
+.game-stage.cinematic-stage.stage-focused .roll-call,
+.game-stage.cinematic-stage.stage-focused .command-feed,
+.game-stage.cinematic-stage.stage-focused .action-board,
+.game-stage.cinematic-stage.stage-focused .aftermath-report,
+.game-stage.cinematic-stage.stage-focused .hero-ticker,
+.game-stage.cinematic-stage.stage-focused .stage-footer,
+.game-stage.cinematic-stage.stage-focused .audience-link,
+.game-stage.cinematic-stage.stage-focused .transport-badge,
+.game-stage.cinematic-stage.stage-focused .turn-clock {
+  display: none !important;
+}
+.game-stage.cinematic-stage.stage-focused {
+  isolation: isolate;
+}
+.stage-focused .focused-game-hud {
+  position:absolute;inset:0;z-index:29;pointer-events:none;
+  font-family:Inter,ui-sans-serif,system-ui,sans-serif;color:#fff0d7;
+  text-shadow:0 1px 4px #0a0b1c;
+}
+.stage-focused .focused-chapter {
+  position:absolute;top:.85rem;left:.9rem;display:flex;align-items:center;gap:.6rem;
+  padding:.48rem .75rem;border-radius:.63rem;
+  border:1px solid rgba(234,196,145,.56);background:rgba(13,15,35,.86);
+  box-shadow:0 7px 20px rgba(0,0,0,.21);backdrop-filter:blur(8px);
+  max-width:min(290px,55%);min-width:0;
+}
+.stage-focused .focused-chapter-mark {font-size:1.08rem;color:#edc78d;}
+.stage-focused .focused-chapter-label {display:grid;gap:.1rem;min-width:0;}
+.stage-focused .focused-chapter-label small {
+  color:#c9bba4;letter-spacing:.1em;font-size:.53rem;font-weight:850;
+  overflow-wrap:anywhere;
+}
+.stage-focused .focused-chapter-label b {
+  color:#ffefce;font:700 clamp(.85rem,1.35vw,1.2rem)/1.1 Georgia,serif;
+  white-space:normal;
+}
+.stage-focused .focused-vitals {
+  position:absolute;bottom:.85rem;left:50%;transform:translateX(-50%);
+  width:min(650px,90%);display:flex;align-items:center;gap:.72rem;
+  border:1px solid rgba(225,190,146,.52);background:rgba(10,14,32,.91);
+  padding:.55rem .8rem;border-radius:.75rem;backdrop-filter:blur(8px);
+  box-shadow:0 9px 24px rgba(0,0,0,.33);
+}
+.stage-focused .focused-health {display:grid;gap:.26rem;min-width:100px;flex:2.3;}
+.stage-focused .focused-health>span {display:flex;align-items:center;gap:.35rem;color:#d9dfeb;font-size:.6rem;white-space:nowrap;font-weight:800;}
+.stage-focused .focused-health>span>b {font-size:.9rem;color:#9ce5c2;}
+.stage-focused .focused-health strong {color:#fff2d4;margin-left:auto;font-variant-numeric:tabular-nums;}
+.stage-focused .focused-health-track {display:block;height:.34rem;border-radius:2rem;background:#353448;overflow:hidden;}
+.stage-focused .focused-health-track em {display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#37ad80,#a8efbe);transition:width .3s ease;}
+.stage-focused.health-critical .focused-health-track em {background:linear-gradient(90deg,#db5f65,#ffb58c);}
+.stage-focused .focused-stat {flex:1;display:grid;justify-items:center;gap:.16rem;min-width:0;padding-left:.5rem;border-left:1px solid rgba(209,190,157,.24);}
+.stage-focused .focused-stat small {font-size:.52rem;letter-spacing:.08em;color:#b6b7cc;font-weight:900;}
+.stage-focused .focused-stat b {font-size:.9rem;font-variant-numeric:tabular-nums;color:#ffeac5;}
+/* The final result is the one intentional cinematic panel, not a stack of panels. */
+.game-stage.cinematic-stage.stage-focused .adventure-story-victory,
+.game-stage.cinematic-stage.stage-focused .adventure-story-defeat {
+  top:47%;max-height:70%;width:min(520px,76%);z-index:28;
+}
+.game-stage.cinematic-stage.stage-focused .cinematic-boss-indicator {
+  top:10%;right:1.1rem;width:min(190px,26%);z-index:26;
+}
+.game-display-toggle {
+  cursor:pointer;border:1px solid rgba(248,204,142,.59);background:rgba(43,40,69,.83);
+  color:#ffe4b9;padding:.62rem .85rem;border-radius:.5rem;
+  font-size:.7rem;font-weight:900;line-height:1.2;white-space:nowrap;
+}
+.game-display-toggle:hover {background:rgba(91,64,94,.92);border-color:#ffe5b6;}
+.game-display-toggle:focus-visible {outline:3px solid #ffd894;outline-offset:2px;}
+.game-display-toggle[aria-pressed="true"] {border-color:#b6dce7;color:#e7ebf8;}
+@media(max-width:740px) {
+  .stage-focused .focused-chapter {top:.42rem;left:.4rem;padding:.35rem .43rem;gap:.3rem;max-width:56%;}
+  .stage-focused .focused-chapter-mark {font-size:.85rem;}
+  .stage-focused .focused-chapter-label small {font-size:.43rem;}
+  .stage-focused .focused-chapter-label b {font-size:.84rem;}
+  .stage-focused .focused-vitals {bottom:.42rem;gap:.3rem;width:96%;padding:.4rem .42rem;border-radius:.5rem;}
+  .stage-focused .focused-health {min-width:82px;}
+  .stage-focused .focused-health>span {font-size:.46rem;gap:.15rem;}
+  .stage-focused .focused-health>span>b {font-size:.65rem;}
+  .stage-focused .focused-stat {padding-left:.2rem;gap:.1rem;}
+  .stage-focused .focused-stat small {font-size:.38rem;letter-spacing:0;}
+  .stage-focused .focused-stat b {font-size:.68rem;}
+  .game-stage.cinematic-stage.stage-focused .cinematic-boss-indicator {top:12%;right:.35rem;width:90px;}
+  .game-stage.cinematic-stage.stage-focused .adventure-story-victory,
+  .game-stage.cinematic-stage.stage-focused .adventure-story-defeat {top:47%;width:87%;max-height:70%;}
+  .game-display-toggle {padding:.43rem .55rem;font-size:.61rem;}
+}
+@media(prefers-reduced-motion:reduce) {
+  .stage-focused .focused-health-track em {transition:none;}
+}
