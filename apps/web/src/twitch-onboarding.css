@@ -44,3 +44,26 @@
 .twitch-connected-steps a {color:#ffe2ac;font-size:.75rem;font-weight:900;text-decoration:underline;}
 @media(max-width:1100px){.twitch-onboarding-steps {grid-template-columns:1fr;}.twitch-setup-step {padding:.8rem;}.twitch-connection-pill {white-space:normal;text-align:center;}}
 @media(max-width:650px){.twitch-onboarding-top,.twitch-onboarding-actions {display:grid;}.twitch-connection-pill {justify-self:start;}.twitch-onboarding-actions button {width:100%;min-width:0;}.twitch-callback {flex-wrap:wrap;}.twitch-callback code {width:100%;flex-basis:100%;}}
+
+/* Quick-start above advanced setup: every visitor has an obvious next action. */
+.twitch-connect-blocked {display:flex;gap:.85rem;align-items:start;padding:1rem 1.15rem;background:rgba(133,79,48,.17);border:1px solid rgba(238,183,118,.47);border-radius:.65rem;}
+.twitch-blocked-icon {font-size:1.4rem;line-height:1;color:#ffd49d;}
+.twitch-connect-blocked strong {font-size:1rem;color:#ffe1b6;}
+.twitch-connect-blocked p {margin:.25rem 0 0;color:#dfd4ca;font-size:.8rem;line-height:1.58;}
+.twitch-quick-actions {display:flex;gap:.7rem;align-items:stretch;flex-wrap:wrap;}
+.twitch-quick-actions>a,.twitch-quick-actions>button {flex:1;min-width:235px;display:flex;gap:.65rem;justify-content:center;align-items:center;padding:.9rem 1rem;border-radius:.68rem;text-align:left;cursor:pointer;text-decoration:none;}
+.twitch-quick-actions>a span:nth-child(2),.twitch-quick-actions>button {line-height:1.35;}
+.twitch-quick-actions strong {display:block;font-size:.92rem;font-weight:950;}
+.twitch-quick-actions small {display:block;font-size:.67rem;line-height:1.5;margin-top:.2rem;font-weight:650;}
+.twitch-quick-actions .twitch-play-now {background:linear-gradient(115deg,#f9d6a2,#d9ad7b);border:1px solid #ffe0a2;color:#24192b;box-shadow:0 8px 22px rgba(220,177,120,.18);}
+.twitch-quick-actions .twitch-play-now:hover {filter:brightness(1.06);}
+.twitch-quick-actions .twitch-owner-open,.twitch-quick-actions .twitch-connect-now {display:block;border:1px solid rgba(210,197,243,.59);background:rgba(48,46,83,.87);color:#f1e8fd;text-align:center;}
+.twitch-quick-actions .twitch-owner-open:hover,.twitch-quick-actions .twitch-connect-now:not(:disabled):hover {background:rgba(81,65,116,.95);}
+.twitch-quick-actions .twitch-connect-now:disabled {cursor:not-allowed;opacity:.65;}
+.twitch-owner-setup {display:grid;gap:.8rem;padding:1rem;border:1px solid rgba(188,164,205,.32);background:rgba(11,16,37,.61);border-radius:.67rem;}
+.twitch-owner-setup[hidden] {display:none!important;}
+.twitch-owner-setup h3 {font:700 1.2rem Georgia,serif;color:#ffe4b8;margin:0;}
+.twitch-owner-description {font-size:.78rem;color:#c1cada;margin:0;line-height:1.5;}
+.twitch-onboarding-footer a {color:#f6ce9c;text-decoration:underline;}
+.twitch-text-button {background:none;border:0;padding:0;margin-left:.35rem;color:#f8d69e;cursor:pointer;text-decoration:underline;font:inherit;}
+@media(max-width:720px) {.twitch-connect-blocked {padding:.8rem;}.twitch-quick-actions {display:grid;}.twitch-quick-actions>a,.twitch-quick-actions>button {min-width:0;justify-content:center;}}
