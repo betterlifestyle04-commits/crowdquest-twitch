@@ -5,7 +5,7 @@
 
 **Source code:** https://github.com/betterlifestyle04-commits/crowdquest-twitch
 
-**Hosted demo:** [Add verified CrowdQuest public showcase URL after successful deployment; clearly simulated]
+**Hosted demo:** https://crowdquest-ember-gate.onrender.com/ (public, engine-based, clearly simulated scene gallery; real Twitch gameplay must be shown in the separate YouTube video).
 
 **Demo video:** [Add public or unlisted YouTube link after uploading]
 
