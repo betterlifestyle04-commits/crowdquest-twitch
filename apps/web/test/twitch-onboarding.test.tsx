@@ -16,8 +16,12 @@ describe("Clear Twitch channel onboarding", () => {
     expect(html).toContain("TWITCH_REDIRECT_URI");
     expect(html).toContain("STREAMER_CONTROL_TOKEN");
     expect(html).toContain("Twitch Developer Console");
-    expect(html).toContain("Connect Twitch securely");
-    expect(html).toContain("disabled");
+    expect(html).toContain("Play the game now");
+    expect(html).toContain("Enable real Twitch play");
+    expect(html).toContain("one-time platform-owner setup");
+    expect(html).toContain('href="/play"');
+    expect(html).toContain("twitch-owner-setup");
+    expect(html).toContain("This is a");
     expect(html).not.toContain("LIVE TWITCH");
   });
   it("does not mistake a private token entered in the browser for a configured server token", () => {
@@ -28,6 +32,13 @@ describe("Clear Twitch channel onboarding", () => {
     expect(getTwitchSetupProgress({...offline,configured:true},true,true,true)).toMatchObject({
       appReady:true,accessReady:true,online:false
     });
+  });
+  it("offers Twitch sign-in only when the platform app is configured",()=>{
+    const html = renderToStaticMarkup(createElement(TwitchConnectionGuide, {
+      twitch:{...offline,configured:true}, controlsProtected:true,hostTokenConfigured:true,controlToken:"configured-secret",apiUrl:"https://example.invalid"
+    }));
+    expect(html).toContain("Connect my Twitch account");
+    expect(html).not.toContain("Why can&#x27;t I connect?");
   });
   it("supports the earlier local flow when server protections are disabled",()=>{
     expect(getTwitchSetupProgress({...offline,configured:true},false,false,false).accessReady).toBe(true);
@@ -44,5 +55,6 @@ describe("Clear Twitch channel onboarding", () => {
     expect(html).toContain("!path B");
     expect(html).toContain("!act attack");
     expect(html).not.toContain("TWITCH_CLIENT_SECRET");
+    expect(html).toContain("Go to game controls");
   });
 });
