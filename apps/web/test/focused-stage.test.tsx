@@ -7,13 +7,13 @@ import { PublicShowcase } from "../src/PublicShowcase";
 import { PublicSoloDemo } from "../src/PublicSoloDemo";
 import { readFileSync } from "node:fs";
 
-const render = (state:QuestState) => renderToStaticMarkup(createElement(FocusedGameHUD,{state}));
+const render = (state:QuestState) => renderToStaticMarkup(createElement(FocusedGameHUD,{state,simulated:true}));
 
 describe("clean game presentation",()=>{
   it("shows one compact authoritative readout without duplicate objective or Twitch command cards",()=>{
     let state=initialState(8);
     state=join(state,"p1","Demo Hero [Demo]");
-    state={...state,rehearsalActive:true,health:73,supplies:2,threat:15};
+    state={...state,health:73,supplies:2,threat:15};
     const html=render(state);
     expect(html).toContain("SIMULATED");
     expect(html).toContain("The Campfire");
@@ -45,7 +45,7 @@ describe("clean game presentation",()=>{
     const source=readFileSync(new URL("../src/main.tsx",import.meta.url),"utf8");
     const css=readFileSync(new URL("../src/focused-stage.css",import.meta.url),"utf8");
     expect(source).toContain('focused = false');
-    expect(source).toContain('focused ? <FocusedGameHUD state={state} /> : <QuestHud state={state} />');
+    expect(source).toContain('focused ? <FocusedGameHUD state={state} simulated={state.rehearsalActive} /> : <QuestHud state={state} />');
     expect(source).toContain('(!focused || state.phase === "result") && <AdventureStory');
     expect(css).toContain(".game-stage.cinematic-stage.stage-focused .phase-banner");
     expect(css).toContain(".game-stage.cinematic-stage.stage-focused .rehearsal-watermark");
