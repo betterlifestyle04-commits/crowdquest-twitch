@@ -19,6 +19,7 @@ on:
       - fix/showcase-visible-stage
       - fix/twitch-onboarding-20261031
       - fix/twitch-owner-quickstart-20261031
+      - fix/clean-game-screen-20261031
       - ui/gameplay-feedback-v3
   pull_request:
 
