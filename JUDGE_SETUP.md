@@ -21,7 +21,7 @@ npm run smoke
 npm run dev
 ```
 
-Use the hosted, explicitly simulated gallery at the project's public website once deployed, or run the local project below. The hosted gallery **is not evidence of real Twitch chat**. See [PUBLIC_WEBSITE_GUIDE.md](PUBLIC_WEBSITE_GUIDE.md) for service details.
+Open the hosted, explicitly simulated gallery at https://crowdquest-ember-gate.onrender.com/, or run the local project below. The hosted gallery **is not evidence of real Twitch chat**. See [PUBLIC_WEBSITE_GUIDE.md](PUBLIC_WEBSITE_GUIDE.md) for service details.
 
 Open:
 - **Streamer dashboard:** http://localhost:5173
