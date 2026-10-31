@@ -11,7 +11,7 @@ import { PartyImpact } from "./PartyImpact";
 import { LiveGameplayMoment } from "./LiveGameplayMoment";
 import { TurnClock } from "./TurnClock";
 import { createRoot } from "react-dom/client"; import { io } from "socket.io-client"; import { getPhaseReadiness, type Player, type QuestState, type Role } from "@crowdquest/shared"; import "./style.css"; import "./game-stage.css"; import "./cinematic-scene.css"; import "./recording-view.css"; import "./game-feel.css"; import "./gameplay-moments.css"; import "./ability-vfx.css"; import "./adventure-story.css"; import "./tactical-status.css"; import "./party-impact.css"; import "./battle-ledger.css"; import "./route-decision.css"; import "./public-showcase.css";
-const API = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+const API = import.meta.env.VITE_API_URL ?? (import.meta.env.PROD ? window.location.origin : "http://localhost:3001");
 type FeedStatus = "connecting" | "live" | "offline";
 type CommandActivity = { id: string; at: number; name: string; source: "twitch" | "demo"; command: string; accepted: boolean; feedback: string };
 type LiveState = QuestState & { paused: boolean; rehearsalActive: boolean; activity: CommandActivity[]; autoAdvance: boolean; autoAdvanceAt: number | null; controlsProtected: boolean; eventCooldownUntil: number; transport: FeedStatus; twitch: { configured: boolean; connected: boolean; login: string | null; connection: string; message: string } };
