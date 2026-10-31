@@ -1,9 +1,15 @@
 # CrowdQuest
 
-> **Hackathon submission build:** The tested integrated version lives on the [`submission/integrated-crowdquest` branch](https://github.com/betterlifestyle04-commits/crowdquest-twitch/tree/submission/integrated-crowdquest). The default `main` branch is an older Twitch-working baseline, not the integrated submission. Review [SUBMISSION.md](SUBMISSION.md), [JUDGE_SETUP.md](JUDGE_SETUP.md) and [VIDEO_STORYBOARD.md](VIDEO_STORYBOARD.md) before submitting.
+> **Competition release:** The complete, publicly available game now lives on the default [`main` branch](https://github.com/betterlifestyle04-commits/crowdquest-twitch). The previous Twitch-working baseline remains tagged in Git history. Review [SUBMISSION.md](SUBMISSION.md), [JUDGE_SETUP.md](JUDGE_SETUP.md) and [VIDEO_STORYBOARD.md](VIDEO_STORYBOARD.md) before submission.
 
 
 CrowdQuest is a cooperative Twitch adventure for the Codex x TwitchCon Hackathon. A streamer controls **The Ember Gate** from a live dashboard, viewers play with chat commands, and a transparent OBS browser overlay reflects the authoritative game state instantly.
+
+## Public website and demo
+
+The project now has a **public showcase page** with a polished landing screen and six interactive chapter previews built from the real deterministic game engine. The previews are labeled **SIMULATED** and do not imply that actual Twitch chat was received. On a production deployment, `/` and `/showcase` show the public gallery; `/dashboard` hosts the streamer dashboard, `/spectator` the public live-state view, `/record` the genuine Twitch receipt capture, and `/overlay` the transparent OBS layer. During local development, `/` continues to be the streamer dashboard, with the gallery available at `/showcase`.
+
+The production Node service serves the compiled React app, API, and Socket.IO from one HTTPS origin. All streamer and simulation-control endpoints are protected in production; without a configured private `STREAMER_CONTROL_TOKEN` they return 401. For deployment instructions and the independent live-site verification checklist, see [PUBLIC_WEBSITE_GUIDE.md](PUBLIC_WEBSITE_GUIDE.md).
 
 ## What works now
 
