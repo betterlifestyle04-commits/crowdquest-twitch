@@ -84,7 +84,7 @@ try {
   const vite = resolve(appRoot, "node_modules/vite/bin/vite.js");
   start([vite, "--host", "127.0.0.1", "--port", String(webPort), "--strictPort"], appRoot, {});
   await Promise.all([waitFor(host + "/health"), waitFor(web + "/")]);
-  for (const path of ["/", "/showcase", "/overlay", "/spectator", "/record", "/recording"]) {
+  for (const path of ["/", "/showcase", "/play", "/overlay", "/spectator", "/record", "/recording"]) {
     const response = await waitFor(web + path);
     const html = await response.text();
     assert.match(html, /id="root"/);
