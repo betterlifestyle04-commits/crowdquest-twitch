@@ -130,3 +130,12 @@
  .showcase-cta,.showcase-scene-tab {transition:none!important;}
  .showcase-scene-tab.active {transform:none;}
 }
+
+/* Render-error fallback is explicit and sized like the artwork, never a blank panel. */
+.game-scene-recovery {min-height:460px;display:grid;place-items:center;padding:1.5rem;text-align:center;border:1px solid rgba(240,184,140,.55);background:radial-gradient(circle at 50% 30%,#342a48,#101626 70%);}
+.game-scene-recovery>div {max-width:420px;display:grid;gap:.75rem;justify-items:center;}
+.game-scene-recovery span {font-size:.65rem;letter-spacing:.14em;color:#f6b99e;font-weight:900;}
+.game-scene-recovery h3 {font:700 clamp(1.4rem,2.5vw,2.2rem) Georgia,serif;color:#fff0d7;margin:0;}
+.game-scene-recovery p {color:#c9cfde;line-height:1.55;font-size:.8rem;margin:0;}
+.game-scene-recovery-actions {display:flex;flex-wrap:wrap;justify-content:center;gap:.65rem;}
+.game-scene-recovery-actions button {cursor:pointer;padding:.7rem 1rem;border-radius:.45rem;border:1px solid #edc48c;background:#4b3952;color:#fff0d3;font-weight:800;}

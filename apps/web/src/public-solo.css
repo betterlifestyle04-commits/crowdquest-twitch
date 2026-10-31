@@ -55,3 +55,16 @@
  .solo-role-grid {gap:.3rem;}
 }
 @media(prefers-reduced-motion:reduce){.solo-primary,.solo-choice{transition:none!important;}}
+
+/* Clear progression and accepted actions without adding overlays to the battlefield. */
+.solo-phase-track {width:100%;height:.32rem;margin-top:.7rem;overflow:hidden;border-radius:999px;background:#24233c;}
+.solo-phase-track i {display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#c88a66,#ffe2ab);transition:width .25s ease;}
+.solo-choice.ability-committed:disabled {opacity:1;border-color:#91d4ba;background:rgba(31,79,65,.55);color:#e4ffef;}
+.solo-choice.ability-committed small {color:#c9e9dc;}
+.solo-battle-recap {display:grid;gap:.55rem;padding:.8rem;border:1px solid rgba(214,187,133,.42);border-radius:.55rem;background:rgba(32,33,55,.8);}
+.solo-battle-recap>b {font-size:.62rem;letter-spacing:.13em;color:#ffdfb1;}
+.solo-battle-recap>div {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.45rem;}
+.solo-battle-recap span {display:grid;gap:.25rem;color:#b9c7d8;font-size:.64rem;}
+.solo-battle-recap strong {color:#ffe4b5;font-size:.98rem;font-variant-numeric:tabular-nums;}
+.solo-battle-recap small {color:#afe4cf;font-size:.65rem;line-height:1.5;}
+@media(prefers-reduced-motion:reduce){.solo-phase-track i{transition:none;}}

@@ -1,4 +1,5 @@
 import { useRef, useState, type ReactNode } from "react";
+import { GameSceneBoundary } from "./GameSceneBoundary";
 import { act, advance, begin, chooseRole, initialState, join, votePath, type Action, type Path, type QuestState, type Role } from "@crowdquest/shared";
 
 const heroId = "public:solo";
@@ -9,6 +10,16 @@ const roleDescriptions: Array<{ role: Role; icon: string; label: string; descrip
   {role:"scout",icon:"◈",label:"Scout",description:"Reveal hidden weaknesses",action:"scout"}
 ];
 
+const phaseNumbers: Record<QuestState["phase"], number> = {
+  lobby: 1, roles: 2, briefing: 3, path: 4,
+  encounter: 5, consequence: 6, finale: 7, result: 8
+};
+const encounterDescriptions: Record<string, string> = {
+  "collapsing bridge": "The Sunken Bridge is collapsing. Prepare your class ability to survive the crossing.",
+  "bridge raiders": "Bridge raiders block the expedition. Prepare your class ability before the fight.",
+  "moonshade stalker": "A Moonshade stalker prowls ahead. Prepare your class ability before the fight.",
+  "ember wraith": "An Ember wraith blocks the expedition. Prepare your class ability before the fight."
+};
 const freeze = (state: QuestState): QuestState => ({...state,phaseEndsAt:null});
 export function soloNext(state: QuestState, action:
   | {type:"join";name:string}
@@ -49,6 +60,8 @@ export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState,focus
   const [focused,setFocused] = useState(true);
   const participant = state.players[heroId];
   const ability = roleDescriptions.find(x=>x.role===participant?.role);
+  const committed = Boolean(state.actions[heroId]);
+  const phaseNumber = phaseNumbers[state.phase];
   const next = (action:Parameters<typeof soloNext>[1])=>setState(current=>soloNext(current,action));
   const restart=()=>{seed.current += 1;setState(initialState(seed.current));};
   const chapter = state.phase === "lobby" ? "The Campfire" :
@@ -67,11 +80,11 @@ export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState,focus
     <div className="solo-layout">
       <section className="solo-playfield" aria-label="CrowdQuest simulated gameplay">
         <div className="showcase-stage-meta"><div><span>THE EMBER GATE · SIMULATED</span><h3>{chapter}</h3><p>{state.history[0]?.text ?? "The adventure is yours to begin."}</p></div><button className="game-display-toggle" aria-pressed={!focused} type="button" onClick={()=>setFocused(value=>!value)}>{focused?"Show detailed HUD":"Hide extra panels"}</button></div>
-        <div className="showcase-stage-shell">{renderGame(state,focused)}</div>
+        <div className="showcase-stage-shell"><GameSceneBoundary key={state.phase}>{renderGame(state,focused)}</GameSceneBoundary></div>
         <p className="solo-stage-note">This is a single-player engine rehearsal. Actions happen in this browser only, with an Ember Spirit companion in combat. The real multiplayer game uses Twitch chat.</p>
       </section>
       <aside className="solo-controls" aria-labelledby="solo-controls-title">
-        <div className="solo-controls-heading"><span>✥ YOUR ADVENTURE</span><h2 id="solo-controls-title">{chapter}</h2></div>
+        <div className="solo-controls-heading" aria-live="polite"><span>✥ YOUR ADVENTURE · CHAPTER {phaseNumber} OF 8</span><h2 id="solo-controls-title">{chapter}</h2><div className="solo-phase-track" role="progressbar" aria-label="Quest progress" aria-valuemin={0} aria-valuemax={8} aria-valuenow={phaseNumber}><i style={{width:phaseNumber/8*100+"%"}} /></div></div>
         {state.phase === "lobby" && !participant && <form onSubmit={event=>{event.preventDefault();next({type:"join",name});}} className="solo-actions">
           <label htmlFor="solo-hero-name">Your hero's display name</label>
           <input id="solo-hero-name" value={name} onChange={event=>setName(event.target.value.slice(0,17))} maxLength={17} autoComplete="off" required aria-describedby="solo-privacy" />
@@ -82,9 +95,10 @@ export function PublicSoloDemo({renderGame}: {renderGame:(state:QuestState,focus
         {state.phase === "roles" && <div className="solo-actions"><p>Choose your calling. Each class has a different combat ability.</p><div className="solo-role-grid">{roleDescriptions.map(item=><button className={"solo-choice "+(participant?.role===item.role?"chosen":"")} aria-pressed={participant?.role===item.role} key={item.role} onClick={()=>next({type:"role",role:item.role})} type="button"><b>{item.icon} {item.label}</b><small>{item.description}</small></button>)}</div><button className="solo-primary" type="button" onClick={()=>next({type:"continue"})} disabled={!participant?.role}>Continue with {participant?.role??"your role"} →</button></div>}
         {state.phase === "briefing" && <div className="solo-actions"><p>Your companion watches the campfire dim. Beyond the ravine, two roads lead to the gate.</p><button className="solo-primary" type="button" onClick={()=>next({type:"continue"})}>Travel to the crossroads →</button></div>}
         {state.phase === "path" && <div className="solo-actions"><p>Choose the road your hero takes. You can change your mind until you continue.</p><button type="button" className={"solo-choice solo-route "+(state.pathVotes[heroId]==="A"?"chosen":"")} aria-pressed={state.pathVotes[heroId]==="A"} onClick={()=>next({type:"route",path:"A"})}><b>⚔ A — Sunken Bridge</b><small>Extra supplies, greater threat</small></button><button type="button" className={"solo-choice solo-route "+(state.pathVotes[heroId]==="B"?"chosen":"")} aria-pressed={state.pathVotes[heroId]==="B"} onClick={()=>next({type:"route",path:"B"})}><b>☽ B — Moonlit Pass</b><small>Safer passage</small></button><button className="solo-primary" type="button" onClick={()=>next({type:"continue"})} disabled={!state.pathVotes[heroId]}>Commit route {state.pathVotes[heroId]??""} →</button></div>}
-        {(state.phase==="encounter" || state.phase==="finale") && <div className="solo-actions"><p>{state.phase==="finale"?"The Ember Lord awaits.":"An enemy blocks the party."} Prepare your {participant?.role} ability, then resolve the turn.</p><button className="solo-choice chosen" type="button" onClick={()=>next({type:"ability"})} disabled={!!state.actions[heroId]}><b>{ability?.icon} {!state.actions[heroId]?"Prepare":"Prepared"} {ability?.action}</b><small>{state.actions[heroId]?"Ability committed":"Your Ember Spirit companion lends extra power"}</small></button><button className="solo-primary" type="button" onClick={()=>next({type:"continue"})} disabled={!state.actions[heroId]}>{state.phase==="finale"?"Face the Ember Lord":"Resolve the encounter"} →</button></div>}
+        {(state.phase==="encounter" || state.phase==="finale") && <div className="solo-actions"><p>{state.phase==="finale"?"The Ember Lord awaits.":encounterDescriptions[state.encounter ?? ""] ?? "An encounter blocks the expedition."} {committed ? "Your ability is ready. Resolve the turn to see what happens." : "Prepare your " + (participant?.role ?? "hero") + " ability to continue."}</p><button className={"solo-choice chosen " + (committed ? "ability-committed" : "")} type="button" onClick={()=>next({type:"ability"})} disabled={committed}><b>{ability?.icon} {committed?"✓ "+(ability?.label ?? "Ability")+" ready":"Prepare "+(ability?.action ?? "ability")}</b><small aria-live="polite">{committed?"Action confirmed — choose the gold button below to resolve.":"Your Ember Spirit adds power in solo battles."}</small></button><button className="solo-primary" type="button" onClick={()=>next({type:"continue"})} disabled={!committed}>{state.phase==="finale"?"Resolve the final battle":"Resolve the encounter"} →</button></div>}
         {state.phase==="consequence" && <div className="solo-actions"><p>The trial has ended. Your party has <strong>{state.health}/{state.maxHealth} HP</strong> and <strong>{state.supplies} supplies</strong>.</p><button className="solo-primary" type="button" onClick={()=>next({type:"continue"})}>Approach the Ember Gate →</button></div>}
-        {state.phase==="result" && <div className="solo-actions"><p className="solo-result">{state.result==="victory"?"✦ Victory — the gate opens!":"⚔ The gate endures — try another path!"}</p><p>Your story was decided by the real battle and route calculations of the quest engine.</p><button type="button" className="solo-primary" onClick={restart}>↻ Play another adventure</button></div>}
+        {(state.phase==="consequence" || state.phase==="result") && state.lastResolution && <div className="solo-battle-recap" aria-label="Resolved battle statistics"><b>{state.phase==="result"?"FINAL BATTLE RESULTS":"ENCOUNTER RESULTS"}</b><div><span>Attack power <strong>{state.lastResolution.attackPower}</strong></span><span>Damage taken <strong>{state.lastResolution.damageTaken}</strong></span><span>Damage blocked <strong>{state.lastResolution.shieldAbsorbed}</strong></span><span>Health restored <strong>{state.lastResolution.healingRestored}</strong></span></div>{state.lastResolution.companionPower>0 && <small>Attack power includes {state.lastResolution.companionPower} from your Ember Spirit companion.</small>}</div>
+        {state.phase==="result" && <div className="solo-actions"><p className="solo-result">{state.result==="victory"?"✦ Victory — the gate opens!":"⚔ The gate endures — try another path!"}</p><p>Your {participant?.role ?? "hero"} took the {state.chosenPath==="A"?"Sunken Bridge":"Moonlit Pass"} and finished with {state.health}/{state.maxHealth} HP. The result was calculated by the shared quest engine.</p><button type="button" className="solo-primary" onClick={restart}>↻ Play another adventure</button></div>}
         {participant && <div className="solo-stats"><span><small>YOUR ROLE</small><b>{participant.role??"Unassigned"}</b></span><span><small>PARTY HEALTH</small><b>{state.health}/{state.maxHealth}</b></span><span><small>SUPPLIES</small><b>{state.supplies}</b></span><span><small>THREAT</small><b>{state.threat}</b></span></div>}
         <div className="solo-disclaimer"><b>Not connected to Twitch</b><p>This rehearsal uses the same quest engine as the multiplayer game, without a streamer, chat connection, or stored account. The public Showcase remains separate from actual Twitch participation.</p></div>
       </aside>

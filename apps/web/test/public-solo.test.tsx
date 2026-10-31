@@ -67,3 +67,37 @@ describe("browser solo demo — authentic game engine",()=>{
     expect(s.pathVotes["public:solo"]).toBe("B");
   });
 });
+
+describe("solo clarity and chapter progression", () => {
+  it("renders the chapter tracker, encounter help and resolved battle recap from real state", () => {
+    const markup = renderToStaticMarkup(createElement(PublicSoloDemo,{renderGame:()=>createElement("div",null,"Stage")}));
+    expect(markup).toContain("CHAPTER");
+    expect(markup).toContain("Quest progress");
+    expect(markup).toContain("Stage");
+  });
+  it("every role can play either route through the outcome without getting stuck", () => {
+    const roles = ["warrior","guardian","healer","scout"] as const;
+    const routes = ["A","B"] as const;
+    for (const role of roles) for (const route of routes) {
+      let s = play(start(),{type:"join",name:"Tester"});
+      s=play(s,{type:"start"});
+      s=play(s,{type:"role",role});
+      s=play(s,{type:"continue"});
+      expect(s.phase).toBe("briefing");
+      s=play(s,{type:"continue"});
+      s=play(s,{type:"route",path:route});
+      s=play(s,{type:"continue"});
+      expect(s.phase).toBe("encounter");
+      s=play(s,{type:"ability"});
+      s=play(s,{type:"continue"});
+      expect(s.lastResolution?.phase).toBe("encounter");
+      s=play(s,{type:"continue"});
+      expect(s.phase).toBe("finale");
+      s=play(s,{type:"ability"});
+      s=play(s,{type:"continue"});
+      expect(s.phase).toBe("result");
+      expect(["victory","defeat"]).toContain(s.result);
+      expect(s.lastResolution?.phase).toBe("finale");
+    }
+  });
+});

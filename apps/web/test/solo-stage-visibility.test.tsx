@@ -55,3 +55,15 @@ describe("public solo stage must remain visible throughout gameplay", () => {
     expect(css).toContain("height:clamp(525px,43vw,690px)");
   });
 });
+
+describe("public rendering failure recovery",()=>{
+  it("wraps both public stages with an explicit error boundary",()=>{
+    const solo=readFileSync(new URL("../src/PublicSoloDemo.tsx",import.meta.url),"utf8");
+    const showcase=readFileSync(new URL("../src/PublicShowcase.tsx",import.meta.url),"utf8");
+    const boundary=readFileSync(new URL("../src/GameSceneBoundary.tsx",import.meta.url),"utf8");
+    expect(solo).toContain('<GameSceneBoundary key={state.phase}>');
+    expect(showcase).toContain('<GameSceneBoundary key={selected}>');
+    expect(boundary).toContain('role="alert"');
+    expect(boundary).toContain('Retry scene');
+  });
+});
